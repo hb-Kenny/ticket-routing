@@ -30,6 +30,7 @@
             padding: 30px;
             border-radius: 8px 8px 0 0;
             text-align: center;
+            position: relative;
         }
 
         .header h1 {
@@ -41,6 +42,29 @@
         .header p {
             font-size: 1.1em;
             opacity: 0.9;
+        }
+
+        .back-button {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            padding: 10px 20px;
+            background: #ffd646;
+            color: #003322;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .back-button:hover {
+            background: #ffed4e;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(255, 214, 70, 0.4);
         }
 
         .search-container {
@@ -311,6 +335,14 @@
                 font-size: 1.8em;
             }
             
+            .back-button {
+                position: static;
+                display: inline-block;
+                margin-bottom: 15px;
+                font-size: 13px;
+                padding: 8px 16px;
+            }
+            
             .tabs {
                 flex-direction: column;
             }
@@ -335,6 +367,9 @@
 <body>
     <div class="container">
         <div class="header">
+            <a href="https://thehelperbees.zendesk.com/hc/en-us/articles/46533900409627-Zendesk-Ticketing-Cheatsheet-2026" class="back-button">
+                ← Back to Help Center
+            </a>
             <img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyBpZD0iTGF5ZXJfMSIgZGF0YS1uYW1lPSJMYXllciAxIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA5MzUgMTQyIj4KICA8ZGVmcz4KICAgIDxzdHlsZT4KICAgICAgLmNscy0xIHsKICAgICAgICBmaWxsOiAjZmZmOwogICAgICB9CiAgICA8L3N0eWxlPgogIDwvZGVmcz4KICA8cGF0aCBjbGFzcz0iY2xzLTEiIGQ9Ik05My43OCw0OS45Yy01Ljc1LTMuMzctMTIuMzYtNS42MS0xOC45OC02LjQ4LDE0LjA2LTU1LjUtNTIuMDMtNTguMTgtNDMuMjgtNS43Mi0yNC45NC0zMC4xNS01MC41Miw3LjA3LTEwLjc3LDMwLjQ1LTI3LjIyLDQyLjM1LDE4LjUzLDg4LjI1LDYyLjYyLDY5LjU2LDM3LjY1LTEzLjgyLDQ3LTY3LjI0LDEwLjQxLTg3LjgxWk00OC41MywxMjcuNThjLTguMi0xMC40OC0xOS4xNS0yOC40My0xOS41Ny00OS45NiwyLjQ0LTQuNjUsNS43NC04Ljc2LDkuNzMtMTIuMTQtMS4zMSwzMC4yNCwxNi4yNyw1My44NywyNS44NSw2NC40MS01LjQ4LjMtMTAuODktLjQ3LTE2LjAxLTIuMzFaTTc4LjksMTI2LjcyYy0uMi4wOS0uMzguMTUtLjU5LjI0bC0uMTItLjEyYy0xLjI1LTEuMTItMzAuNTgtMjguMDQtMjcuNDItNjMuNjdsLjQ0LTUuMjRjMy4wNC0xLjE5LDYuMTMtMi4wNCw5LjIyLTIuNTV2LjNjLTIuNDQsMzIuNzIsMTguNjUsNTcuNTEsMjcuMzcsNjYuMjUtMi43NCwxLjg5LTUuNzEsMy41Mi04LjksNC43OVpNMTAxLjY2LDEwNS43Yy0xLjQsMi45LTMuMTMsNS42NS01LjE4LDguMTQtNi45OS03LjA1LTI2LjI5LTI5LjE3LTI0LjIxLTU3LjNsLjA5LTEuNDhjMy4yNy4zOCw2LjQ1LDEuMTUsOS41NSwyLjI4LDEuMzEsMjAuNjcsMTEuOTgsMzcuMTYsMjAuMzEsNDcuMDgtLjE4LjQyLS4zNS44Ni0uNTYsMS4yOFoiLz4KICA8cGF0aCBjbGFzcz0iY2xzLTEiIGQ9Ik0xMzguMjEsNDQuOWgxOC4wNnY4MC4yM2gxNi4wOVY0NC45aDE3Ljk0di0xNC45M2gtNTIuMDh2MTQuOTNaIi8+CiAgPHBhdGggY2xhc3M9ImNscy0xIiBkPSJNMjM2Ljc2LDY4LjA2aC0yNC4zNlYyOS45N2gtMTYuMjF2OTUuMTVoMTYuMjF2LTQzLjA2aDI0LjM2djQzLjA2aDE2LjMzVjI5Ljk3aC0xNi4zM3YzOC4wOFoiLz4KICA8cGF0aCBjbGFzcz0iY2xzLTEiIGQ9Ik0yNjQuMDksMTI1LjEyaDQ0LjE3di0xNC45NmgtMjguMjN2LTI4LjFoMjIuNjF2LTE0LjAxaC0yMi42MXYtMjMuMTZoMjguMjN2LTE0LjkzaC00NC4xN3Y5NS4xNVoiLz4KICA8cGF0aCBjbGFzcz0iY2xzLTEiIGQ9Ik0zNzkuNDQsNjguMDZoLTI0LjMzVjI5Ljk3aC0xNi4yMXY5NS4xNWgxNi4yMXYtNDMuMDZoMjQuMzN2NDMuMDZoMTYuMzZWMjkuOTdoLTE2LjM2djM4LjA4WiIvPgogIDxwYXRoIGNsYXNzPSJjbHMtMSIgZD0iTTQwNi43NywxMjUuMTJoNDQuMnYtMTQuOTZoLTI4LjI2di0yOC4xaDIyLjY0di0xNC4wMWgtMjIuNjR2LTIzLjE2aDI4LjI2di0xNC45M2gtNDQuMnY5NS4xNVoiLz4KICA8cGF0aCBjbGFzcz0iY2xzLTEiIGQ9Ik00NzQuNzcsMjkuOTdoLTE2LjA2djk1LjE1aDQzLjF2LTE0Ljk2aC0yNy4wNFYyOS45N1oiLz4KICA8cGF0aCBjbGFzcz0iY2xzLTEiIGQ9Ik01MjMuNTUsMjkuOTdoLTE1LjJ2OTUuMTVoMTUuOTR2LTM4LjExYzE3LjA3LS4wOSwzNC4yNy0zLjg1LDM0LjI3LTI5LjI2cy0xOC4wOC0yNy43OC0zNS4wMS0yNy43OFpNNTI5LjA1LDczLjQyaC00Ljczdi0yOC45YzkuNDYuMDYsMTguNDQsMS40NSwxOC40NCwxNC4zLDAsOS42OC00LjYxLDE0LjU3LTEzLjcxLDE0LjU3di4wM1oiLz4KICA8cGF0aCBjbGFzcz0iY2xzLTEiIGQ9Ik01NjUuMSwxMjUuMTJoNDQuMnYtMTQuOTZoLTI4LjI2di0yOC4xaDIyLjY0di0xNC4wMWgtMjIuNjR2LTIzLjE2aDI4LjI2di0xNC45M2gtNDQuMnY5NS4xNVoiLz4KICA8cGF0aCBjbGFzcz0iY2xzLTEiIGQ9Ik02NjUuNzgsMTA2LjIzYy0uOTgtMTEuMjUtMS45OS0yMi44OS0xMC4wNS0yNi4wNiw3LjY0LTMuNjEsMTEuNzUtMTMuODYsMTEuNzUtMjIuNDIsMC0yNS42NS0xOC40MS0yNy43OC0zNS42Ni0yNy43OGgtMTQuNzh2OTUuMTVoMTYuMDZ2LTM4LjExaDkuMDFjNy4wNSwwLDcuMiw4LjU5LDcuMzgsMTguNTQuMTIsNi42Ni4yNCwxMy41NiwyLjM1LDE5LjFsLjE4LjQ3aDE3LjQ5bC0uNTEtMS4wN2MtMi4wOC00LjQ0LTIuNjUtMTAuOTMtMy4yNC0xNy44M2guMDNaTTYzNy44NSw3My40MmgtNC43M3YtMjguOWM5LjQ2LjA2LDE4LjQ0LDEuNDUsMTguNDQsMTQuMywwLDEzLjg5LTExLjQyLDE0LjU3LTEzLjcxLDE0LjU3di4wM1oiLz4KICA8cGF0aCBjbGFzcz0iY2xzLTEiIGQ9Ik03MzguMzYsNzQuODFjNS4zNS0yLjgxLDExLjg3LTkuOTgsMTEuODctMTkuMzQsMC0yMi41MS0xOC4wMi0yNS41My0zNS42Ni0yNS41M2gtMTQuNzh2OTUuMTVoMTguMjZjMjIuNzIsMCwzNC43NC05LjY1LDM0Ljc0LTI3LjkzLDAtMTIuNzMtNy4xNC0xOS43NS0xNC40My0yMi4zOXYuMDNaTTcxNS42OSw0NC41MWg0LjczYzMuODEsMCwxMy43MSwyLjE2LDEzLjcxLDEyLjA1LDAsOS4zLTEwLjA1LDEyLjItMTMuNzEsMTIuMmgtNC43M3YtMjQuMjVaTTcxOS4yMywxMTAuNDRoLTMuNTR2LTI4LjIyaDcuMDJjMy43OCwwLDE0LjEsMy4xNCwxNC4xLDEzLjI0LDAsMTQuMjctMTQuNjYsMTQuOTktMTcuNTgsMTQuOTlaIi8+CiAgPHBhdGggY2xhc3M9ImNscy0xIiBkPSJNNzYwLjc1LDEyNS4xMmg0NC4ydi0xNC45NmgtMjguMjZ2LTI4LjFoMjIuNjN2LTE0LjAxaC0yMi42M3YtMjMuMTZoMjguMjZ2LTE0LjkzaC00NC4ydjk1LjE1WiIvPgogIDxwYXRoIGNsYXNzPSJjbHMtMSIgZD0iTTgxMi42OSwxMjUuMTJoNDQuMTd2LTE0Ljk2aC0yOC4yM3YtMjguMWgyMi42MXYtMTQuMDFoLTIyLjYxdi0yMy4xNmgyOC4yM3YtMTQuOTNoLTQ0LjE3djk1LjE1WiIvPgogIDxwYXRoIGNsYXNzPSJjbHMtMSIgZD0iTTg5My44OSw3MC41N2MtOS41Mi01Ljg2LTEzLjcxLTkuMy0xMy43MS0xNy43NywwLS4wOS41OS05LjY1LDkuOTYtOS42NSwyLjY1LDAsNC43OSwxLjAxLDYuMzYsMi45OSwyLjk3LDMuNywzLjI3LDkuODMsMi4yNiwxNC4yMWwtLjI3LDEuMTMsMTcuNzktMy44NXYtLjYyYy0uMy0xOC4xOC0xMC4wMi0yOC4xOS0yNy40LTI4LjE5cy0yNi4xNywxMi4zMi0yNi4xNywyMy45M2MwLDEyLjI5LDcuMjksMjIuNzQsMjIuMzEsMzEuOTUsOC40NSw1LjEyLDEzLjY4LDkuODksMTMuNjgsMTcuNzcsMCwuOTgtLjQ4LDMuOTctMi42OCw2LjEtMS43MywxLjY5LTQuMTYsMi40Ni03LjE0LDIuNDktMy4wOS0uMDYtNS4yNi0xLjk4LTYuNTQtMy41OC0zLjA5LTMuODgtNC4zNC05LjkyLTMuMTgtMTUuMzdsLjI3LTEuMjEtMTcuODIsNS4wM3YuNTljLjk1LDE4LjcyLDExLjE1LDI5Ljg4LDI3LjI3LDI5Ljg4LDEzLjI3LDAsMjcuMzYtOC4zOCwyNy4zNi0yMy45MywwLTEyLjM1LTcuMzUtMjIuOC0yMi40My0zMS45NWwuMDYuMDZaIi8+CiAgPHBhdGggY2xhc3M9ImNscy0xIiBkPSJNOTM0Ljk4LDM2LjcxYzAsNC4zMy0zLjU5LDcuOTItNy45Miw3Ljkycy03LjktMy42MS03LjktNy45MiwzLjU5LTcuOTIsNy45Mi03LjkyLDcuOTIsMy41OSw3LjkyLDcuOTJoLS4wMlpNOTMyLjk4LDM2LjcxYzAtMy4yOC0yLjYyLTUuOS01LjktNS45cy01LjkyLDIuNjItNS45Miw1LjksMi42Miw1LjksNS45LDUuOSw1LjktMi42Miw1LjktNS45aC4wMlpNOTI5Ljg5LDQwLjkyaC0xLjc0Yy0uNS0xLjMxLjE5LTMuNC0xLTMuNGgtLjU0djMuNGgtMS43OHYtOC42NWgxLjg1YzEuNzQsMCwzLjA5LjI2LDMuMDksMi41LDAsLjg1LS41NywxLjg1LTEuMzUsMi4wOSwxLjM4LjI0Ljk3LDIuOSwxLjQ3LDQuMDVoMFpNOTI4LjAxLDM0Ljg1YzAtMS4yOC0uNTctMS4zOC0xLjM4LTEuMzh2Mi44MWMuODEsMCwxLjM4LS4xOSwxLjM4LTEuNDNaIi8+Cjwvc3ZnPg==" alt="The Helper Bees" style="height: 50px; margin-bottom: 15px;">
             <h1>Zendesk Ticket Routing Guide</h1>
             <p>The Helper Bees Support Team Structure</p>
