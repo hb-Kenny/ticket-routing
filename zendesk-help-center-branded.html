@@ -1,0 +1,1012 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zendesk Ticket Routing Guide - The Helper Bees</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #003322 0%, #004d40 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 8px 8px 0 0;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .search-container {
+            background: white;
+            padding: 20px;
+            border-bottom: 2px solid #ffd646;
+        }
+
+        .search-box {
+            width: 100%;
+            padding: 12px 20px;
+            font-size: 16px;
+            border: 2px solid #ddd;
+            border-radius: 25px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .search-box:focus {
+            border-color: #ffd646;
+        }
+
+        .tabs {
+            display: flex;
+            flex-wrap: wrap;
+            background: white;
+            border-bottom: 3px solid #ffd646;
+            overflow-x: auto;
+        }
+
+        .tab {
+            padding: 15px 25px;
+            cursor: pointer;
+            background: white;
+            border: none;
+            border-bottom: 3px solid transparent;
+            font-size: 15px;
+            font-weight: 600;
+            color: #555;
+            transition: all 0.3s;
+            white-space: nowrap;
+        }
+
+        .tab:hover {
+            background: #f5f5f5;
+            color: #003322;
+        }
+
+        .tab.active {
+            color: #003322;
+            border-bottom-color: #ffd646;
+            background: #fafafa;
+        }
+
+        .content {
+            background: white;
+            padding: 30px;
+            border-radius: 0 0 8px 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.3s;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section-title {
+            color: #003322;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #ffd646;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .info-card {
+            background: #fafafa;
+            border-left: 4px solid #ffd646;
+            padding: 20px;
+            border-radius: 4px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .info-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .info-card h3 {
+            color: #003322;
+            font-size: 1.3em;
+            margin-bottom: 12px;
+        }
+
+        .info-card h4 {
+            color: #004d40;
+            font-size: 1.1em;
+            margin-top: 15px;
+            margin-bottom: 8px;
+        }
+
+        .info-card ul {
+            margin-left: 20px;
+            margin-top: 8px;
+        }
+
+        .info-card li {
+            margin-bottom: 5px;
+            color: #555;
+        }
+
+        .team-member {
+            background: white;
+            padding: 10px 15px;
+            margin: 5px 0;
+            border-radius: 4px;
+            border-left: 3px solid #004d40;
+        }
+
+        .team-member strong {
+            color: #003322;
+        }
+
+        .workflow-diagram {
+            background: #f5f5f5;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        .workflow-step {
+            display: flex;
+            align-items: center;
+            margin: 15px 0;
+            flex-wrap: wrap;
+        }
+
+        .workflow-box {
+            padding: 12px 20px;
+            border-radius: 6px;
+            font-weight: 600;
+            margin: 5px;
+            min-width: 150px;
+            text-align: center;
+        }
+
+        .workflow-issue {
+            background: #fff9c4;
+            border: 2px solid #f9a825;
+        }
+
+        .workflow-group {
+            background: #b2dfdb;
+            border: 2px solid #004d40;
+        }
+
+        .workflow-tier {
+            background: #e0e0e0;
+            border: 2px solid #616161;
+        }
+
+        .workflow-arrow {
+            font-size: 24px;
+            color: #004d40;
+            margin: 0 10px;
+        }
+
+        .tier-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .tier-table thead {
+            background: #003322;
+            color: white;
+        }
+
+        .tier-table th {
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .tier-table td {
+            padding: 15px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .tier-table tbody tr:hover {
+            background: #f5f5f5;
+        }
+
+        .tier-table tbody tr:nth-child(even) {
+            background: #fafafa;
+        }
+
+        .highlight {
+            background: #fff9c4;
+            padding: 2px 6px;
+            border-radius: 3px;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.85em;
+            font-weight: 600;
+            margin: 2px;
+        }
+
+        .badge-tier1 {
+            background: #c8e6c9;
+            color: #2e7d32;
+        }
+
+        .badge-tier2 {
+            background: #fff9c4;
+            color: #f57f17;
+        }
+
+        .badge-tier3 {
+            background: #ffccbc;
+            color: #d84315;
+        }
+
+        .quick-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .quick-link {
+            padding: 8px 16px;
+            background: #ffd646;
+            color: #003322;
+            text-decoration: none;
+            border-radius: 20px;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+
+        .quick-link:hover {
+            background: #c0ca33;
+            transform: scale(1.05);
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.8em;
+            }
+            
+            .tabs {
+                flex-direction: column;
+            }
+            
+            .tab {
+                width: 100%;
+                text-align: left;
+            }
+            
+            .workflow-step {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .workflow-arrow {
+                transform: rotate(90deg);
+                margin: 10px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyBpZD0iTGF5ZXJfMSIgZGF0YS1uYW1lPSJMYXllciAxIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA5MzUgMTQyIj4KICA8ZGVmcz4KICAgIDxzdHlsZT4KICAgICAgLmNscy0xIHsKICAgICAgICBmaWxsOiAjZmZmOwogICAgICB9CiAgICA8L3N0eWxlPgogIDwvZGVmcz4KICA8cGF0aCBjbGFzcz0iY2xzLTEiIGQ9Ik05My43OCw0OS45Yy01Ljc1LTMuMzctMTIuMzYtNS42MS0xOC45OC02LjQ4LDE0LjA2LTU1LjUtNTIuMDMtNTguMTgtNDMuMjgtNS43Mi0yNC45NC0zMC4xNS01MC41Miw3LjA3LTEwLjc3LDMwLjQ1LTI3LjIyLDQyLjM1LDE4LjUzLDg4LjI1LDYyLjYyLDY5LjU2LDM3LjY1LTEzLjgyLDQ3LTY3LjI0LDEwLjQxLTg3LjgxWk00OC41MywxMjcuNThjLTguMi0xMC40OC0xOS4xNS0yOC40My0xOS41Ny00OS45NiwyLjQ0LTQuNjUsNS43NC04Ljc2LDkuNzMtMTIuMTQtMS4zMSwzMC4yNCwxNi4yNyw1My44NywyNS44NSw2NC40MS01LjQ4LjMtMTAuODktLjQ3LTE2LjAxLTIuMzFaTTc4LjksMTI2LjcyYy0uMi4wOS0uMzguMTUtLjU5LjI0bC0uMTItLjEyYy0xLjI1LTEuMTItMzAuNTgtMjguMDQtMjcuNDItNjMuNjdsLjQ0LTUuMjRjMy4wNC0xLjE5LDYuMTMtMi4wNCw5LjIyLTIuNTV2LjNjLTIuNDQsMzIuNzIsMTguNjUsNTcuNTEsMjcuMzcsNjYuMjUtMi43NCwxLjg5LTUuNzEsMy41Mi04LjksNC43OVpNMTAxLjY2LDEwNS43Yy0xLjQsMi45LTMuMTMsNS42NS01LjE4LDguMTQtNi45OS03LjA1LTI2LjI5LTI5LjE3LTI0LjIxLTU3LjNsLjA5LTEuNDhjMy4yNy4zOCw2LjQ1LDEuMTUsOS41NSwyLjI4LDEuMzEsMjAuNjcsMTEuOTgsMzcuMTYsMjAuMzEsNDcuMDgtLjE4LjQyLS4zNS44Ni0uNTYsMS4yOFoiLz4KICA8cGF0aCBjbGFzcz0iY2xzLTEiIGQ9Ik0xMzguMjEsNDQuOWgxOC4wNnY4MC4yM2gxNi4wOVY0NC45aDE3Ljk0di0xNC45M2gtNTIuMDh2MTQuOTNaIi8+CiAgPHBhdGggY2xhc3M9ImNscy0xIiBkPSJNMjM2Ljc2LDY4LjA2aC0yNC4zNlYyOS45N2gtMTYuMjF2OTUuMTVoMTYuMjF2LTQzLjA2aDI0LjM2djQzLjA2aDE2LjMzVjI5Ljk3aC0xNi4zM3YzOC4wOFoiLz4KICA8cGF0aCBjbGFzcz0iY2xzLTEiIGQ9Ik0yNjQuMDksMTI1LjEyaDQ0LjE3di0xNC45NmgtMjguMjN2LTI4LjFoMjIuNjF2LTE0LjAxaC0yMi42MXYtMjMuMTZoMjguMjN2LTE0LjkzaC00NC4xN3Y5NS4xNVoiLz4KICA8cGF0aCBjbGFzcz0iY2xzLTEiIGQ9Ik0zNzkuNDQsNjguMDZoLTI0LjMzVjI5Ljk3aC0xNi4yMXY5NS4xNWgxNi4yMXYtNDMuMDZoMjQuMzN2NDMuMDZoMTYuMzZWMjkuOTdoLTE2LjM2djM4LjA4WiIvPgogIDxwYXRoIGNsYXNzPSJjbHMtMSIgZD0iTTQwNi43NywxMjUuMTJoNDQuMnYtMTQuOTZoLTI4LjI2di0yOC4xaDIyLjY0di0xNC4wMWgtMjIuNjR2LTIzLjE2aDI4LjI2di0xNC45M2gtNDQuMnY5NS4xNVoiLz4KICA8cGF0aCBjbGFzcz0iY2xzLTEiIGQ9Ik00NzQuNzcsMjkuOTdoLTE2LjA2djk1LjE1aDQzLjF2LTE0Ljk2aC0yNy4wNFYyOS45N1oiLz4KICA8cGF0aCBjbGFzcz0iY2xzLTEiIGQ9Ik01MjMuNTUsMjkuOTdoLTE1LjJ2OTUuMTVoMTUuOTR2LTM4LjExYzE3LjA3LS4wOSwzNC4yNy0zLjg1LDM0LjI3LTI5LjI2cy0xOC4wOC0yNy43OC0zNS4wMS0yNy43OFpNNTI5LjA1LDczLjQyaC00Ljczdi0yOC45YzkuNDYuMDYsMTguNDQsMS40NSwxOC40NCwxNC4zLDAsOS42OC00LjYxLDE0LjU3LTEzLjcxLDE0LjU3di4wM1oiLz4KICA8cGF0aCBjbGFzcz0iY2xzLTEiIGQ9Ik01NjUuMSwxMjUuMTJoNDQuMnYtMTQuOTZoLTI4LjI2di0yOC4xaDIyLjY0di0xNC4wMWgtMjIuNjR2LTIzLjE2aDI4LjI2di0xNC45M2gtNDQuMnY5NS4xNVoiLz4KICA8cGF0aCBjbGFzcz0iY2xzLTEiIGQ9Ik02NjUuNzgsMTA2LjIzYy0uOTgtMTEuMjUtMS45OS0yMi44OS0xMC4wNS0yNi4wNiw3LjY0LTMuNjEsMTEuNzUtMTMuODYsMTEuNzUtMjIuNDIsMC0yNS42NS0xOC40MS0yNy43OC0zNS42Ni0yNy43OGgtMTQuNzh2OTUuMTVoMTYuMDZ2LTM4LjExaDkuMDFjNy4wNSwwLDcuMiw4LjU5LDcuMzgsMTguNTQuMTIsNi42Ni4yNCwxMy41NiwyLjM1LDE5LjFsLjE4LjQ3aDE3LjQ5bC0uNTEtMS4wN2MtMi4wOC00LjQ0LTIuNjUtMTAuOTMtMy4yNC0xNy44M2guMDNaTTYzNy44NSw3My40MmgtNC43M3YtMjguOWM5LjQ2LjA2LDE4LjQ0LDEuNDUsMTguNDQsMTQuMywwLDEzLjg5LTExLjQyLDE0LjU3LTEzLjcxLDE0LjU3di4wM1oiLz4KICA8cGF0aCBjbGFzcz0iY2xzLTEiIGQ9Ik03MzguMzYsNzQuODFjNS4zNS0yLjgxLDExLjg3LTkuOTgsMTEuODctMTkuMzQsMC0yMi41MS0xOC4wMi0yNS41My0zNS42Ni0yNS41M2gtMTQuNzh2OTUuMTVoMTguMjZjMjIuNzIsMCwzNC43NC05LjY1LDM0Ljc0LTI3LjkzLDAtMTIuNzMtNy4xNC0xOS43NS0xNC40My0yMi4zOXYuMDNaTTcxNS42OSw0NC41MWg0LjczYzMuODEsMCwxMy43MSwyLjE2LDEzLjcxLDEyLjA1LDAsOS4zLTEwLjA1LDEyLjItMTMuNzEsMTIuMmgtNC43M3YtMjQuMjVaTTcxOS4yMywxMTAuNDRoLTMuNTR2LTI4LjIyaDcuMDJjMy43OCwwLDE0LjEsMy4xNCwxNC4xLDEzLjI0LDAsMTQuMjctMTQuNjYsMTQuOTktMTcuNTgsMTQuOTlaIi8+CiAgPHBhdGggY2xhc3M9ImNscy0xIiBkPSJNNzYwLjc1LDEyNS4xMmg0NC4ydi0xNC45NmgtMjguMjZ2LTI4LjFoMjIuNjN2LTE0LjAxaC0yMi42M3YtMjMuMTZoMjguMjZ2LTE0LjkzaC00NC4ydjk1LjE1WiIvPgogIDxwYXRoIGNsYXNzPSJjbHMtMSIgZD0iTTgxMi42OSwxMjUuMTJoNDQuMTd2LTE0Ljk2aC0yOC4yM3YtMjguMWgyMi42MXYtMTQuMDFoLTIyLjYxdi0yMy4xNmgyOC4yM3YtMTQuOTNoLTQ0LjE3djk1LjE1WiIvPgogIDxwYXRoIGNsYXNzPSJjbHMtMSIgZD0iTTg5My44OSw3MC41N2MtOS41Mi01Ljg2LTEzLjcxLTkuMy0xMy43MS0xNy43NywwLS4wOS41OS05LjY1LDkuOTYtOS42NSwyLjY1LDAsNC43OSwxLjAxLDYuMzYsMi45OSwyLjk3LDMuNywzLjI3LDkuODMsMi4yNiwxNC4yMWwtLjI3LDEuMTMsMTcuNzktMy44NXYtLjYyYy0uMy0xOC4xOC0xMC4wMi0yOC4xOS0yNy40LTI4LjE5cy0yNi4xNywxMi4zMi0yNi4xNywyMy45M2MwLDEyLjI5LDcuMjksMjIuNzQsMjIuMzEsMzEuOTUsOC40NSw1LjEyLDEzLjY4LDkuODksMTMuNjgsMTcuNzcsMCwuOTgtLjQ4LDMuOTctMi42OCw2LjEtMS43MywxLjY5LTQuMTYsMi40Ni03LjE0LDIuNDktMy4wOS0uMDYtNS4yNi0xLjk4LTYuNTQtMy41OC0zLjA5LTMuODgtNC4zNC05LjkyLTMuMTgtMTUuMzdsLjI3LTEuMjEtMTcuODIsNS4wM3YuNTljLjk1LDE4LjcyLDExLjE1LDI5Ljg4LDI3LjI3LDI5Ljg4LDEzLjI3LDAsMjcuMzYtOC4zOCwyNy4zNi0yMy45MywwLTEyLjM1LTcuMzUtMjIuOC0yMi40My0zMS45NWwuMDYuMDZaIi8+CiAgPHBhdGggY2xhc3M9ImNscy0xIiBkPSJNOTM0Ljk4LDM2LjcxYzAsNC4zMy0zLjU5LDcuOTItNy45Miw3Ljkycy03LjktMy42MS03LjktNy45MiwzLjU5LTcuOTIsNy45Mi03LjkyLDcuOTIsMy41OSw3LjkyLDcuOTJoLS4wMlpNOTMyLjk4LDM2LjcxYzAtMy4yOC0yLjYyLTUuOS01LjktNS45cy01LjkyLDIuNjItNS45Miw1LjksMi42Miw1LjksNS45LDUuOSw1LjktMi42Miw1LjktNS45aC4wMlpNOTI5Ljg5LDQwLjkyaC0xLjc0Yy0uNS0xLjMxLjE5LTMuNC0xLTMuNGgtLjU0djMuNGgtMS43OHYtOC42NWgxLjg1YzEuNzQsMCwzLjA5LjI2LDMuMDksMi41LDAsLjg1LS41NywxLjg1LTEuMzUsMi4wOSwxLjM4LjI0Ljk3LDIuOSwxLjQ3LDQuMDVoMFpNOTI4LjAxLDM0Ljg1YzAtMS4yOC0uNTctMS4zOC0xLjM4LTEuMzh2Mi44MWMuODEsMCwxLjM4LS4xOSwxLjM4LTEuNDNaIi8+Cjwvc3ZnPg==" alt="The Helper Bees" style="height: 50px; margin-bottom: 15px;">
+            <h1>Zendesk Ticket Routing Guide</h1>
+            <p>The Helper Bees Support Team Structure</p>
+        </div>
+
+        <div class="search-container">
+            <input type="text" class="search-box" id="searchBox" placeholder="🔍 Search for ticket types, teams, or issues...">
+        </div>
+
+        <div class="tabs">
+            <button class="tab active" onclick="openTab(event, 'overview')">Overview</button>
+            <button class="tab" onclick="openTab(event, 'compliance')">Compliance</button>
+            <button class="tab" onclick="openTab(event, 'customer-service')">Customer Service</button>
+            <button class="tab" onclick="openTab(event, 'fulfillment')">Fulfillment</button>
+            <button class="tab" onclick="openTab(event, 'network-dev')">Network Development</button>
+            <button class="tab" onclick="openTab(event, 'product')">Product Support</button>
+            <button class="tab" onclick="openTab(event, 'rbc')">Regional Benefit Coordinators</button>
+            <button class="tab" onclick="openTab(event, 'workflows')">Ticket Workflows</button>
+            <button class="tab" onclick="openTab(event, 'sla')">SLA & Tiers</button>
+        </div>
+
+        <div class="content">
+            <!-- Overview Tab -->
+            <div id="overview" class="tab-content active">
+                <h2 class="section-title">Quick Navigation</h2>
+                <p style="margin-bottom: 20px;">Welcome to the Zendesk ticket routing guide. Use the tabs above to navigate to specific team information, or use the search box to find what you need.</p>
+                
+                <div class="quick-links">
+                    <a href="#" class="quick-link" onclick="openTab(event, 'compliance')">Compliance Issues</a>
+                    <a href="#" class="quick-link" onclick="openTab(event, 'customer-service')">Customer Service</a>
+                    <a href="#" class="quick-link" onclick="openTab(event, 'fulfillment')">Bill Pay & Fulfillment</a>
+                    <a href="#" class="quick-link" onclick="openTab(event, 'network-dev')">Provider Network</a>
+                    <a href="#" class="quick-link" onclick="openTab(event, 'product')">Product/System Issues</a>
+                    <a href="#" class="quick-link" onclick="openTab(event, 'rbc')">RBC Support</a>
+                    <a href="#" class="quick-link" onclick="openTab(event, 'sla')">View SLAs</a>
+                </div>
+
+                <h3 style="color: #003322; margin-top: 30px; margin-bottom: 15px;">Support Tier Overview</h3>
+                <div class="info-grid">
+                    <div class="info-card">
+                        <h4>Tier 1 - General Support</h4>
+                        <p><span class="badge badge-tier1">2 business days</span></p>
+                        <p style="margin-top: 10px;">Login help, general questions, catalog requests, provider changes</p>
+                    </div>
+                    <div class="info-card">
+                        <h4>Tier 2 - Specialized Support</h4>
+                        <p><span class="badge badge-tier2">3-5 business days</span></p>
+                        <p style="margin-top: 10px;">Refunds, account issues, declinations</p>
+                    </div>
+                    <div class="info-card">
+                        <h4>Tier 3 - Product Support</h4>
+                        <p><span class="badge badge-tier3">Periodic updates</span></p>
+                        <p style="margin-top: 10px;">System issues, bugs, product investigations</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Compliance Tab -->
+            <div id="compliance" class="tab-content">
+                <h2 class="section-title">Compliance Team</h2>
+                
+                <div class="info-grid">
+                    <div class="info-card">
+                        <h3>Issues Handled</h3>
+                        <ul>
+                            <li>Member Grievances</li>
+                            <li>Audits (members disputing completion of services)</li>
+                            <li>Risk Management Reports (unsafe homes, inappropriate behavior, threats of legal action, etc.)</li>
+                        </ul>
+                    </div>
+
+                    <div class="info-card">
+                        <h3>Issue Type</h3>
+                        <ul>
+                            <li><strong>Grievances</strong></li>
+                        </ul>
+                    </div>
+
+                    <div class="info-card">
+                        <h3>Team Members</h3>
+                        <div class="team-member">
+                            <strong>Iliana Cardenas</strong>
+                        </div>
+                        <div class="team-member">
+                            <strong>Shani Miller</strong>
+                        </div>
+                        <div class="team-member">
+                            <strong>Jessica Gardner</strong>
+                        </div>
+                        <div class="team-member">
+                            <strong>Dena Lindsey</strong><br>
+                            <small>→ Grievance/audit/risk management ticket routing</small>
+                        </div>
+                        <div class="team-member">
+                            <strong>Matt Lee</strong><br>
+                            <small>→ Partner support, assessments, privacy/security, contracts</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Customer Service Tab -->
+            <div id="customer-service" class="tab-content">
+                <h2 class="section-title">Customer Service Team</h2>
+                
+                <div class="info-grid">
+                    <div class="info-card">
+                        <h3>Issues Handled</h3>
+                        <ul>
+                            <li><strong>All plans</strong>
+                                <ul style="margin-left: 15px; margin-top: 5px;">
+                                    <li>Registration support</li>
+                                    <li>Referral creation</li>
+                                    <li>Update member demographics</li>
+                                    <li>Refund/dispute</li>
+                                    <li>Member Communications</li>
+                                </ul>
+                            </li>
+                            <li><strong>Compliance</strong>
+                                <ul style="margin-left: 15px; margin-top: 5px;">
+                                    <li>OB calls to closed grievances</li>
+                                </ul>
+                            </li>
+                            <li><strong>BCBS AZ/Curana</strong>
+                                <ul style="margin-left: 15px; margin-top: 5px;">
+                                    <li>Registration support</li>
+                                    <li>Failed checkouts</li>
+                                    <li>Catalog request</li>
+                                    <li>New card requests</li>
+                                    <li>Refunds</li>
+                                </ul>
+                            </li>
+                            <li><strong>Humana</strong>
+                                <ul style="margin-left: 15px; margin-top: 5px;">
+                                    <li>Urgent/Emergent</li>
+                                    <li>Update referral information</li>
+                                    <li>Referral closure</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="info-card">
+                        <h3>Issue Types</h3>
+                        <ul>
+                            <li>I need help logging in</li>
+                            <li>I have a question about my order/service</li>
+                            <li>Need a refund</li>
+                            <li>Other</li>
+                            <li>Update member referral information</li>
+                            <li>Referral address change</li>
+                            <li>Report an issue with referral</li>
+                            <li>Member: question about service/update referral info</li>
+                        </ul>
+                    </div>
+
+                    <div class="info-card">
+                        <h3>Team Structure</h3>
+                        <div class="team-member">
+                            <strong>Supervisor: Kristen Evans</strong>
+                        </div>
+                        
+                        <h4 style="margin-top: 15px;">Team Members:</h4>
+                        <div class="team-member">
+                            <strong>Leslie Lopez</strong><br>
+                            <small>→ Member Communication (T3 and Compliance Resolutions)<br>
+                            → Refund/Dispute (Stripe)<br>
+                            → Referral Closure</small>
+                        </div>
+                        <div class="team-member">
+                            <strong>Emmanuel Marquez</strong><br>
+                            <small>→ Curana</small>
+                        </div>
+                        <div class="team-member">
+                            <strong>Eimy Serna</strong><br>
+                            <small>→ Pur Peak<br>
+                            → UHC-Optum<br>
+                            → Curana (Overflow)</small>
+                        </div>
+                        <div class="team-member">
+                            <strong>Yvette Aguilar</strong><br>
+                            <small>→ BCBS AZ</small>
+                        </div>
+                        <div class="team-member">
+                            <strong>Aideliz Hidalgo Betances</strong><br>
+                            <small>→ On Hold CM - C3A<br>
+                            → Outbound Communications</small>
+                        </div>
+                        <div class="team-member">
+                            <strong>Karla Rosado</strong><br>
+                            <small>→ C3A & PHCS PD<br>
+                            → Outbound Communications</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Fulfillment Tab -->
+            <div id="fulfillment" class="tab-content">
+                <h2 class="section-title">Fulfillment Team</h2>
+                
+                <div class="info-grid">
+                    <div class="info-card">
+                        <h3>Issues Handled</h3>
+                        <ul>
+                            <li>Bill Pay</li>
+                            <li>Reimbursement Service</li>
+                            <li>OTC Returns and Exchanges</li>
+                        </ul>
+                    </div>
+
+                    <div class="info-card">
+                        <h3>Issue Types</h3>
+                        <ul>
+                            <li>Initiate item exchange workflow</li>
+                            <li>Notify of an EMERGENT Referral</li>
+                            <li>Report lost of missing check</li>
+                            <li>Meals Issue</li>
+                            <li>Program Leadership ONLY</li>
+                            <li><strong>Reimbursement</strong>
+                                <ul style="margin-left: 15px; margin-top: 5px;">
+                                    <li>Rent</li>
+                                    <li>Mortgage</li>
+                                    <li>Utilities</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="info-card">
+                        <h3>Team Structure</h3>
+                        
+                        <h4>Supervisors:</h4>
+                        <div class="team-member">
+                            <strong>Luz Cruz and Gloria Villalobos</strong><br>
+                            <small>→ Bill Pay (C3A and Medicaid)<br>
+                            → Reimbursement Service</small>
+                        </div>
+                        <div class="team-member">
+                            <strong>Alicia Walker</strong><br>
+                            <small>→ Reimbursement Service (Curana)</small>
+                        </div>
+                        <div class="team-member">
+                            <strong>Natasha Heimberg and Nadya Berumen</strong><br>
+                            <small>→ OTC Returns and Exchanges<br>
+                            → Grocery Service Bundles</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Network Development Tab -->
+            <div id="network-dev" class="tab-content">
+                <h2 class="section-title">Network Development Team</h2>
+                
+                <div class="info-grid">
+                    <div class="info-card">
+                        <h3>Issues Handled</h3>
+                        <ul>
+                            <li>Referrals with no providers</li>
+                            <li>Members requesting a specific provider they would like to see onboarded to our network</li>
+                        </ul>
+                    </div>
+
+                    <div class="info-card">
+                        <h3>Issue Types</h3>
+                        <ul>
+                            <li>N/A</li>
+                        </ul>
+                    </div>
+
+                    <div class="info-card">
+                        <h3>Team Structure</h3>
+                        
+                        <div class="team-member">
+                            <strong>Supervisor: Colleen Manning</strong>
+                        </div>
+                        
+                        <h4 style="margin-top: 15px;">Team Members:</h4>
+                        <div class="team-member">
+                            <strong>Andrea Isho</strong><br>
+                            <small>→ Large Provider Groups/National Accounts<br>
+                            → Unum<br>
+                            → Genworth</small>
+                        </div>
+                        <div class="team-member">
+                            <strong>Amy Bosley</strong><br>
+                            <small>→ Curana<br>
+                            → Isaac Health<br>
+                            → Longevity<br>
+                            → SCAN</small>
+                        </div>
+                        <div class="team-member">
+                            <strong>Lizbeth Munoz</strong><br>
+                            <small>→ Network Health</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product Support Tab -->
+            <div id="product" class="tab-content">
+                <h2 class="section-title">Product Support Team</h2>
+                
+                <div class="info-grid">
+                    <div class="info-card">
+                        <h3>Issues Handled</h3>
+                        <ul>
+                            <li>Product or Dev Involvement</li>
+                            <li>System Issues/Outages</li>
+                            <li>System Bugs</li>
+                            <li>System Limitations</li>
+                            <li>Product Investigations/Fixes</li>
+                            <li>McKesson Products</li>
+                        </ul>
+                    </div>
+
+                    <div class="info-card">
+                        <h3>Issue Types</h3>
+                        <ul>
+                            <li>Report System Issue/Outage</li>
+                            <li>Funds not in account</li>
+                            <li>Consumer Portal Cart/Transaction Issue</li>
+                            <li>Having an issue with the portal</li>
+                        </ul>
+                    </div>
+
+                    <div class="info-card">
+                        <h3>Team Members</h3>
+                        <div class="team-member">
+                            <strong>Kenny Boccher</strong>
+                        </div>
+                        <div class="team-member">
+                            <strong>Ashley Martinez</strong>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="workflow-diagram">
+                    <h3 style="color: #003322; margin-bottom: 15px;">Product Support Routing</h3>
+                    <p style="margin-bottom: 15px;"><span class="badge badge-tier3">Tier 3</span> - No committed timelines due to the nature of investigations. Periodic updates provided, then resolution with findings.</p>
+                </div>
+            </div>
+
+            <!-- Regional Benefit Coordinators Tab -->
+            <div id="rbc" class="tab-content">
+                <h2 class="section-title">Regional Benefit Coordinators (RBC)</h2>
+                
+                <div class="info-grid">
+                    <div class="info-card">
+                        <h3>Issues Handled</h3>
+                        <ul>
+                            <li>Provider Questions</li>
+                            <li>Member Re-Assignments</li>
+                            <li>Any member-related issues</li>
+                            <li>Escalations for meals, transportation, urgent home care needs</li>
+                            <li>If we notice anything concerning in a member's home or any discrepancies with authorized hours, we pass that along to Compliance to review</li>
+                        </ul>
+                    </div>
+
+                    <div class="info-card">
+                        <h3>Issue Types</h3>
+                        <ul>
+                            <li>Provider: change request/report a provider issue</li>
+                            <li>Need a Refund</li>
+                            <li>Member Authorizations/Referral Questions</li>
+                            <li>2hr Show Up Fee</li>
+                            <li>Cancel Service</li>
+                            <li>Parking Requests</li>
+                            <li>Declination</li>
+                            <li>I have a question about my meal delivery</li>
+                        </ul>
+                    </div>
+
+                    <div class="info-card">
+                        <h3>Team Structure</h3>
+                        
+                        <div class="team-member">
+                            <strong>Supervisor: Megan Herling</strong><br>
+                            <small>→ Meals</small>
+                        </div>
+                        
+                        <h4 style="margin-top: 15px;">Team Members:</h4>
+                        <div class="team-member">
+                            <strong>Julie Jones</strong><br>
+                            <small>→ Aetna Companion and PD<br>
+                            → Longevity<br>
+                            → Isaac Health<br>
+                            → Elderplan</small>
+                        </div>
+                        <div class="team-member">
+                            <strong>Ivia Peden</strong><br>
+                            <small>→ Alignment<br>
+                            → Clever Care<br>
+                            → Champion Health<br>
+                            → SCAN<br>
+                            → Verda</small>
+                        </div>
+                        <div class="team-member">
+                            <strong>Healther Burchartz</strong><br>
+                            <small>→ Aetna - Personal Care<br>
+                            → BCBS SC<br>
+                            → Centene<br>
+                            → Curana<br>
+                            → Gold Kidney<br>
+                            → Humana<br>
+                            → Network Health<br>
+                            → UltiMate - UHP</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Workflows Tab -->
+            <div id="workflows" class="tab-content">
+                <h2 class="section-title">Ticket Routing Workflows</h2>
+                
+                <h3 style="color: #003322; margin-top: 20px; margin-bottom: 15px;">Member Support Form</h3>
+                <div class="workflow-diagram">
+                    <div class="workflow-step">
+                        <div class="workflow-box workflow-issue">I need help logging in</div>
+                        <span class="workflow-arrow">→</span>
+                        <div class="workflow-box workflow-group">Customer Service</div>
+                        <span class="workflow-arrow">→</span>
+                        <div class="workflow-box workflow-tier">Tier 1</div>
+                    </div>
+                    
+                    <div class="workflow-step">
+                        <div class="workflow-box workflow-issue">I have a question about my order/service</div>
+                        <span class="workflow-arrow">→</span>
+                        <div class="workflow-box workflow-group">Customer Service</div>
+                        <span class="workflow-arrow">→</span>
+                        <div class="workflow-box workflow-tier">Tier 1</div>
+                    </div>
+                    
+                    <div class="workflow-step">
+                        <div class="workflow-box workflow-issue">Need a refund</div>
+                        <span class="workflow-arrow">→</span>
+                        <div class="workflow-box workflow-group">Customer Service</div>
+                        <span class="workflow-arrow">→</span>
+                        <div class="workflow-box workflow-tier">Tier 2</div>
+                    </div>
+                    
+                    <div class="workflow-step">
+                        <div class="workflow-box workflow-issue">Account Creation/Deletion</div>
+                        <span class="workflow-arrow">→</span>
+                        <div class="workflow-box workflow-group" style="background: #f8bbd0;">THB Accounts</div>
+                        <span class="workflow-arrow">→</span>
+                        <div class="workflow-box workflow-tier">Tier 2</div>
+                    </div>
+                    
+                    <div class="workflow-step">
+                        <div class="workflow-box workflow-issue">Provider: Change Request/Report a Provider Issue</div>
+                        <span class="workflow-arrow">→</span>
+                        <div class="workflow-box workflow-group" style="background: #fff9c4;">RBC</div>
+                        <span class="workflow-arrow">→</span>
+                        <div class="workflow-box workflow-tier">Tier 1</div>
+                    </div>
+                    
+                    <div class="workflow-step">
+                        <div class="workflow-box workflow-issue">Report System issue/outage</div>
+                        <span class="workflow-arrow">→</span>
+                        <div class="workflow-box workflow-group" style="background: #ffccbc;">Product</div>
+                        <span class="workflow-arrow">→</span>
+                        <div class="workflow-box workflow-tier">Tier 3</div>
+                    </div>
+                </div>
+
+                <h3 style="color: #003322; margin-top: 30px; margin-bottom: 15px;">Digital Wallet & Flex Support Form</h3>
+                <div class="workflow-diagram">
+                    <div class="workflow-step">
+                        <div class="workflow-box workflow-issue">I need help logging in</div>
+                        <span class="workflow-arrow">→</span>
+                        <div class="workflow-box workflow-group">Customer Service</div>
+                        <span class="workflow-arrow">→</span>
+                        <div class="workflow-box workflow-tier">Tier 1</div>
+                    </div>
+                    
+                    <div class="workflow-step">
+                        <div class="workflow-box workflow-issue">I have a question about my order/service</div>
+                        <span class="workflow-arrow">→</span>
+                        <div class="workflow-box workflow-group">Customer Service</div>
+                        <span class="workflow-arrow">→</span>
+                        <div class="workflow-box workflow-tier">Tier 1</div>
+                    </div>
+                    
+                    <div class="workflow-step">
+                        <div class="workflow-box workflow-issue">Need a refund</div>
+                        <span class="workflow-arrow">→</span>
+                        <div class="workflow-box workflow-group">Customer Service</div>
+                        <span class="workflow-arrow">→</span>
+                        <div class="workflow-box workflow-tier">Tier 2</div>
+                    </div>
+                    
+                    <div class="workflow-step">
+                        <div class="workflow-box workflow-issue">Catalog request</div>
+                        <span class="workflow-arrow">→</span>
+                        <div class="workflow-box workflow-group">Customer Service</div>
+                        <span class="workflow-arrow">→</span>
+                        <div class="workflow-box workflow-tier">Tier 1</div>
+                    </div>
+                    
+                    <div class="workflow-step">
+                        <div class="workflow-box workflow-issue">Account Creation/Deletion</div>
+                        <span class="workflow-arrow">→</span>
+                        <div class="workflow-box workflow-group" style="background: #f8bbd0;">THB Accounts</div>
+                        <span class="workflow-arrow">→</span>
+                        <div class="workflow-box workflow-tier">Tier 2</div>
+                    </div>
+                    
+                    <div class="workflow-step">
+                        <div class="workflow-box workflow-issue">Provider: change request/report a provider issue</div>
+                        <span class="workflow-arrow">→</span>
+                        <div class="workflow-box workflow-group" style="background: #fff9c4;">RBC</div>
+                        <span class="workflow-arrow">→</span>
+                        <div class="workflow-box workflow-tier">Tier 1</div>
+                    </div>
+                    
+                    <div class="workflow-step">
+                        <div class="workflow-box workflow-issue">Declination</div>
+                        <span class="workflow-arrow">→</span>
+                        <div class="workflow-box workflow-group" style="background: #fff9c4;">RBC</div>
+                        <span class="workflow-arrow">→</span>
+                        <div class="workflow-box workflow-tier">Tier 2</div>
+                    </div>
+                    
+                    <div class="workflow-step">
+                        <div class="workflow-box workflow-issue">Funds are not in account</div>
+                        <span class="workflow-arrow">→</span>
+                        <div class="workflow-box workflow-group" style="background: #ffccbc;">Product</div>
+                        <span class="workflow-arrow">→</span>
+                        <div class="workflow-box workflow-tier">Tier 3</div>
+                    </div>
+                    
+                    <div class="workflow-step">
+                        <div class="workflow-box workflow-issue">Consumer Portal Cart/Transaction Issue</div>
+                        <span class="workflow-arrow">→</span>
+                        <div class="workflow-box workflow-group" style="background: #ffccbc;">Product</div>
+                        <span class="workflow-arrow">→</span>
+                        <div class="workflow-box workflow-tier">Tier 3</div>
+                    </div>
+                    
+                    <div class="workflow-step">
+                        <div class="workflow-box workflow-issue">Report system issue/outage</div>
+                        <span class="workflow-arrow">→</span>
+                        <div class="workflow-box workflow-group" style="background: #ffccbc;">Product</div>
+                        <span class="workflow-arrow">→</span>
+                        <div class="workflow-box workflow-tier">Tier 3</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SLA Tab -->
+            <div id="sla" class="tab-content">
+                <h2 class="section-title">Service Level Agreements & Ticket Tiers</h2>
+                
+                <table class="tier-table">
+                    <thead>
+                        <tr>
+                            <th>Tier Level</th>
+                            <th>Support Level</th>
+                            <th>Initial Response</th>
+                            <th>Resolution</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="badge badge-tier1">Tier 1</span></td>
+                            <td><strong>General Support</strong></td>
+                            <td>1 business day</td>
+                            <td><strong>2 business days</strong></td>
+                        </tr>
+                        <tr>
+                            <td><span class="badge badge-tier2">Tier 2</span></td>
+                            <td><strong>Specialized Support</strong></td>
+                            <td>1 business day</td>
+                            <td><strong>3-5 business days</strong></td>
+                        </tr>
+                        <tr>
+                            <td><span class="badge badge-tier3">Tier 3</span></td>
+                            <td><strong>Product Support</strong></td>
+                            <td>1 business day</td>
+                            <td><strong>No committed timelines</strong> due to the nature of investigations. Periodic updates provided and then the resolution will be provided with the findings.</td>
+                        </tr>
+                        <tr>
+                            <td><span class="badge" style="background: #e0e0e0; color: #424242;">Tier 4</span></td>
+                            <td><strong>Engineering Support</strong></td>
+                            <td>1 business day</td>
+                            <td><strong>No committed timelines</strong> (based on priority)</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div style="margin-top: 30px; padding: 20px; background: #fff9c4; border-left: 4px solid #f9a825; border-radius: 4px;">
+                    <h4 style="color: #f57f17; margin-bottom: 10px;">📌 Important Notes</h4>
+                    <ul style="margin-left: 20px;">
+                        <li>All response and resolution times are calculated in <strong>business days</strong></li>
+                        <li>Tier 3 and Tier 4 tickets involve complex investigations and engineering work</li>
+                        <li>Higher tier tickets receive periodic status updates throughout the investigation process</li>
+                        <li>Initial response SLA applies to first meaningful contact with the ticket requester</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function openTab(evt, tabName) {
+            // Hide all tab contents
+            const tabContents = document.getElementsByClassName('tab-content');
+            for (let i = 0; i < tabContents.length; i++) {
+                tabContents[i].classList.remove('active');
+            }
+
+            // Remove active class from all tabs
+            const tabs = document.getElementsByClassName('tab');
+            for (let i = 0; i < tabs.length; i++) {
+                tabs[i].classList.remove('active');
+            }
+
+            // Show current tab and mark button as active
+            document.getElementById(tabName).classList.add('active');
+            evt.currentTarget.classList.add('active');
+
+            // Prevent default link behavior
+            if (evt.preventDefault) {
+                evt.preventDefault();
+            }
+        }
+
+        // Search functionality
+        document.getElementById('searchBox').addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase();
+            const allContent = document.querySelectorAll('.tab-content');
+            
+            if (searchTerm.length < 2) {
+                // If search is too short, show overview
+                return;
+            }
+
+            // Search through all content
+            let foundInTab = null;
+            allContent.forEach(content => {
+                const text = content.textContent.toLowerCase();
+                if (text.includes(searchTerm) && !foundInTab) {
+                    foundInTab = content.id;
+                }
+            });
+
+            // If found, switch to that tab
+            if (foundInTab) {
+                document.querySelectorAll('.tab').forEach(tab => {
+                    if (tab.textContent.toLowerCase().includes(foundInTab.replace('-', ' '))) {
+                        tab.click();
+                    }
+                });
+
+                // Highlight search results
+                const contentElement = document.getElementById(foundInTab);
+                if (contentElement) {
+                    const elements = contentElement.querySelectorAll('p, li, td, h3, h4');
+                    elements.forEach(el => {
+                        if (el.textContent.toLowerCase().includes(searchTerm)) {
+                            el.style.background = '#fff9c4';
+                            setTimeout(() => {
+                                el.style.background = '';
+                            }, 2000);
+                        }
+                    });
+                }
+            }
+        });
+    </script>
+</body>
+</html>
