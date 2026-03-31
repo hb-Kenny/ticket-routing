@@ -215,12 +215,245 @@
             box-shadow: 0 4px 12px rgba(255,214,70,0.4);
         }
 
-        .tab-content { display: none; animation: fadeIn 0.3s; }
-        .tab-content.active { display: block; }
+        /* ═══════════════════════════════════════════
+           ANIMATIONS — site-wide upgrade
+        ═══════════════════════════════════════════ */
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+        /* Shared easing curves */
+        :root {
+            --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+            --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+            --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+        }
+
+        /* Page load — header slides down */
+        .header {
+            animation: headerIn 0.5s var(--ease-out) both;
+        }
+        @keyframes headerIn {
+            from { opacity: 0; transform: translateY(-16px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Page load — search bar */
+        .search-container {
+            animation: fadeUp 0.45s var(--ease-out) 0.1s both;
+        }
+
+        /* Page load — tabs */
+        .tabs {
+            animation: fadeUp 0.45s var(--ease-out) 0.15s both;
+        }
+
+        /* Page load — content area */
+        .content {
+            animation: fadeUp 0.5s var(--ease-out) 0.2s both;
+        }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(12px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Tab content — slide + fade */
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: tabIn 0.35s var(--ease-out) both;
+        }
+
+        @keyframes tabIn {
+            from { opacity: 0; transform: translateX(12px); }
+            to   { opacity: 1; transform: translateX(0); }
+        }
+
+        /* Tab buttons — underline slide */
+        .tab {
+            position: relative;
+            overflow: hidden;
+        }
+        .tab::after {
+            content: '';
+            position: absolute;
+            bottom: -3px;
+            left: 50%;
+            right: 50%;
+            height: 3px;
+            background: var(--yellow);
+            transition: left 0.25s var(--ease-out), right 0.25s var(--ease-out);
+        }
+        .tab.active::after, .tab:hover::after {
+            left: 0;
+            right: 0;
+        }
+
+        /* Team hub cards — stagger cascade */
+        .team-hub-card {
+            opacity: 0;
+            animation: cardCascade 0.4s var(--ease-spring) both;
+        }
+        @keyframes cardCascade {
+            from { opacity: 0; transform: translateY(20px) scale(0.97); }
+            to   { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        /* Team hub card hover — lift with spring */
+        .team-hub-card:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 12px 28px var(--shadow);
+            border-color: var(--yellow);
+            transition: transform 0.3s var(--ease-spring), box-shadow 0.3s var(--ease-out), border-color 0.2s;
+        }
+
+        /* Team detail panel — slide in from right */
+        #team-detail {
+            animation: slideInRight 0.35s var(--ease-out) both;
+        }
+        @keyframes slideInRight {
+            from { opacity: 0; transform: translateX(24px); }
+            to   { opacity: 1; transform: translateX(0); }
+        }
+
+        /* Back to teams — slide back */
+        #team-hub {
+            animation: slideInLeft 0.35s var(--ease-out) both;
+        }
+        @keyframes slideInLeft {
+            from { opacity: 0; transform: translateX(-16px); }
+            to   { opacity: 1; transform: translateX(0); }
+        }
+
+        /* Link cards — smoother stagger already set via JS delay */
+        @keyframes cardIn {
+            from { opacity: 0; transform: translateY(18px) scale(0.98); }
+            to   { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        .link-card {
+            animation: cardIn 0.4s var(--ease-spring) both;
+        }
+
+        .link-card:hover {
+            transform: translateY(-3px) scale(1.01);
+            box-shadow: 0 8px 20px var(--shadow);
+            transition: transform 0.25s var(--ease-spring), box-shadow 0.25s var(--ease-out);
+        }
+
+        /* Autocomplete dropdown — slide down */
+        .autocomplete-dropdown.open {
+            display: block;
+            animation: dropIn 0.2s var(--ease-out) both;
+        }
+        @keyframes dropIn {
+            from { opacity: 0; transform: translateY(-8px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Form finder body — smooth expand */
+        .form-finder-body.open {
+            display: block;
+            animation: expandIn 0.3s var(--ease-out) both;
+        }
+        @keyframes expandIn {
+            from { opacity: 0; transform: translateY(-8px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Form finder steps — crossfade */
+        #ff-step1, #ff-step2, #ff-step3 {
+            animation: stepFade 0.25s var(--ease-out) both;
+        }
+        @keyframes stepFade {
+            from { opacity: 0; transform: translateX(10px); }
+            to   { opacity: 1; transform: translateX(0); }
+        }
+
+        /* Workflow panels — fade swap */
+        .wf-panel {
+            animation: wfFade 0.3s var(--ease-out) both;
+        }
+        @keyframes wfFade {
+            from { opacity: 0; transform: translateY(8px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Sidebar buttons — smooth active state */
+        .wf-sidebar-btn {
+            transition: background 0.2s var(--ease-out), color 0.2s, transform 0.15s var(--ease-spring);
+        }
+        .wf-sidebar-btn:hover { transform: translateX(3px); }
+        .wf-sidebar-btn.active { transform: translateX(3px); }
+
+        /* Info cards — spring hover */
+        .info-card {
+            transition: transform 0.25s var(--ease-spring), box-shadow 0.25s var(--ease-out);
+        }
+        .info-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px var(--shadow);
+        }
+
+        /* Quick ref table rows — subtle hover slide */
+        .quick-ref-table tbody tr {
+            transition: background 0.15s, transform 0.15s;
+        }
+        .quick-ref-table tbody tr:hover {
+            background: var(--surface2);
+        }
+
+        /* Feedback buttons — spring bounce */
+        .feedback-btn {
+            transition: transform 0.2s var(--ease-spring);
+        }
+        .feedback-btn:hover {
+            transform: scale(1.25) rotate(-5deg);
+        }
+
+        /* Badge pulse on new changelog */
+        #changelogBadge {
+            animation: badgePulse 2s ease-in-out infinite;
+        }
+        @keyframes badgePulse {
+            0%, 100% { transform: scale(1); }
+            50%       { transform: scale(1.15); }
+        }
+
+        /* Links callout btn — shimmer on hover */
+        .links-callout-btn {
+            position: relative;
+            overflow: hidden;
+        }
+        .links-callout-btn::after {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 60%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.35), transparent);
+            transition: left 0.4s var(--ease-out);
+        }
+        .links-callout-btn:hover::after { left: 150%; }
+
+        /* Scroll reveal for changelog entries */
+        .changelog-entry {
+            opacity: 0;
+            transform: translateY(8px);
+            transition: opacity 0.4s var(--ease-out), transform 0.4s var(--ease-out);
+        }
+        .changelog-entry.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Reduced motion — respect user preference */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                transition-duration: 0.01ms !important;
+            }
         }
 
         .info-grid {
@@ -623,6 +856,189 @@
         .link-card-header.internal {
             background: #5d4037;
         }
+
+        /* ── Form Finder ── */
+        .form-finder {
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 24px;
+        }
+        .form-finder-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 20px;
+            background: var(--surface2);
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 1em;
+            color: var(--green-dark);
+            user-select: none;
+            transition: background 0.2s;
+        }
+        .form-finder-header:hover { background: var(--border); }
+        .form-finder-chevron { transition: transform 0.2s; }
+        .form-finder-body.open ~ .form-finder-header .form-finder-chevron,
+        .form-finder-header.is-open .form-finder-chevron { transform: rotate(180deg); }
+        .form-finder-body { display: none; padding: 20px; border-top: 1px solid var(--border); }
+        .form-finder-body.open { display: block; }
+        .ff-question { font-weight: 700; color: var(--green-dark); margin-bottom: 14px; font-size: 0.95em; }
+        .ff-options { display: flex; flex-direction: column; gap: 8px; }
+        .ff-btn { text-align: left; padding: 10px 16px; border-radius: 8px; border: 2px solid var(--border); background: var(--surface); color: var(--text); font-size: 0.88em; font-weight: 600; cursor: pointer; transition: all 0.15s; }
+        .ff-btn:hover { border-color: var(--green-dark); color: var(--green-dark); background: var(--surface2); }
+        .ff-btn.ff-internal { border-color: #d7bfb8; color: #5d4037; }
+        .ff-btn.ff-internal:hover { border-color: #5d4037; background: #efebe9; }
+        .ff-hint { font-weight: 400; color: var(--text-muted); font-size: 0.85em; margin-left: 6px; }
+        .ff-back { background: none; border: none; color: var(--text-muted); font-size: 0.83em; font-weight: 600; cursor: pointer; padding: 0 0 12px; display: block; }
+        .ff-back:hover { color: var(--green-dark); }
+        .ff-result { background: var(--surface2); border-radius: 10px; padding: 20px; border-left: 4px solid var(--yellow); }
+        .ff-result-form { font-size: 1em; font-weight: 700; color: var(--green-dark); margin-bottom: 10px; }
+        .ff-result-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; font-size: 0.88em; color: var(--text-muted); }
+        .ff-result-row strong { color: var(--text); }
+        .ff-result-actions { display: flex; gap: 10px; margin-top: 16px; flex-wrap: wrap; }
+        .ff-open-btn { padding: 9px 20px; background: var(--yellow); color: var(--green-dark); border: none; border-radius: 25px; font-weight: 700; font-size: 0.88em; cursor: pointer; text-decoration: none; display: inline-block; transition: background 0.2s; }
+        .ff-open-btn:hover { background: #f0c200; }
+        .ff-workflow-btn { padding: 9px 20px; background: var(--surface); color: var(--green-dark); border: 2px solid var(--green-dark); border-radius: 25px; font-weight: 700; font-size: 0.88em; cursor: pointer; transition: all 0.2s; }
+        .ff-workflow-btn:hover { background: var(--green-dark); color: white; }
+        .ff-reset { padding: 9px 20px; background: none; color: var(--text-muted); border: 2px solid var(--border); border-radius: 25px; font-weight: 600; font-size: 0.88em; cursor: pointer; }
+        .ff-reset:hover { border-color: var(--text-muted); }
+
+        /* ── Workflow Tab ── */
+        .wf-layout {
+            display: flex;
+            gap: 20px;
+            align-items: flex-start;
+        }
+
+        .wf-sidebar {
+            min-width: 200px;
+            width: 200px;
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .wf-sidebar-group { display: flex; flex-direction: column; gap: 4px; }
+
+        .wf-sidebar-label {
+            font-size: 0.72em;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+            color: var(--text-muted);
+            padding: 0 8px 4px;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 2px;
+        }
+
+        .wf-sidebar-btn {
+            text-align: left;
+            padding: 8px 12px;
+            border-radius: 8px;
+            border: none;
+            background: transparent;
+            font-size: 0.85em;
+            font-weight: 600;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: all 0.15s;
+            width: 100%;
+        }
+
+        .wf-sidebar-btn:hover { background: var(--surface2); color: var(--green-dark); }
+        .wf-sidebar-btn.active { background: var(--green-dark); color: var(--yellow); }
+
+        .wf-main { flex: 1; min-width: 0; }
+
+        .wf-panel-title {
+            font-size: 1.1em;
+            font-weight: 700;
+            color: var(--green-dark);
+            margin-bottom: 14px;
+        }
+
+        .wf-legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 14px;
+            margin-bottom: 18px;
+            padding: 12px 16px;
+            background: var(--surface2);
+            border-radius: 8px;
+            border: 1px solid var(--border);
+        }
+
+        .wf-legend-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.82em;
+            font-weight: 600;
+            color: var(--text-muted);
+        }
+
+        .wf-dot {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            border: 2px solid;
+            display: inline-block;
+            flex-shrink: 0;
+        }
+
+        .wf-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.92em;
+            box-shadow: 0 2px 8px var(--shadow);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .wf-table thead { background: var(--green-dark); color: white; }
+        .wf-table th { padding: 13px 16px; text-align: left; font-weight: 600; }
+        .wf-table td { padding: 12px 16px; border-bottom: 1px solid var(--border); color: var(--text); vertical-align: middle; }
+        .wf-table tbody tr:last-child td { border-bottom: none; }
+        .wf-table tbody tr:hover { filter: brightness(0.97); }
+
+        .wf-row-cs td:first-child { border-left: 4px solid #004d40; }
+        .wf-row-rbc td:first-child { border-left: 4px solid #f9a825; }
+        .wf-row-acct td:first-child { border-left: 4px solid #c2185b; }
+        .wf-row-product td:first-child { border-left: 4px solid #e64a19; }
+        .wf-row-compliance td:first-child { border-left: 4px solid #7b1fa2; }
+        .wf-row-fulfillment td:first-child { border-left: 4px solid #388e3c; }
+
+        .wf-row-cs { background: rgba(178,223,219,0.2); }
+        .wf-row-rbc { background: rgba(255,249,196,0.4); }
+        .wf-row-acct { background: rgba(248,187,208,0.3); }
+        .wf-row-product { background: rgba(255,204,188,0.3); }
+        .wf-row-compliance { background: rgba(225,190,231,0.3); }
+        .wf-row-fulfillment { background: rgba(200,230,201,0.3); }
+
+        .wf-team-btn {
+            padding: 5px 14px;
+            border-radius: 16px;
+            border: none;
+            font-weight: 700;
+            font-size: 0.82em;
+            cursor: pointer;
+            transition: all 0.15s;
+            white-space: nowrap;
+        }
+
+        .wf-cs { background: #b2dfdb; color: #004d40; }
+        .wf-cs:hover { background: #004d40; color: white; }
+        .wf-rbc { background: #fff9c4; color: #f57f17; }
+        .wf-rbc:hover { background: #f9a825; color: white; }
+        .wf-acct { background: #f8bbd0; color: #c2185b; cursor: default; }
+        .wf-product { background: #ffccbc; color: #d84315; }
+        .wf-product:hover { background: #e64a19; color: white; }
+        .wf-compliance { background: #e1bee7; color: #7b1fa2; }
+        .wf-compliance:hover { background: #7b1fa2; color: white; }
+        .wf-fulfillment { background: #c8e6c9; color: #388e3c; }
+        .wf-fulfillment:hover { background: #388e3c; color: white; }
 
         /* ── Teams Hub ── */
         .team-hub-grid {
@@ -1140,6 +1556,10 @@
         }
 
         @media (max-width: 768px) {
+            .wf-layout { flex-direction: column; }
+            .wf-sidebar { width: 100%; flex-direction: row; flex-wrap: wrap; gap: 6px; }
+            .wf-sidebar-group { flex-direction: row; flex-wrap: wrap; }
+            .wf-sidebar-label { width: 100%; }
             .header h1 {
                 font-size: 1.8em;
             }
@@ -1208,15 +1628,46 @@
             <button class="tab" onclick="openTab(event, 'teams')">Teams</button>
             <button class="tab" onclick="openTab(event, 'workflows')">Ticket Workflows</button>
             <button class="tab" onclick="openTab(event, 'sla')">SLA & Tiers</button>
-            <button class="tab" onclick="openTab(event, 'changelog')">📋 Changelog</button>
         </div>
 
         <div class="content">
             <!-- Overview Tab -->
             <div id="overview" class="tab-content active">
-                <h2 class="section-title">Quick Navigation</h2>
-                <p style="margin-bottom: 20px;">Welcome to the Zendesk ticket routing guide. Use the tabs above to navigate to specific team information, or use the search box to find what you need.</p>
 
+                <!-- What Form Do I Use? -->
+                <div class="form-finder">
+                    <div class="form-finder-header" onclick="document.getElementById('formFinderBody').classList.toggle('open')">
+                        <span>🤔 What form do I use?</span>
+                        <span class="form-finder-chevron">▾</span>
+                    </div>
+                    <div class="form-finder-body" id="formFinderBody">
+                        <div id="ff-step1">
+                            <p class="ff-question">Step 1 — Which client is the member on?</p>
+                            <div class="ff-options">
+                                <button class="ff-btn" onclick="ffSelectClient('gov')">Gov Plan <span class="ff-hint">(Aetna, Alignment, BCBS SC, Elderplan, HAP, Isaac Health, Longevity, Network Health, Simpra, UHC, Verda, and more)</span></button>
+                                <button class="ff-btn" onclick="ffSelectClient('bcbs-az')">BCBS AZ</button>
+                                <button class="ff-btn" onclick="ffSelectClient('scan')">SCAN</button>
+                                <button class="ff-btn" onclick="ffSelectClient('curana')">Curana Health</button>
+                                <button class="ff-btn" onclick="ffSelectClient('humana-d2c')">Humana D2C</button>
+                                <button class="ff-btn ff-internal" onclick="ffSelectClient('humana-c3a')">🔒 Humana C3A <span class="ff-hint">(Internal)</span></button>
+                                <button class="ff-btn ff-internal" onclick="ffSelectClient('humana-phcs')">🔒 Humana PHCS <span class="ff-hint">(Internal)</span></button>
+                                <button class="ff-btn ff-internal" onclick="ffSelectClient('humana-medicaid')">🔒 Humana Medicaid <span class="ff-hint">(Internal)</span></button>
+                                <button class="ff-btn ff-internal" onclick="ffSelectClient('uhp-grievance')">🔒 UHP Grievance <span class="ff-hint">(Internal)</span></button>
+                            </div>
+                        </div>
+                        <div id="ff-step2" style="display:none;">
+                            <button class="ff-back" onclick="ffBack()">← Back</button>
+                            <p class="ff-question">Step 2 — What's the issue?</p>
+                            <div class="ff-options" id="ff-issue-options"></div>
+                        </div>
+                        <div id="ff-step3" style="display:none;">
+                            <button class="ff-back" onclick="ffBackToIssues()">← Back</button>
+                            <div class="ff-result" id="ff-result"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Zendesk Links Callout -->
                 <div class="links-callout">
                     <div class="links-callout-text">
                         <h3>🔗 All Zendesk Ticket Links</h3>
@@ -1229,18 +1680,9 @@
                     </div>
                     <button class="links-callout-btn" onclick="openTab(event, 'zd-links')">View All Links →</button>
                 </div>
-                
-                <div class="quick-links">
-                    <a href="#" class="quick-link" onclick="openTab(event,'teams');openTeamDetail('compliance')">Compliance</a>
-                    <a href="#" class="quick-link" onclick="openTab(event,'teams');openTeamDetail('customer-service')">Customer Service</a>
-                    <a href="#" class="quick-link" onclick="openTab(event,'teams');openTeamDetail('fulfillment')">Fulfillment</a>
-                    <a href="#" class="quick-link" onclick="openTab(event,'teams');openTeamDetail('network-dev')">Network Development</a>
-                    <a href="#" class="quick-link" onclick="openTab(event,'teams');openTeamDetail('product')">Product</a>
-                    <a href="#" class="quick-link" onclick="openTab(event,'teams');openTeamDetail('rbc')">RBC</a>
-                    <a href="#" class="quick-link" onclick="openTab(event, 'sla')">View SLAs</a>
-                </div>
 
-                <h3 style="color: #003322; margin-top: 30px; margin-bottom: 10px;">📌 Quick Reference — Who Handles What</h3>
+                <!-- Quick Reference Table -->
+                <h3 style="color:var(--green-dark); margin-top:28px; margin-bottom:10px;">📌 Who Handles What</h3>
                 <table class="quick-ref-table">
                     <thead>
                         <tr><th>Team</th><th>Handles</th><th>Tier</th></tr>
@@ -1278,25 +1720,8 @@
                         </tr>
                     </tbody>
                 </table>
+                <p style="margin-top:10px; font-size:0.82em; color:var(--text-muted);">Click any team name to view their full detail page. For SLA timelines, see the <a href="#" onclick="openTab(event,'sla')" style="color:var(--green-dark); font-weight:600;">SLA & Tiers</a> tab.</p>
 
-                <h3 style="color: #003322; margin-top: 30px; margin-bottom: 15px;">Support Tier Overview</h3>
-                <div class="info-grid">
-                    <div class="info-card">
-                        <h4>Tier 1 - General Support</h4>
-                        <p><span class="badge badge-tier1">2 business days</span></p>
-                        <p style="margin-top: 10px;">Login help, general questions, catalog requests, provider changes</p>
-                    </div>
-                    <div class="info-card">
-                        <h4>Tier 2 - Specialized Support</h4>
-                        <p><span class="badge badge-tier2">3-5 business days</span></p>
-                        <p style="margin-top: 10px;">Refunds, account issues, declinations</p>
-                    </div>
-                    <div class="info-card">
-                        <h4>Tier 3 - Product Support</h4>
-                        <p><span class="badge badge-tier3">Periodic updates</span></p>
-                        <p style="margin-top: 10px;">System issues, bugs, product investigations</p>
-                    </div>
-                </div>
             </div>
 
             <!-- Teams Hub Tab -->
@@ -2041,138 +2466,241 @@
             <!-- Workflows Tab -->
             <div id="workflows" class="tab-content">
                 <h2 class="section-title">Ticket Routing Workflows</h2>
-                
-                <h3 style="color: #003322; margin-top: 20px; margin-bottom: 15px;">Member Support Form</h3>
-                <div class="workflow-diagram">
-                    <div class="workflow-step">
-                        <div class="workflow-box workflow-issue">I need help logging in</div>
-                        <span class="workflow-arrow">→</span>
-                        <div class="workflow-box workflow-group">Customer Service</div>
-                        <span class="workflow-arrow">→</span>
-                        <div class="workflow-box workflow-tier">Tier 1</div>
-                    </div>
-                    
-                    <div class="workflow-step">
-                        <div class="workflow-box workflow-issue">I have a question about my order/service</div>
-                        <span class="workflow-arrow">→</span>
-                        <div class="workflow-box workflow-group">Customer Service</div>
-                        <span class="workflow-arrow">→</span>
-                        <div class="workflow-box workflow-tier">Tier 1</div>
-                    </div>
-                    
-                    <div class="workflow-step">
-                        <div class="workflow-box workflow-issue">Need a refund</div>
-                        <span class="workflow-arrow">→</span>
-                        <div class="workflow-box workflow-group">Customer Service</div>
-                        <span class="workflow-arrow">→</span>
-                        <div class="workflow-box workflow-tier">Tier 2</div>
-                    </div>
-                    
-                    <div class="workflow-step">
-                        <div class="workflow-box workflow-issue">Account Creation/Deletion</div>
-                        <span class="workflow-arrow">→</span>
-                        <div class="workflow-box workflow-group" style="background: #f8bbd0;">THB Accounts</div>
-                        <span class="workflow-arrow">→</span>
-                        <div class="workflow-box workflow-tier">Tier 2</div>
-                    </div>
-                    
-                    <div class="workflow-step">
-                        <div class="workflow-box workflow-issue">Provider: Change Request/Report a Provider Issue</div>
-                        <span class="workflow-arrow">→</span>
-                        <div class="workflow-box workflow-group" style="background: #fff9c4;">RBC</div>
-                        <span class="workflow-arrow">→</span>
-                        <div class="workflow-box workflow-tier">Tier 1</div>
-                    </div>
-                    
-                    <div class="workflow-step">
-                        <div class="workflow-box workflow-issue">Report System issue/outage</div>
-                        <span class="workflow-arrow">→</span>
-                        <div class="workflow-box workflow-group" style="background: #ffccbc;">Product</div>
-                        <span class="workflow-arrow">→</span>
-                        <div class="workflow-box workflow-tier">Tier 3</div>
-                    </div>
-                </div>
+                <p style="color:var(--text-muted); margin-bottom:20px;">Select a form on the left to see how each issue type gets routed — who owns it and at what tier.</p>
 
-                <h3 style="color: #003322; margin-top: 30px; margin-bottom: 15px;">Digital Wallet & Flex Support Form</h3>
-                <div class="workflow-diagram">
-                    <div class="workflow-step">
-                        <div class="workflow-box workflow-issue">I need help logging in</div>
-                        <span class="workflow-arrow">→</span>
-                        <div class="workflow-box workflow-group">Customer Service</div>
-                        <span class="workflow-arrow">→</span>
-                        <div class="workflow-box workflow-tier">Tier 1</div>
+                <div class="wf-layout">
+
+                    <!-- Left: Form Selector -->
+                    <div class="wf-sidebar">
+                        <div class="wf-sidebar-group">
+                            <div class="wf-sidebar-label">Gov Forms</div>
+                            <button class="wf-sidebar-btn active" onclick="showForm(event,'wf-gov-member')">📋 Member Support Form</button>
+                            <button class="wf-sidebar-btn" onclick="showForm(event,'wf-digital')">💳 Digital Wallet & Flex</button>
+                        </div>
+                        <div class="wf-sidebar-group">
+                            <div class="wf-sidebar-label">Custom Forms</div>
+                            <button class="wf-sidebar-btn" onclick="showForm(event,'wf-scan')">SCAN Support Form</button>
+                            <button class="wf-sidebar-btn" onclick="showForm(event,'wf-bcbs-az')">BCBS AZ — Digital Wallet</button>
+                            <button class="wf-sidebar-btn" onclick="showForm(event,'wf-curana')">Curana Support Form</button>
+                            <button class="wf-sidebar-btn" onclick="showForm(event,'wf-curana-reimb')">Curana Rent/Mortgage</button>
+                            <button class="wf-sidebar-btn" onclick="showForm(event,'wf-humana-d2c')">Humana D2C</button>
+                        </div>
+                        <div class="wf-sidebar-group">
+                            <div class="wf-sidebar-label">Internal Forms</div>
+                            <button class="wf-sidebar-btn" onclick="showForm(event,'wf-humana-c3a')">🔒 Humana C3A</button>
+                            <button class="wf-sidebar-btn" onclick="showForm(event,'wf-humana-phcs')">🔒 Humana PHCS</button>
+                            <button class="wf-sidebar-btn" onclick="showForm(event,'wf-humana-medicaid')">🔒 Humana Medicaid</button>
+                            <button class="wf-sidebar-btn" onclick="showForm(event,'wf-uhp-grievance')">🔒 UHP Grievance</button>
+                        </div>
                     </div>
-                    
-                    <div class="workflow-step">
-                        <div class="workflow-box workflow-issue">I have a question about my order/service</div>
-                        <span class="workflow-arrow">→</span>
-                        <div class="workflow-box workflow-group">Customer Service</div>
-                        <span class="workflow-arrow">→</span>
-                        <div class="workflow-box workflow-tier">Tier 1</div>
-                    </div>
-                    
-                    <div class="workflow-step">
-                        <div class="workflow-box workflow-issue">Need a refund</div>
-                        <span class="workflow-arrow">→</span>
-                        <div class="workflow-box workflow-group">Customer Service</div>
-                        <span class="workflow-arrow">→</span>
-                        <div class="workflow-box workflow-tier">Tier 2</div>
-                    </div>
-                    
-                    <div class="workflow-step">
-                        <div class="workflow-box workflow-issue">Catalog request</div>
-                        <span class="workflow-arrow">→</span>
-                        <div class="workflow-box workflow-group">Customer Service</div>
-                        <span class="workflow-arrow">→</span>
-                        <div class="workflow-box workflow-tier">Tier 1</div>
-                    </div>
-                    
-                    <div class="workflow-step">
-                        <div class="workflow-box workflow-issue">Account Creation/Deletion</div>
-                        <span class="workflow-arrow">→</span>
-                        <div class="workflow-box workflow-group" style="background: #f8bbd0;">THB Accounts</div>
-                        <span class="workflow-arrow">→</span>
-                        <div class="workflow-box workflow-tier">Tier 2</div>
-                    </div>
-                    
-                    <div class="workflow-step">
-                        <div class="workflow-box workflow-issue">Provider: change request/report a provider issue</div>
-                        <span class="workflow-arrow">→</span>
-                        <div class="workflow-box workflow-group" style="background: #fff9c4;">RBC</div>
-                        <span class="workflow-arrow">→</span>
-                        <div class="workflow-box workflow-tier">Tier 1</div>
-                    </div>
-                    
-                    <div class="workflow-step">
-                        <div class="workflow-box workflow-issue">Declination</div>
-                        <span class="workflow-arrow">→</span>
-                        <div class="workflow-box workflow-group" style="background: #fff9c4;">RBC</div>
-                        <span class="workflow-arrow">→</span>
-                        <div class="workflow-box workflow-tier">Tier 2</div>
-                    </div>
-                    
-                    <div class="workflow-step">
-                        <div class="workflow-box workflow-issue">Funds are not in account</div>
-                        <span class="workflow-arrow">→</span>
-                        <div class="workflow-box workflow-group" style="background: #ffccbc;">Product</div>
-                        <span class="workflow-arrow">→</span>
-                        <div class="workflow-box workflow-tier">Tier 3</div>
-                    </div>
-                    
-                    <div class="workflow-step">
-                        <div class="workflow-box workflow-issue">Consumer Portal Cart/Transaction Issue</div>
-                        <span class="workflow-arrow">→</span>
-                        <div class="workflow-box workflow-group" style="background: #ffccbc;">Product</div>
-                        <span class="workflow-arrow">→</span>
-                        <div class="workflow-box workflow-tier">Tier 3</div>
-                    </div>
-                    
-                    <div class="workflow-step">
-                        <div class="workflow-box workflow-issue">Report system issue/outage</div>
-                        <span class="workflow-arrow">→</span>
-                        <div class="workflow-box workflow-group" style="background: #ffccbc;">Product</div>
-                        <span class="workflow-arrow">→</span>
-                        <div class="workflow-box workflow-tier">Tier 3</div>
+
+                    <!-- Right: Routing Tables -->
+                    <div class="wf-main">
+
+                        <!-- Legend -->
+                        <div class="wf-legend">
+                            <span class="wf-legend-item"><span class="wf-dot" style="background:#b2dfdb;border-color:#004d40;"></span>Customer Service</span>
+                            <span class="wf-legend-item"><span class="wf-dot" style="background:#fff9c4;border-color:#f9a825;"></span>RBC</span>
+                            <span class="wf-legend-item"><span class="wf-dot" style="background:#f8bbd0;border-color:#c2185b;"></span>THB Accounts</span>
+                            <span class="wf-legend-item"><span class="wf-dot" style="background:#ffccbc;border-color:#e64a19;"></span>Product</span>
+                            <span class="wf-legend-item"><span class="wf-dot" style="background:#c8e6c9;border-color:#388e3c;"></span>Fulfillment</span>
+                            <span class="wf-legend-item"><span class="wf-dot" style="background:#e1bee7;border-color:#7b1fa2;"></span>Compliance/Risk</span>
+                        </div>
+
+                        <!-- Gov Member Support Form -->
+                        <div id="wf-gov-member" class="wf-panel">
+                            <h3 class="wf-panel-title">📋 Gov Member Support Form</h3>
+                            <table class="wf-table">
+                                <thead><tr><th>Issue Type</th><th>Team</th><th>Tier</th></tr></thead>
+                                <tbody>
+                                    <tr class="wf-row-cs"><td>I need help logging in</td><td><button class="wf-team-btn wf-cs" onclick="openTabById('teams');openTeamDetail('customer-service')">Customer Service</button></td><td><span class="badge badge-tier1">Tier 1</span></td></tr>
+                                    <tr class="wf-row-cs"><td>I have a question about my order/service</td><td><button class="wf-team-btn wf-cs" onclick="openTabById('teams');openTeamDetail('customer-service')">Customer Service</button></td><td><span class="badge badge-tier1">Tier 1</span></td></tr>
+                                    <tr class="wf-row-cs"><td>Need a refund</td><td><button class="wf-team-btn wf-cs" onclick="openTabById('teams');openTeamDetail('customer-service')">Customer Service</button></td><td><span class="badge badge-tier2">Tier 2</span></td></tr>
+                                    <tr class="wf-row-acct"><td>Account creation/deletion</td><td><span class="wf-team-btn wf-acct">THB Accounts</span></td><td><span class="badge badge-tier2">Tier 2</span></td></tr>
+                                    <tr class="wf-row-rbc"><td>Provider: change request / report a provider issue</td><td><button class="wf-team-btn wf-rbc" onclick="openTabById('teams');openTeamDetail('rbc')">RBC</button></td><td><span class="badge badge-tier1">Tier 1</span></td></tr>
+                                    <tr class="wf-row-product"><td>Report system issue/outage</td><td><button class="wf-team-btn wf-product" onclick="openTabById('teams');openTeamDetail('product')">Product</button></td><td><span class="badge badge-tier3">Tier 3</span></td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Digital Wallet & Flex -->
+                        <div id="wf-digital" class="wf-panel" style="display:none;">
+                            <h3 class="wf-panel-title">💳 Gov Digital Wallet & Flex Support Form</h3>
+                            <table class="wf-table">
+                                <thead><tr><th>Issue Type</th><th>Team</th><th>Tier</th></tr></thead>
+                                <tbody>
+                                    <tr class="wf-row-cs"><td>I need help logging in</td><td><button class="wf-team-btn wf-cs" onclick="openTabById('teams');openTeamDetail('customer-service')">Customer Service</button></td><td><span class="badge badge-tier1">Tier 1</span></td></tr>
+                                    <tr class="wf-row-cs"><td>I have a question about my order/service</td><td><button class="wf-team-btn wf-cs" onclick="openTabById('teams');openTeamDetail('customer-service')">Customer Service</button></td><td><span class="badge badge-tier1">Tier 1</span></td></tr>
+                                    <tr class="wf-row-cs"><td>Need a refund</td><td><button class="wf-team-btn wf-cs" onclick="openTabById('teams');openTeamDetail('customer-service')">Customer Service</button></td><td><span class="badge badge-tier2">Tier 2</span></td></tr>
+                                    <tr class="wf-row-cs"><td>Catalog request</td><td><button class="wf-team-btn wf-cs" onclick="openTabById('teams');openTeamDetail('customer-service')">Customer Service</button></td><td><span class="badge badge-tier1">Tier 1</span></td></tr>
+                                    <tr class="wf-row-acct"><td>Account creation/deletion</td><td><span class="wf-team-btn wf-acct">THB Accounts</span></td><td><span class="badge badge-tier2">Tier 2</span></td></tr>
+                                    <tr class="wf-row-rbc"><td>Provider: change request / report a provider issue</td><td><button class="wf-team-btn wf-rbc" onclick="openTabById('teams');openTeamDetail('rbc')">RBC</button></td><td><span class="badge badge-tier1">Tier 1</span></td></tr>
+                                    <tr class="wf-row-rbc"><td>Declination</td><td><button class="wf-team-btn wf-rbc" onclick="openTabById('teams');openTeamDetail('rbc')">RBC</button></td><td><span class="badge badge-tier2">Tier 2</span></td></tr>
+                                    <tr class="wf-row-product"><td>Funds are not in account</td><td><button class="wf-team-btn wf-product" onclick="openTabById('teams');openTeamDetail('product')">Product</button></td><td><span class="badge badge-tier3">Tier 3</span></td></tr>
+                                    <tr class="wf-row-product"><td>Consumer Portal cart/transaction issue</td><td><button class="wf-team-btn wf-product" onclick="openTabById('teams');openTeamDetail('product')">Product</button></td><td><span class="badge badge-tier3">Tier 3</span></td></tr>
+                                    <tr class="wf-row-product"><td>Report system issue/outage</td><td><button class="wf-team-btn wf-product" onclick="openTabById('teams');openTeamDetail('product')">Product</button></td><td><span class="badge badge-tier3">Tier 3</span></td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- SCAN -->
+                        <div id="wf-scan" class="wf-panel" style="display:none;">
+                            <h3 class="wf-panel-title">SCAN Support Form</h3>
+                            <table class="wf-table">
+                                <thead><tr><th>Issue Type</th><th>Team</th><th>Tier</th></tr></thead>
+                                <tbody>
+                                    <tr class="wf-row-cs"><td>I need help logging in</td><td><button class="wf-team-btn wf-cs" onclick="openTabById('teams');openTeamDetail('customer-service')">Customer Service</button></td><td><span class="badge badge-tier1">Tier 1</span></td></tr>
+                                    <tr class="wf-row-cs"><td>I have a question about my order/service</td><td><button class="wf-team-btn wf-cs" onclick="openTabById('teams');openTeamDetail('customer-service')">Customer Service</button></td><td><span class="badge badge-tier1">Tier 1</span></td></tr>
+                                    <tr class="wf-row-rbc"><td>Need a refund</td><td><button class="wf-team-btn wf-rbc" onclick="openTabById('teams');openTeamDetail('rbc')">RBC</button></td><td><span class="badge badge-tier2">Tier 2</span></td></tr>
+                                    <tr class="wf-row-acct"><td>Account creation/deletion</td><td><span class="wf-team-btn wf-acct">THB Accounts</span></td><td><span class="badge badge-tier2">Tier 2</span></td></tr>
+                                    <tr class="wf-row-rbc"><td>Provider: change request / report a provider issue</td><td><button class="wf-team-btn wf-rbc" onclick="openTabById('teams');openTeamDetail('rbc')">RBC</button></td><td><span class="badge badge-tier1">Tier 1</span></td></tr>
+                                    <tr class="wf-row-rbc"><td>Member authorizations/referral questions</td><td><button class="wf-team-btn wf-rbc" onclick="openTabById('teams');openTeamDetail('rbc')">RBC</button></td><td><span class="badge badge-tier2">Tier 2</span></td></tr>
+                                    <tr class="wf-row-product"><td>Report system issue/outage</td><td><button class="wf-team-btn wf-product" onclick="openTabById('teams');openTeamDetail('product')">Product</button></td><td><span class="badge badge-tier3">Tier 3</span></td></tr>
+                                    <tr class="wf-row-rbc"><td>2 hour show up fee</td><td><button class="wf-team-btn wf-rbc" onclick="openTabById('teams');openTeamDetail('rbc')">RBC</button></td><td><span class="badge badge-tier2">Tier 2</span></td></tr>
+                                    <tr class="wf-row-rbc"><td>Cancel service</td><td><button class="wf-team-btn wf-rbc" onclick="openTabById('teams');openTeamDetail('rbc')">RBC</button></td><td><span class="badge badge-tier1">Tier 1</span></td></tr>
+                                    <tr class="wf-row-rbc"><td>Parking request</td><td><button class="wf-team-btn wf-rbc" onclick="openTabById('teams');openTeamDetail('rbc')">RBC</button></td><td><span class="badge badge-tier1">Tier 1</span></td></tr>
+                                    <tr class="wf-row-rbc"><td>Embrace Referral</td><td><button class="wf-team-btn wf-rbc" onclick="openTabById('teams');openTeamDetail('rbc')">RBC</button></td><td><span class="badge badge-tier2">Tier 2</span></td></tr>
+                                    <tr class="wf-row-cs"><td>Other</td><td><button class="wf-team-btn wf-cs" onclick="openTabById('teams');openTeamDetail('customer-service')">Customer Service</button></td><td><span class="badge badge-tier1">Tier 1</span></td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- BCBS AZ -->
+                        <div id="wf-bcbs-az" class="wf-panel" style="display:none;">
+                            <h3 class="wf-panel-title">BCBS AZ — Gov Digital Wallet/Flex Support Form</h3>
+                            <table class="wf-table">
+                                <thead><tr><th>Issue Type</th><th>Team</th><th>Tier</th></tr></thead>
+                                <tbody>
+                                    <tr class="wf-row-cs"><td>I need help logging in</td><td><button class="wf-team-btn wf-cs" onclick="openTabById('teams');openTeamDetail('customer-service')">Customer Service</button></td><td><span class="badge badge-tier1">Tier 1</span></td></tr>
+                                    <tr class="wf-row-cs"><td>I have a question about my order/service</td><td><button class="wf-team-btn wf-cs" onclick="openTabById('teams');openTeamDetail('customer-service')">Customer Service</button></td><td><span class="badge badge-tier1">Tier 1</span></td></tr>
+                                    <tr class="wf-row-cs"><td>Need a refund</td><td><button class="wf-team-btn wf-cs" onclick="openTabById('teams');openTeamDetail('customer-service')">Customer Service</button></td><td><span class="badge badge-tier2">Tier 2</span></td></tr>
+                                    <tr class="wf-row-cs"><td>Request a new card</td><td><button class="wf-team-btn wf-cs" onclick="openTabById('teams');openTeamDetail('customer-service')">Customer Service</button></td><td><span class="badge badge-tier1">Tier 1</span></td></tr>
+                                    <tr class="wf-row-cs"><td>Request a catalog</td><td><button class="wf-team-btn wf-cs" onclick="openTabById('teams');openTeamDetail('customer-service')">Customer Service</button></td><td><span class="badge badge-tier1">Tier 1</span></td></tr>
+                                    <tr class="wf-row-acct"><td>Account creation/deletion</td><td><span class="wf-team-btn wf-acct">THB Accounts</span></td><td><span class="badge badge-tier2">Tier 2</span></td></tr>
+                                    <tr class="wf-row-rbc"><td>Declination</td><td><button class="wf-team-btn wf-rbc" onclick="openTabById('teams');openTeamDetail('rbc')">RBC</button></td><td><span class="badge badge-tier2">Tier 2</span></td></tr>
+                                    <tr class="wf-row-rbc"><td>Provider: change request / report a provider issue</td><td><button class="wf-team-btn wf-rbc" onclick="openTabById('teams');openTeamDetail('rbc')">RBC</button></td><td><span class="badge badge-tier1">Tier 1</span></td></tr>
+                                    <tr class="wf-row-product"><td>Report system issue/outage</td><td><button class="wf-team-btn wf-product" onclick="openTabById('teams');openTeamDetail('product')">Product</button></td><td><span class="badge badge-tier3">Tier 3</span></td></tr>
+                                    <tr class="wf-row-product"><td>Funds are not in account</td><td><button class="wf-team-btn wf-product" onclick="openTabById('teams');openTeamDetail('product')">Product</button></td><td><span class="badge badge-tier3">Tier 3</span></td></tr>
+                                    <tr class="wf-row-product"><td>Consumer Portal cart/transaction issue</td><td><button class="wf-team-btn wf-product" onclick="openTabById('teams');openTeamDetail('product')">Product</button></td><td><span class="badge badge-tier3">Tier 3</span></td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Curana Support Form -->
+                        <div id="wf-curana" class="wf-panel" style="display:none;">
+                            <h3 class="wf-panel-title">Curana Health — Custom Support Form</h3>
+                            <table class="wf-table">
+                                <thead><tr><th>Issue Type</th><th>Team</th><th>Tier</th></tr></thead>
+                                <tbody>
+                                    <tr class="wf-row-cs"><td>I need help logging into Consumer Portal</td><td><button class="wf-team-btn wf-cs" onclick="openTabById('teams');openTeamDetail('customer-service')">Customer Service</button></td><td><span class="badge badge-tier1">Tier 1</span></td></tr>
+                                    <tr class="wf-row-cs"><td>I have a question about my order/service</td><td><button class="wf-team-btn wf-cs" onclick="openTabById('teams');openTeamDetail('customer-service')">Customer Service</button></td><td><span class="badge badge-tier1">Tier 1</span></td></tr>
+                                    <tr class="wf-row-cs"><td>Need a refund</td><td><button class="wf-team-btn wf-cs" onclick="openTabById('teams');openTeamDetail('customer-service')">Customer Service</button></td><td><span class="badge badge-tier2">Tier 2</span></td></tr>
+                                    <tr class="wf-row-cs"><td>Request a new card</td><td><button class="wf-team-btn wf-cs" onclick="openTabById('teams');openTeamDetail('customer-service')">Customer Service</button></td><td><span class="badge badge-tier1">Tier 1</span></td></tr>
+                                    <tr class="wf-row-cs"><td>Request a catalog</td><td><button class="wf-team-btn wf-cs" onclick="openTabById('teams');openTeamDetail('customer-service')">Customer Service</button></td><td><span class="badge badge-tier1">Tier 1</span></td></tr>
+                                    <tr class="wf-row-acct"><td>Account creation/deletion</td><td><span class="wf-team-btn wf-acct">THB Accounts</span></td><td><span class="badge badge-tier2">Tier 2</span></td></tr>
+                                    <tr class="wf-row-rbc"><td>Declination</td><td><button class="wf-team-btn wf-rbc" onclick="openTabById('teams');openTeamDetail('rbc')">RBC</button></td><td><span class="badge badge-tier2">Tier 2</span></td></tr>
+                                    <tr class="wf-row-rbc"><td>Provider: change request / report a provider issue</td><td><button class="wf-team-btn wf-rbc" onclick="openTabById('teams');openTeamDetail('rbc')">RBC</button></td><td><span class="badge badge-tier1">Tier 1</span></td></tr>
+                                    <tr class="wf-row-product"><td>Report system issue/outage</td><td><button class="wf-team-btn wf-product" onclick="openTabById('teams');openTeamDetail('product')">Product</button></td><td><span class="badge badge-tier3">Tier 3</span></td></tr>
+                                    <tr class="wf-row-product"><td>Funds are not in account</td><td><button class="wf-team-btn wf-product" onclick="openTabById('teams');openTeamDetail('product')">Product</button></td><td><span class="badge badge-tier3">Tier 3</span></td></tr>
+                                    <tr class="wf-row-product"><td>Consumer Portal cart/transaction issue</td><td><button class="wf-team-btn wf-product" onclick="openTabById('teams');openTeamDetail('product')">Product</button></td><td><span class="badge badge-tier3">Tier 3</span></td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Curana Rent/Mortgage -->
+                        <div id="wf-curana-reimb" class="wf-panel" style="display:none;">
+                            <h3 class="wf-panel-title">Curana Health — Rent/Mortgage Reimbursement Form</h3>
+                            <table class="wf-table">
+                                <thead><tr><th>Issue Type</th><th>Team</th><th>Tier</th></tr></thead>
+                                <tbody>
+                                    <tr class="wf-row-fulfillment"><td>Rent</td><td><button class="wf-team-btn wf-fulfillment" onclick="openTabById('teams');openTeamDetail('fulfillment')">Fulfillment</button></td><td><span class="badge badge-tier2">Tier 2</span></td></tr>
+                                    <tr class="wf-row-fulfillment"><td>Mortgage</td><td><button class="wf-team-btn wf-fulfillment" onclick="openTabById('teams');openTeamDetail('fulfillment')">Fulfillment</button></td><td><span class="badge badge-tier2">Tier 2</span></td></tr>
+                                    <tr class="wf-row-fulfillment"><td>Utilities</td><td><button class="wf-team-btn wf-fulfillment" onclick="openTabById('teams');openTeamDetail('fulfillment')">Fulfillment</button></td><td><span class="badge badge-tier2">Tier 2</span></td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Humana D2C -->
+                        <div id="wf-humana-d2c" class="wf-panel" style="display:none;">
+                            <h3 class="wf-panel-title">Humana D2C — Member Support Form</h3>
+                            <table class="wf-table">
+                                <thead><tr><th>Issue Type</th><th>Team</th><th>Tier</th></tr></thead>
+                                <tbody>
+                                    <tr class="wf-row-cs"><td>Need to update my information</td><td><button class="wf-team-btn wf-cs" onclick="openTabById('teams');openTeamDetail('customer-service')">Customer Service</button></td><td><span class="badge badge-tier2">Tier 2</span></td></tr>
+                                    <tr class="wf-row-rbc"><td>Need to report an issue with provider</td><td><button class="wf-team-btn wf-rbc" onclick="openTabById('teams');openTeamDetail('rbc')">RBC</button></td><td><span class="badge badge-tier1">Tier 1</span></td></tr>
+                                    <tr class="wf-row-product"><td>Having an issue with the portal</td><td><button class="wf-team-btn wf-product" onclick="openTabById('teams');openTeamDetail('product')">Product</button></td><td><span class="badge badge-tier3">Tier 3</span></td></tr>
+                                    <tr class="wf-row-cs"><td>I have a question about my order/service</td><td><button class="wf-team-btn wf-cs" onclick="openTabById('teams');openTeamDetail('customer-service')">Customer Service</button></td><td><span class="badge badge-tier1">Tier 1</span></td></tr>
+                                    <tr class="wf-row-rbc"><td>Request a provider assignment</td><td><button class="wf-team-btn wf-rbc" onclick="openTabById('teams');openTeamDetail('rbc')">RBC</button></td><td><span class="badge badge-tier1">Tier 1</span></td></tr>
+                                    <tr class="wf-row-acct"><td>Account creation/deletion</td><td><span class="wf-team-btn wf-acct">THB Accounts</span></td><td><span class="badge badge-tier2">Tier 2</span></td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Humana C3A (Internal) -->
+                        <div id="wf-humana-c3a" class="wf-panel" style="display:none;">
+                            <h3 class="wf-panel-title">🔒 Humana C3A — Internal Form</h3>
+                            <table class="wf-table">
+                                <thead><tr><th>Issue Type</th><th>Team</th><th>Tier</th></tr></thead>
+                                <tbody>
+                                    <tr class="wf-row-cs"><td>Update member referral information</td><td><button class="wf-team-btn wf-cs" onclick="openTabById('teams');openTeamDetail('customer-service')">Customer Service</button></td><td><span class="badge badge-tier2">Tier 2</span></td></tr>
+                                    <tr class="wf-row-cs"><td>Referral address change</td><td><button class="wf-team-btn wf-cs" onclick="openTabById('teams');openTeamDetail('customer-service')">Customer Service</button></td><td><span class="badge badge-tier2">Tier 2</span></td></tr>
+                                    <tr class="wf-row-fulfillment"><td>Initiate item exchange workflow</td><td><button class="wf-team-btn wf-fulfillment" onclick="openTabById('teams');openTeamDetail('fulfillment')">Fulfillment</button></td><td><span class="badge badge-tier2">Tier 2</span></td></tr>
+                                    <tr class="wf-row-cs"><td>Report an issue with referral</td><td><button class="wf-team-btn wf-cs" onclick="openTabById('teams');openTeamDetail('customer-service')">Customer Service</button></td><td><span class="badge badge-tier2">Tier 2</span></td></tr>
+                                    <tr class="wf-row-fulfillment"><td>Notify of an EMERGENT referral</td><td><button class="wf-team-btn wf-fulfillment" onclick="openTabById('teams');openTeamDetail('fulfillment')">Fulfillment</button></td><td><span class="badge badge-tier2">Tier 2</span></td></tr>
+                                    <tr class="wf-row-fulfillment"><td>Report lost or missing check</td><td><button class="wf-team-btn wf-fulfillment" onclick="openTabById('teams');openTeamDetail('fulfillment')">Fulfillment</button></td><td><span class="badge badge-tier2">Tier 2</span></td></tr>
+                                    <tr class="wf-row-product"><td>Report system issue/outage</td><td><button class="wf-team-btn wf-product" onclick="openTabById('teams');openTeamDetail('product')">Product</button></td><td><span class="badge badge-tier3">Tier 3</span></td></tr>
+                                    <tr class="wf-row-fulfillment"><td>Program Leadership Only</td><td><button class="wf-team-btn wf-fulfillment" onclick="openTabById('teams');openTeamDetail('fulfillment')">Fulfillment</button></td><td><span class="badge badge-tier2">Tier 2</span></td></tr>
+                                    <tr class="wf-row-acct"><td>Account creation/deletion</td><td><span class="wf-team-btn wf-acct">THB Accounts</span></td><td><span class="badge badge-tier2">Tier 2</span></td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Humana PHCS (Internal) -->
+                        <div id="wf-humana-phcs" class="wf-panel" style="display:none;">
+                            <h3 class="wf-panel-title">🔒 Humana PHCS — Internal Form</h3>
+                            <table class="wf-table">
+                                <thead><tr><th>Issue Type</th><th>Team</th><th>Tier</th></tr></thead>
+                                <tbody>
+                                    <tr class="wf-row-cs"><td>Member: question about service / update referral info</td><td><button class="wf-team-btn wf-cs" onclick="openTabById('teams');openTeamDetail('customer-service')">Customer Service</button></td><td><span class="badge badge-tier1">Tier 1</span></td></tr>
+                                    <tr class="wf-row-cs"><td>Referral address change</td><td><button class="wf-team-btn wf-cs" onclick="openTabById('teams');openTeamDetail('customer-service')">Customer Service</button></td><td><span class="badge badge-tier2">Tier 2</span></td></tr>
+                                    <tr class="wf-row-rbc"><td>Provider: change request / report a provider issue</td><td><button class="wf-team-btn wf-rbc" onclick="openTabById('teams');openTeamDetail('rbc')">RBC</button></td><td><span class="badge badge-tier1">Tier 1</span></td></tr>
+                                    <tr class="wf-row-product"><td>Report system issue/outage</td><td><button class="wf-team-btn wf-product" onclick="openTabById('teams');openTeamDetail('product')">Product</button></td><td><span class="badge badge-tier3">Tier 3</span></td></tr>
+                                    <tr class="wf-row-acct"><td>Account creation/deletion</td><td><span class="wf-team-btn wf-acct">THB Accounts</span></td><td><span class="badge badge-tier2">Tier 2</span></td></tr>
+                                    <tr class="wf-row-cs"><td>Other</td><td><button class="wf-team-btn wf-cs" onclick="openTabById('teams');openTeamDetail('customer-service')">Customer Service</button></td><td><span class="badge badge-tier1">Tier 1</span></td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Humana Medicaid (Internal) -->
+                        <div id="wf-humana-medicaid" class="wf-panel" style="display:none;">
+                            <h3 class="wf-panel-title">🔒 Humana Medicaid — Internal Form</h3>
+                            <table class="wf-table">
+                                <thead><tr><th>Issue Type</th><th>Team</th><th>Tier</th></tr></thead>
+                                <tbody>
+                                    <tr class="wf-row-fulfillment"><td>Meals Issue</td><td><button class="wf-team-btn wf-fulfillment" onclick="openTabById('teams');openTeamDetail('fulfillment')">Fulfillment</button></td><td><span class="badge badge-tier2">Tier 2</span></td></tr>
+                                    <tr class="wf-row-fulfillment"><td>Initiate item exchange workflow</td><td><button class="wf-team-btn wf-fulfillment" onclick="openTabById('teams');openTeamDetail('fulfillment')">Fulfillment</button></td><td><span class="badge badge-tier2">Tier 2</span></td></tr>
+                                    <tr class="wf-row-cs"><td>Update member referral information</td><td><button class="wf-team-btn wf-cs" onclick="openTabById('teams');openTeamDetail('customer-service')">Customer Service</button></td><td><span class="badge badge-tier2">Tier 2</span></td></tr>
+                                    <tr class="wf-row-cs"><td>Referral address change</td><td><button class="wf-team-btn wf-cs" onclick="openTabById('teams');openTeamDetail('customer-service')">Customer Service</button></td><td><span class="badge badge-tier2">Tier 2</span></td></tr>
+                                    <tr class="wf-row-cs"><td>Report an issue with referral</td><td><button class="wf-team-btn wf-cs" onclick="openTabById('teams');openTeamDetail('customer-service')">Customer Service</button></td><td><span class="badge badge-tier2">Tier 2</span></td></tr>
+                                    <tr class="wf-row-fulfillment"><td>Program Leadership Only</td><td><button class="wf-team-btn wf-fulfillment" onclick="openTabById('teams');openTeamDetail('fulfillment')">Fulfillment</button></td><td><span class="badge badge-tier2">Tier 2</span></td></tr>
+                                    <tr class="wf-row-product"><td>Report system issue/outage</td><td><button class="wf-team-btn wf-product" onclick="openTabById('teams');openTeamDetail('product')">Product</button></td><td><span class="badge badge-tier3">Tier 3</span></td></tr>
+                                    <tr class="wf-row-acct"><td>Account creation/deletion</td><td><span class="wf-team-btn wf-acct">THB Accounts</span></td><td><span class="badge badge-tier2">Tier 2</span></td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- UHP Grievance (Internal) -->
+                        <div id="wf-uhp-grievance" class="wf-panel" style="display:none;">
+                            <h3 class="wf-panel-title">🔒 UHP — Grievance Support Form</h3>
+                            <table class="wf-table">
+                                <thead><tr><th>Issue Type</th><th>Team</th><th>Tier</th></tr></thead>
+                                <tbody>
+                                    <tr class="wf-row-compliance"><td>None (all tickets route directly)</td><td><span class="wf-team-btn wf-compliance">Governance & Risk Mgmt</span></td><td><span class="badge" style="background:#e0e0e0;color:#424242;">Tier 4</span></td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <p style="margin-top:16px; font-size:0.82em; color:var(--text-muted);">💡 Click any team name to jump directly to that team's detail page.</p>
                     </div>
                 </div>
             </div>
@@ -2229,45 +2757,25 @@
                 </div>
             </div>
 
-            <!-- Changelog Tab -->
-            <div id="changelog" class="tab-content">
-                <h2 class="section-title">📋 Changelog</h2>
-                <p style="color:var(--text-muted); margin-bottom:24px; font-size:0.92em;">A running log of updates to this guide — team changes, new clients, and structural edits.</p>
+        </div>
+    </div>
 
-                <div class="changelog-entry">
-                    <div class="changelog-date">Mar 31, 2026</div>
-                    <div>
-                        <span class="changelog-tag tag-new">New</span>
-                        <span class="changelog-tag tag-update">Update</span>
-                        <div class="changelog-text">Added Zendesk Links tab with all 31 client submission forms, copy-to-clipboard, Internal Only filter, recently viewed, and search highlighting. Added dark mode, print/export, changelog, quick reference cheat sheet, escalation paths, and feedback widgets site-wide.</div>
-                    </div>
-                </div>
+    <!-- Changelog Footer -->
+    <div style="max-width:1200px; margin:12px auto 0; padding:0 20px 30px; text-align:right;">
+        <button onclick="dismissChangelogBadge(); document.getElementById('changelogDrawer').classList.toggle('open')" style="background:none; border:none; color:var(--text-muted); font-size:0.78em; cursor:pointer; padding:4px 8px; border-radius:4px; transition:color 0.2s; position:relative;" onmouseover="this.style.color='var(--green-dark)'" onmouseout="this.style.color='var(--text-muted)'">
+            📋 Changelog
+            <span id="changelogBadge" style="position:absolute; top:-6px; right:-8px; background:#e53935; color:white; font-size:0.72em; font-weight:700; padding:1px 6px; border-radius:10px; line-height:1.6; display:none;">New</span>
+        </button>
 
-                <div class="changelog-entry">
-                    <div class="changelog-date">Mar 31, 2026</div>
-                    <div>
-                        <span class="changelog-tag tag-new">New</span>
-                        <div class="changelog-text">Kassandra Rios added to Product team.</div>
-                    </div>
-                </div>
+        <div id="changelogDrawer" style="display:none; text-align:left; margin-top:10px; background:var(--surface); border:1px solid var(--border); border-radius:8px; padding:20px 24px; box-shadow:0 2px 8px var(--shadow);">
+            <p style="font-size:0.78em; color:var(--text-muted); margin-bottom:16px;">A running log of updates to this guide.</p>
 
-                <div class="changelog-entry">
-                    <div class="changelog-date">Mar 31, 2026</div>
-                    <div>
-                        <span class="changelog-tag tag-update">Update</span>
-                        <div class="changelog-text">Ambrielle Palmore replaces Kristen Evans as Customer Service Supervisor.</div>
-                    </div>
-                </div>
-
-                <div class="changelog-entry">
-                    <div class="changelog-date">Mar 31, 2026</div>
-                    <div>
-                        <span class="changelog-tag tag-update">Update</span>
-                        <div class="changelog-text">"Product Support" tab renamed to "Product" across the site.</div>
-                    </div>
-                </div>
-            </div>
-
+            <div class="changelog-entry"><div class="changelog-date">Mar 31, 2026</div><div><span class="changelog-tag tag-new">New</span><div class="changelog-text">Workflows tab fully rebuilt with sidebar nav and 9 form routing tables.</div></div></div>
+            <div class="changelog-entry"><div class="changelog-date">Mar 31, 2026</div><div><span class="changelog-tag tag-new">New</span><div class="changelog-text">Typeahead search updated — all new forms and issue types now searchable.</div></div></div>
+            <div class="changelog-entry"><div class="changelog-date">Mar 31, 2026</div><div><span class="changelog-tag tag-new">New</span><div class="changelog-text">Teams hub, Zendesk Links page, dark mode, print/export, escalation paths, and feedback widgets added.</div></div></div>
+            <div class="changelog-entry"><div class="changelog-date">Mar 31, 2026</div><div><span class="changelog-tag tag-new">New</span><div class="changelog-text">Kassandra Rios added to Product team.</div></div></div>
+            <div class="changelog-entry"><div class="changelog-date">Mar 31, 2026</div><div><span class="changelog-tag tag-update">Update</span><div class="changelog-text">Ambrielle Palmore replaces Kristen Evans as Customer Service Supervisor.</div></div></div>
+            <div class="changelog-entry"><div class="changelog-date">Mar 31, 2026</div><div><span class="changelog-tag tag-update">Update</span><div class="changelog-text">"Product Support" renamed to "Product" across the site.</div></div></div>
         </div>
     </div>
 
@@ -2285,6 +2793,285 @@
     </div>
 
     <script>
+        // ── Form Finder ───────────────────────────────────────────
+        const FF_DATA = {
+            'gov': {
+                form: 'Gov Member Support Form',
+                url: null, // multiple — no single link
+                issues: [
+                    { label: 'I need help logging in',                        team: 'Customer Service', teamId: 'customer-service', tier: 1 },
+                    { label: 'I have a question about my order/service',       team: 'Customer Service', teamId: 'customer-service', tier: 1 },
+                    { label: 'Need a refund',                                  team: 'Customer Service', teamId: 'customer-service', tier: 2 },
+                    { label: 'Account creation/deletion',                      team: 'THB Accounts',     teamId: null,               tier: 2 },
+                    { label: 'Provider: change request / report a provider issue', team: 'RBC',          teamId: 'rbc',              tier: 1 },
+                    { label: 'Report system issue/outage',                     team: 'Product',          teamId: 'product',          tier: 3 },
+                ]
+            },
+            'bcbs-az': {
+                form: 'BCBS AZ — Gov Digital Wallet/Flex Support Form',
+                url: 'https://thbarizona.zendesk.com/hc/en-us/requests/new',
+                issues: [
+                    { label: 'I need help logging in',                        team: 'Customer Service', teamId: 'customer-service', tier: 1 },
+                    { label: 'I have a question about my order/service',       team: 'Customer Service', teamId: 'customer-service', tier: 1 },
+                    { label: 'Need a refund',                                  team: 'Customer Service', teamId: 'customer-service', tier: 2 },
+                    { label: 'Request a new card',                             team: 'Customer Service', teamId: 'customer-service', tier: 1 },
+                    { label: 'Request a catalog',                              team: 'Customer Service', teamId: 'customer-service', tier: 1 },
+                    { label: 'Account creation/deletion',                      team: 'THB Accounts',     teamId: null,               tier: 2 },
+                    { label: 'Declination',                                    team: 'RBC',              teamId: 'rbc',              tier: 2 },
+                    { label: 'Provider: change request / report a provider issue', team: 'RBC',          teamId: 'rbc',              tier: 1 },
+                    { label: 'Funds are not in account',                       team: 'Product',          teamId: 'product',          tier: 3 },
+                    { label: 'Consumer Portal cart/transaction issue',         team: 'Product',          teamId: 'product',          tier: 3 },
+                    { label: 'Report system issue/outage',                     team: 'Product',          teamId: 'product',          tier: 3 },
+                ]
+            },
+            'scan': {
+                form: 'SCAN Support Form',
+                url: 'https://scan-thb.zendesk.com/hc/en-us/requests/new',
+                issues: [
+                    { label: 'I need help logging in',                        team: 'Customer Service', teamId: 'customer-service', tier: 1 },
+                    { label: 'I have a question about my order/service',       team: 'Customer Service', teamId: 'customer-service', tier: 1 },
+                    { label: 'Need a refund',                                  team: 'RBC',              teamId: 'rbc',              tier: 2 },
+                    { label: 'Account creation/deletion',                      team: 'THB Accounts',     teamId: null,               tier: 2 },
+                    { label: 'Provider: change request / report a provider issue', team: 'RBC',          teamId: 'rbc',              tier: 1 },
+                    { label: 'Member authorizations/referral questions',       team: 'RBC',              teamId: 'rbc',              tier: 2 },
+                    { label: 'Report system issue/outage',                     team: 'Product',          teamId: 'product',          tier: 3 },
+                    { label: '2 hour show up fee',                             team: 'RBC',              teamId: 'rbc',              tier: 2 },
+                    { label: 'Cancel service',                                 team: 'RBC',              teamId: 'rbc',              tier: 1 },
+                    { label: 'Parking request',                                team: 'RBC',              teamId: 'rbc',              tier: 1 },
+                    { label: 'Embrace Referral',                               team: 'RBC',              teamId: 'rbc',              tier: 2 },
+                    { label: 'Other',                                          team: 'Customer Service', teamId: 'customer-service', tier: 1 },
+                ]
+            },
+            'curana': {
+                form: 'Curana Health — Custom Support Form',
+                url: 'https://thbcurana.zendesk.com/hc/en-us/requests/new?ticket_form_id=46492608860443',
+                issues: [
+                    { label: 'I need help logging into Consumer Portal',      team: 'Customer Service', teamId: 'customer-service', tier: 1 },
+                    { label: 'I have a question about my order/service',       team: 'Customer Service', teamId: 'customer-service', tier: 1 },
+                    { label: 'Need a refund',                                  team: 'Customer Service', teamId: 'customer-service', tier: 2 },
+                    { label: 'Request a new card',                             team: 'Customer Service', teamId: 'customer-service', tier: 1 },
+                    { label: 'Request a catalog',                              team: 'Customer Service', teamId: 'customer-service', tier: 1 },
+                    { label: 'Account creation/deletion',                      team: 'THB Accounts',     teamId: null,               tier: 2 },
+                    { label: 'Declination',                                    team: 'RBC',              teamId: 'rbc',              tier: 2 },
+                    { label: 'Provider: change request / report a provider issue', team: 'RBC',          teamId: 'rbc',              tier: 1 },
+                    { label: 'Funds are not in account',                       team: 'Product',          teamId: 'product',          tier: 3 },
+                    { label: 'Consumer Portal cart/transaction issue',         team: 'Product',          teamId: 'product',          tier: 3 },
+                    { label: 'Report system issue/outage',                     team: 'Product',          teamId: 'product',          tier: 3 },
+                    { label: 'Rent/Mortgage Reimbursement',                   team: 'Fulfillment',      teamId: 'fulfillment',      tier: 2, url: 'https://thbcurana.zendesk.com/hc/en-us/requests/new?ticket_form_id=33243085165851' },
+                ]
+            },
+            'humana-d2c': {
+                form: 'Humana D2C — Member Support Form',
+                url: 'https://thbhumanad2c.zendesk.com/hc/en-us/requests/new',
+                issues: [
+                    { label: 'Need to update my information',                 team: 'Customer Service', teamId: 'customer-service', tier: 2 },
+                    { label: 'Need to report an issue with provider',         team: 'RBC',              teamId: 'rbc',              tier: 1 },
+                    { label: 'Having an issue with the portal',               team: 'Product',          teamId: 'product',          tier: 3 },
+                    { label: 'I have a question about my order/service',       team: 'Customer Service', teamId: 'customer-service', tier: 1 },
+                    { label: 'Request a provider assignment',                  team: 'RBC',              teamId: 'rbc',              tier: 1 },
+                    { label: 'Account creation/deletion',                      team: 'THB Accounts',     teamId: null,               tier: 2 },
+                ]
+            },
+            'humana-c3a': {
+                form: '🔒 Humana C3A — Internal Form',
+                url: 'https://thbhumana.zendesk.com/hc/en-us/requests/new?ticket_form_id=46492362008475',
+                internal: true,
+                issues: [
+                    { label: 'Update member referral information',            team: 'Customer Service', teamId: 'customer-service', tier: 2 },
+                    { label: 'Referral address change',                       team: 'Customer Service', teamId: 'customer-service', tier: 2 },
+                    { label: 'Initiate item exchange workflow',               team: 'Fulfillment',      teamId: 'fulfillment',      tier: 2 },
+                    { label: 'Report an issue with referral',                 team: 'Customer Service', teamId: 'customer-service', tier: 2 },
+                    { label: 'Notify of an EMERGENT referral',                team: 'Fulfillment',      teamId: 'fulfillment',      tier: 2 },
+                    { label: 'Report lost or missing check',                  team: 'Fulfillment',      teamId: 'fulfillment',      tier: 2 },
+                    { label: 'Report system issue/outage',                    team: 'Product',          teamId: 'product',          tier: 3 },
+                    { label: 'Program Leadership Only',                       team: 'Fulfillment',      teamId: 'fulfillment',      tier: 2 },
+                    { label: 'Account creation/deletion',                     team: 'THB Accounts',     teamId: null,               tier: 2 },
+                ]
+            },
+            'humana-phcs': {
+                form: '🔒 Humana PHCS — Internal Form',
+                url: 'https://thbhumana.zendesk.com/hc/en-us/requests/new?ticket_form_id=46492469381147',
+                internal: true,
+                issues: [
+                    { label: 'Member: question about service / update referral info', team: 'Customer Service', teamId: 'customer-service', tier: 1 },
+                    { label: 'Referral address change',                       team: 'Customer Service', teamId: 'customer-service', tier: 2 },
+                    { label: 'Provider: change request / report a provider issue', team: 'RBC',          teamId: 'rbc',              tier: 1 },
+                    { label: 'Report system issue/outage',                    team: 'Product',          teamId: 'product',          tier: 3 },
+                    { label: 'Account creation/deletion',                     team: 'THB Accounts',     teamId: null,               tier: 2 },
+                    { label: 'Other',                                         team: 'Customer Service', teamId: 'customer-service', tier: 1 },
+                ]
+            },
+            'humana-medicaid': {
+                form: '🔒 Humana Medicaid — Internal Form',
+                url: 'https://thbhumana.zendesk.com/hc/en-us/requests/new?ticket_form_id=46492562897819',
+                internal: true,
+                issues: [
+                    { label: 'Meals Issue',                                   team: 'Fulfillment',      teamId: 'fulfillment',      tier: 2 },
+                    { label: 'Initiate item exchange workflow',               team: 'Fulfillment',      teamId: 'fulfillment',      tier: 2 },
+                    { label: 'Update member referral information',            team: 'Customer Service', teamId: 'customer-service', tier: 2 },
+                    { label: 'Referral address change',                       team: 'Customer Service', teamId: 'customer-service', tier: 2 },
+                    { label: 'Report an issue with referral',                 team: 'Customer Service', teamId: 'customer-service', tier: 2 },
+                    { label: 'Program Leadership Only',                       team: 'Fulfillment',      teamId: 'fulfillment',      tier: 2 },
+                    { label: 'Report system issue/outage',                    team: 'Product',          teamId: 'product',          tier: 3 },
+                    { label: 'Account creation/deletion',                     team: 'THB Accounts',     teamId: null,               tier: 2 },
+                ]
+            },
+            'uhp-grievance': {
+                form: '🔒 UHP — Grievance Support Form',
+                url: 'https://uhp-thb.zendesk.com/hc/en-us/requests/new?ticket_form_id=45805449916827',
+                internal: true,
+                issues: [
+                    { label: 'Grievance (all tickets route directly)',        team: 'Governance & Risk Management', teamId: 'compliance', tier: 4 },
+                ]
+            }
+        };
+
+        let ffCurrentClient = null;
+
+        function ffSelectClient(clientKey) {
+            ffCurrentClient = clientKey;
+            const data = FF_DATA[clientKey];
+            const optionsEl = document.getElementById('ff-issue-options');
+            optionsEl.innerHTML = data.issues.map((issue, i) =>
+                `<button class="ff-btn${data.internal ? ' ff-internal' : ''}" onclick="ffSelectIssue(${i})">${issue.label}</button>`
+            ).join('');
+            document.getElementById('ff-step1').style.display = 'none';
+            document.getElementById('ff-step2').style.display = 'block';
+            document.getElementById('ff-step3').style.display = 'none';
+        }
+
+        function ffSelectIssue(index) {
+            const data = FF_DATA[ffCurrentClient];
+            const issue = data.issues[index];
+            const tierBadge = ['','badge-tier1','badge-tier2','badge-tier3'][issue.tier] || '';
+            const tierLabel = issue.tier === 4 ? '<span class="badge" style="background:#e0e0e0;color:#424242;">Tier 4</span>' : `<span class="badge ${tierBadge}">Tier ${issue.tier}</span>`;
+            const formUrl = issue.url || data.url;
+            const teamAction = issue.teamId ? `onclick="openTabById('teams');openTeamDetail('${issue.teamId}')"` : '';
+
+            document.getElementById('ff-result').innerHTML = `
+                <div class="ff-result-form">✅ ${data.form}</div>
+                <div class="ff-result-row">🎫 <span>Issue:</span> <strong>${issue.label}</strong></div>
+                <div class="ff-result-row">👥 <span>Team:</span> <strong style="cursor:${issue.teamId ? 'pointer' : 'default'};text-decoration:${issue.teamId ? 'underline' : 'none'}" ${teamAction}>${issue.team}</strong></div>
+                <div class="ff-result-row">📊 <span>Tier:</span> ${tierLabel}</div>
+                <div class="ff-result-actions">
+                    ${formUrl ? `<a href="${formUrl}" target="_blank" class="ff-open-btn">Open Form →</a>` : '<span style="font-size:0.82em;color:var(--text-muted);">Multiple Gov forms available — use Zendesk Links to find yours.</span>'}
+                    <button class="ff-workflow-btn" onclick="openTabById('workflows')">View Full Workflow</button>
+                    <button class="ff-reset" onclick="ffReset()">Start Over</button>
+                </div>
+            `;
+            document.getElementById('ff-step2').style.display = 'none';
+            document.getElementById('ff-step3').style.display = 'block';
+        }
+
+        function ffBack() {
+            document.getElementById('ff-step1').style.display = 'block';
+            document.getElementById('ff-step2').style.display = 'none';
+            document.getElementById('ff-step3').style.display = 'none';
+        }
+
+        function ffBackToIssues() {
+            document.getElementById('ff-step2').style.display = 'block';
+            document.getElementById('ff-step3').style.display = 'none';
+        }
+
+        function ffReset() {
+            ffCurrentClient = null;
+            document.getElementById('ff-step1').style.display = 'block';
+            document.getElementById('ff-step2').style.display = 'none';
+            document.getElementById('ff-step3').style.display = 'none';
+        }
+
+        // Toggle open/close with chevron flip
+        document.querySelector('.form-finder-header').addEventListener('click', function() {
+            this.classList.toggle('is-open');
+        });
+
+        // ── Animation helpers ──────────────────────────────────────
+        // Stagger team hub cards
+        function staggerTeamCards() {
+            document.querySelectorAll('.team-hub-card').forEach((card, i) => {
+                card.style.animationDelay = `${i * 60}ms`;
+            });
+        }
+        staggerTeamCards();
+
+        // Re-trigger team hub animation on back
+        const _origBackToTeams = backToTeams;
+        backToTeams = function() {
+            _origBackToTeams();
+            document.querySelectorAll('.team-hub-card').forEach((card, i) => {
+                card.style.animation = 'none';
+                card.offsetHeight; // reflow
+                card.style.animation = '';
+                card.style.animationDelay = `${i * 60}ms`;
+            });
+        };
+
+        // Re-trigger panel animation on team detail open
+        const _origOpenTeamDetail = openTeamDetail;
+        openTeamDetail = function(teamId) {
+            _origOpenTeamDetail(teamId);
+            const detail = document.getElementById('team-detail');
+            detail.style.animation = 'none';
+            detail.offsetHeight;
+            detail.style.animation = '';
+        };
+
+        // Changelog scroll reveal
+        const clObserver = new IntersectionObserver((entries) => {
+            entries.forEach((entry, i) => {
+                if (entry.isIntersecting) {
+                    setTimeout(() => entry.target.classList.add('visible'), i * 80);
+                    clObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('.changelog-entry').forEach(el => clObserver.observe(el));
+
+        // Workflow panel re-trigger animation on switch
+        const _origShowForm = showForm;
+        showForm = function(evt, panelId) {
+            _origShowForm(evt, panelId);
+            const panel = document.getElementById(panelId);
+            panel.style.animation = 'none';
+            panel.offsetHeight;
+            panel.style.animation = '';
+        };
+
+        // ── Changelog badge ────────────────────────────────────────
+        const CL_SEEN_KEY = 'thb_changelog_seen';
+        const CL_LATEST = 'Mar 31, 2026';
+        (function() {
+            if (sessionStorage.getItem(CL_SEEN_KEY) !== CL_LATEST) {
+                document.getElementById('changelogBadge').style.display = 'inline';
+            }
+        })();
+        function dismissChangelogBadge() {
+            document.getElementById('changelogBadge').style.display = 'none';
+            sessionStorage.setItem(CL_SEEN_KEY, CL_LATEST);
+        }
+
+        // ── Workflow sidebar ───────────────────────────────────────
+        function showForm(evt, panelId) {
+            document.querySelectorAll('.wf-panel').forEach(p => p.style.display = 'none');
+            document.querySelectorAll('.wf-sidebar-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById(panelId).style.display = 'block';
+            evt.currentTarget.classList.add('active');
+        }
+
+        // ── Zendesk Links shortcut on each team page ───────────────
+        document.querySelectorAll('.team-detail-panel').forEach(panel => {
+            const btn = document.createElement('a');
+            btn.innerHTML = '🔗 View Zendesk Ticket Links';
+            btn.style.cssText = 'display:inline-flex;align-items:center;gap:8px;margin-top:20px;margin-bottom:8px;padding:9px 20px;background:var(--yellow);color:var(--green-dark);font-weight:700;font-size:0.88em;border-radius:25px;text-decoration:none;cursor:pointer;transition:all 0.2s;border:none;';
+            btn.onclick = (e) => { e.preventDefault(); openTabById('zd-links'); };
+            btn.onmouseover = () => btn.style.background = '#f0c200';
+            btn.onmouseout = () => btn.style.background = 'var(--yellow)';
+            const insertAfter = panel.querySelector('.workflow-diagram') || panel.querySelector('.info-grid');
+            if (insertAfter) insertAfter.after(btn);
+            else panel.appendChild(btn);
+        });
+
         // ── Teams Hub navigation ───────────────────────────────────
         function openTeamDetail(teamId) {
             document.getElementById('team-hub').style.display = 'none';
@@ -2309,8 +3096,7 @@
             'rbc': 'Regional Benefit Coordinators',
             'zd-links': 'Zendesk Links',
             'workflows': 'Ticket Workflows',
-            'sla': 'SLA & Tiers',
-            'changelog': 'Changelog'
+            'sla': 'SLA & Tiers'
         };
 
         function openTab(evt, tabName) {
@@ -2507,9 +3293,36 @@
             { label: 'Tier 2 — Specialized Support (3-5 business days)', icon: '🟡', meta: 'SLA', action: () => openTabById('sla') },
             { label: 'Tier 3 — Product Support (no committed timeline)', icon: '🟠', meta: 'SLA', action: () => openTabById('sla') },
             { label: 'Tier 4 — Engineering Support', icon: '⚫', meta: 'SLA', action: () => openTabById('sla') },
-            // Workflows
-            { label: 'Member Support Form Workflow', icon: '🔀', meta: 'Workflows', action: () => openTabById('workflows') },
-            { label: 'Digital Wallet & Flex Support Workflow', icon: '🔀', meta: 'Workflows', action: () => openTabById('workflows') },
+            // Workflows — Gov Forms
+            { label: 'Member Support Form Workflow', icon: '🔀', meta: 'Workflow', action: () => { openTabById('workflows'); setTimeout(() => showForm({currentTarget: document.querySelector('.wf-sidebar-btn')}, 'wf-gov-member'), 100); } },
+            { label: 'Digital Wallet & Flex Support Workflow', icon: '🔀', meta: 'Workflow', action: () => { openTabById('workflows'); setTimeout(() => { document.querySelectorAll('.wf-panel').forEach(p=>p.style.display='none'); document.getElementById('wf-digital').style.display='block'; }, 100); } },
+            // Workflows — Custom Forms
+            { label: 'SCAN Support Form Workflow', icon: '🔀', meta: 'Workflow', action: () => { openTabById('workflows'); setTimeout(() => { document.querySelectorAll('.wf-panel').forEach(p=>p.style.display='none'); document.getElementById('wf-scan').style.display='block'; }, 100); } },
+            { label: 'BCBS AZ Digital Wallet Workflow', icon: '🔀', meta: 'Workflow', action: () => { openTabById('workflows'); setTimeout(() => { document.querySelectorAll('.wf-panel').forEach(p=>p.style.display='none'); document.getElementById('wf-bcbs-az').style.display='block'; }, 100); } },
+            { label: 'Curana Support Form Workflow', icon: '🔀', meta: 'Workflow', action: () => { openTabById('workflows'); setTimeout(() => { document.querySelectorAll('.wf-panel').forEach(p=>p.style.display='none'); document.getElementById('wf-curana').style.display='block'; }, 100); } },
+            { label: 'Curana Rent/Mortgage Reimbursement Workflow', icon: '🔀', meta: 'Workflow', action: () => { openTabById('workflows'); setTimeout(() => { document.querySelectorAll('.wf-panel').forEach(p=>p.style.display='none'); document.getElementById('wf-curana-reimb').style.display='block'; }, 100); } },
+            { label: 'Humana D2C Workflow', icon: '🔀', meta: 'Workflow', action: () => { openTabById('workflows'); setTimeout(() => { document.querySelectorAll('.wf-panel').forEach(p=>p.style.display='none'); document.getElementById('wf-humana-d2c').style.display='block'; }, 100); } },
+            // Workflows — Internal Forms
+            { label: 'Humana C3A Internal Form Workflow', icon: '🔒', meta: 'Workflow', action: () => { openTabById('workflows'); setTimeout(() => { document.querySelectorAll('.wf-panel').forEach(p=>p.style.display='none'); document.getElementById('wf-humana-c3a').style.display='block'; }, 100); } },
+            { label: 'Humana PHCS Internal Form Workflow', icon: '🔒', meta: 'Workflow', action: () => { openTabById('workflows'); setTimeout(() => { document.querySelectorAll('.wf-panel').forEach(p=>p.style.display='none'); document.getElementById('wf-humana-phcs').style.display='block'; }, 100); } },
+            { label: 'Humana Medicaid Internal Form Workflow', icon: '🔒', meta: 'Workflow', action: () => { openTabById('workflows'); setTimeout(() => { document.querySelectorAll('.wf-panel').forEach(p=>p.style.display='none'); document.getElementById('wf-humana-medicaid').style.display='block'; }, 100); } },
+            { label: 'UHP Grievance Support Form Workflow', icon: '🔒', meta: 'Workflow', action: () => { openTabById('workflows'); setTimeout(() => { document.querySelectorAll('.wf-panel').forEach(p=>p.style.display='none'); document.getElementById('wf-uhp-grievance').style.display='block'; }, 100); } },
+            // Issue types — SCAN
+            { label: 'Embrace Referral', icon: '📍', meta: 'SCAN / RBC', action: () => { openTabById('workflows'); setTimeout(() => { document.querySelectorAll('.wf-panel').forEach(p=>p.style.display='none'); document.getElementById('wf-scan').style.display='block'; }, 100); } },
+            { label: 'Cancel Service', icon: '📍', meta: 'SCAN / RBC', action: () => { openTabById('workflows'); setTimeout(() => { document.querySelectorAll('.wf-panel').forEach(p=>p.style.display='none'); document.getElementById('wf-scan').style.display='block'; }, 100); } },
+            // Issue types — Humana D2C
+            { label: 'Need to update my information', icon: '🎧', meta: 'Humana D2C / Customer Service', action: () => { openTabById('workflows'); setTimeout(() => { document.querySelectorAll('.wf-panel').forEach(p=>p.style.display='none'); document.getElementById('wf-humana-d2c').style.display='block'; }, 100); } },
+            { label: 'Request a provider assignment', icon: '📍', meta: 'Humana D2C / RBC', action: () => { openTabById('workflows'); setTimeout(() => { document.querySelectorAll('.wf-panel').forEach(p=>p.style.display='none'); document.getElementById('wf-humana-d2c').style.display='block'; }, 100); } },
+            { label: 'Having an issue with the portal', icon: '🛠️', meta: 'Humana D2C / Product', action: () => { openTabById('workflows'); setTimeout(() => { document.querySelectorAll('.wf-panel').forEach(p=>p.style.display='none'); document.getElementById('wf-humana-d2c').style.display='block'; }, 100); } },
+            // Issue types — Curana Rent/Mortgage
+            { label: 'Rent Reimbursement', icon: '📦', meta: 'Curana / Fulfillment', action: () => { openTabById('workflows'); setTimeout(() => { document.querySelectorAll('.wf-panel').forEach(p=>p.style.display='none'); document.getElementById('wf-curana-reimb').style.display='block'; }, 100); } },
+            { label: 'Mortgage Reimbursement', icon: '📦', meta: 'Curana / Fulfillment', action: () => { openTabById('workflows'); setTimeout(() => { document.querySelectorAll('.wf-panel').forEach(p=>p.style.display='none'); document.getElementById('wf-curana-reimb').style.display='block'; }, 100); } },
+            { label: 'Utilities Reimbursement', icon: '📦', meta: 'Curana / Fulfillment', action: () => { openTabById('workflows'); setTimeout(() => { document.querySelectorAll('.wf-panel').forEach(p=>p.style.display='none'); document.getElementById('wf-curana-reimb').style.display='block'; }, 100); } },
+            // Issue types — Humana C3A / Medicaid
+            { label: 'Notify of an EMERGENT referral', icon: '📦', meta: 'Humana C3A / Fulfillment', action: () => { openTabById('workflows'); setTimeout(() => { document.querySelectorAll('.wf-panel').forEach(p=>p.style.display='none'); document.getElementById('wf-humana-c3a').style.display='block'; }, 100); } },
+            { label: 'Report lost or missing check', icon: '📦', meta: 'Humana C3A / Fulfillment', action: () => { openTabById('workflows'); setTimeout(() => { document.querySelectorAll('.wf-panel').forEach(p=>p.style.display='none'); document.getElementById('wf-humana-c3a').style.display='block'; }, 100); } },
+            { label: 'Program Leadership Only', icon: '📦', meta: 'Fulfillment', action: () => { openTabById('workflows'); setTimeout(() => { document.querySelectorAll('.wf-panel').forEach(p=>p.style.display='none'); document.getElementById('wf-humana-c3a').style.display='block'; }, 100); } },
+            { label: 'Meals Issue', icon: '📦', meta: 'Humana Medicaid / Fulfillment', action: () => { openTabById('workflows'); setTimeout(() => { document.querySelectorAll('.wf-panel').forEach(p=>p.style.display='none'); document.getElementById('wf-humana-medicaid').style.display='block'; }, 100); } },
             // Zendesk Links
             { label: 'Zendesk Ticket Links', icon: '🔗', meta: 'Links', action: () => openTabById('zd-links') },
             { label: 'Internal Forms', icon: '🔒', meta: 'Links', action: () => { openTabById('zd-links'); setTimeout(() => filterByAudience('Internal'), 100); } },
