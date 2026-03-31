@@ -1619,7 +1619,6 @@
         }
 
         #splash-logo {
-            width: min(120px, 28vw);
             opacity: 0;
             transform: translateY(12px) scale(0.96);
             animation: splashLogoIn 0.7s var(--ease-spring) 0.2s forwards;
@@ -1627,39 +1626,6 @@
 
         @keyframes splashLogoIn {
             to { opacity: 1; transform: translateY(0) scale(1); }
-        }
-
-        #splash-tagline {
-            color: rgba(255,255,255,0.7);
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            font-size: 0.92em;
-            font-weight: 500;
-            letter-spacing: 1.5px;
-            text-transform: uppercase;
-            opacity: 0;
-            animation: splashTagIn 0.5s var(--ease-out) 0.7s forwards;
-        }
-
-        @keyframes splashTagIn {
-            from { opacity: 0; transform: translateY(6px); }
-            to   { opacity: 1; transform: translateY(0); }
-        }
-
-        /* Yellow accent line under tagline */
-        #splash-tagline::after {
-            content: '';
-            display: block;
-            width: 40px;
-            height: 2px;
-            background: #ffd646;
-            margin: 10px auto 0;
-            opacity: 0;
-            animation: splashLineIn 0.4s var(--ease-out) 1s forwards;
-        }
-
-        @keyframes splashLineIn {
-            from { opacity: 0; width: 0; }
-            to   { opacity: 1; width: 40px; }
         }
 
         /* Remove splash from DOM after animation */
@@ -1672,8 +1638,9 @@
     <!-- Splash Screen -->
     <div id="splash">
         <div id="splash-content">
-            <img id="splash-logo" src="favicon.png" alt="The Helper Bees">
-            <p id="splash-tagline">Support Team Routing Guide</p>
+            <div id="splash-logo">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="-4 -4 118 150" style="width:min(220px,55vw);display:block;"><defs><style>.cls-1{fill:#fff;}</style></defs><path class="cls-1" d="M93.78,49.9c-5.75-3.37-12.36-5.61-18.98-6.48,14.06-55.5-52.03-58.18-43.28-5.72-24.94-30.15-50.52,7.07-10.77,30.45-27.22,42.35,18.53,88.25,62.62,69.56,37.65-13.82,47-67.24,10.41-87.81ZM48.53,127.58c-8.2-10.48-19.15-28.43-19.57-49.96,2.44-4.65,5.74-8.76,9.73-12.14-1.31,30.24,16.27,53.87,25.85,64.41-5.48.3-10.89-.47-16.01-2.31ZM78.9,126.72c-.2.09-.38.15-.59.24l-.12-.12c-1.25-1.12-30.58-28.04-27.42-63.67l.44-5.24c3.04-1.19,6.13-2.04,9.22-2.55v.3c-2.44,32.72,18.65,57.51,27.37,66.25-2.74,1.89-5.71,3.52-8.9,4.79ZM101.66,105.7c-1.4,2.9-3.13,5.65-5.18,8.14-6.99-7.05-26.29-29.17-24.21-57.3l.09-1.48c3.27.38,6.45,1.15,9.55,2.28,1.31,20.67,11.98,37.16,20.31,47.08-.18.42-.35.86-.56,1.28Z"/></svg>
+            </div>
         </div>
     </div>
     <div class="container">
