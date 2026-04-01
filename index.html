@@ -26,9 +26,134 @@
             --surface2: #2a2a2a;
             --text: #e0e0e0;
             --text-muted: #aaaaaa;
-            --border: #333333;
-            --shadow: rgba(0,0,0,0.4);
+            --border: #3a3a3a;
+            --shadow: rgba(0,0,0,0.5);
+            --green-dark: #00c27a;
+            --green-mid: #00a86b;
         }
+
+        /* ── Dark mode overrides for hardcoded colors ── */
+        body.dark .content,
+        body.dark .info-card,
+        body.dark .team-member,
+        body.dark .link-card,
+        body.dark .link-card-body,
+        body.dark .recently-viewed,
+        body.dark .feedback-widget,
+        body.dark .escalation-path,
+        body.dark .wf-table tbody tr,
+        body.dark .changelog-entry,
+        body.dark .form-finder-callout + div,
+        body.dark #formFinderDrawer,
+        body.dark #changelogDrawer,
+        body.dark .autocomplete-dropdown {
+            background: var(--surface);
+            color: var(--text);
+        }
+
+        body.dark .info-card { border-left-color: var(--yellow); }
+        body.dark .info-card h3,
+        body.dark .info-card h4 { color: var(--text); }
+        body.dark .info-card li,
+        body.dark .info-card p { color: var(--text-muted); }
+
+        body.dark .team-member { border-left-color: var(--yellow); }
+        body.dark .team-member strong { color: var(--text); }
+        body.dark .team-member small { color: var(--text-muted); }
+
+        body.dark .section-title { color: var(--text); border-bottom-color: var(--yellow); }
+        body.dark h3, body.dark h4 { color: var(--text); }
+
+        body.dark .quick-ref-table thead { background: #2a2a2a; }
+        body.dark .quick-ref-table td { color: var(--text); border-bottom-color: var(--border); }
+        body.dark .quick-ref-table tbody tr:hover { background: #333; }
+        body.dark .qr-team { color: var(--yellow); }
+
+        body.dark .tier-table thead { background: #2a2a2a; }
+        body.dark .tier-table td { color: var(--text); border-bottom-color: var(--border); }
+        body.dark .tier-table tbody tr:hover { background: #333; }
+        body.dark .tier-table tbody tr:nth-child(even) { background: #252525; }
+
+        body.dark .wf-table thead { background: #2a2a2a; }
+        body.dark .wf-table td { color: var(--text); border-bottom-color: var(--border); }
+        body.dark .wf-table tbody tr:hover { filter: brightness(1.2); }
+        body.dark .wf-row-cs { background: rgba(0,150,136,0.15); }
+        body.dark .wf-row-rbc { background: rgba(249,168,37,0.15); }
+        body.dark .wf-row-acct { background: rgba(194,24,91,0.15); }
+        body.dark .wf-row-product { background: rgba(230,74,25,0.15); }
+        body.dark .wf-row-fulfillment { background: rgba(56,142,60,0.15); }
+        body.dark .wf-row-compliance { background: rgba(123,31,162,0.15); }
+
+        body.dark .link-card-header { background: #1a4a3a; color: #e0e0e0; }
+        body.dark .link-card-header.internal { background: #3e2723; }
+        body.dark .link-form-name { color: var(--text-muted); }
+        body.dark .copy-btn { background: #2a2a2a; color: #ccc; border-color: #444; }
+        body.dark .copy-btn:hover { border-color: var(--yellow); color: var(--yellow); }
+
+        body.dark .team-hub-card { background: var(--surface2); border-color: var(--border); }
+        body.dark .team-hub-card:hover { border-color: var(--yellow); }
+        body.dark .team-hub-name { color: var(--text); }
+        body.dark .team-hub-desc { color: var(--text-muted); }
+
+        body.dark .wf-sidebar-btn { color: var(--text-muted); }
+        body.dark .wf-sidebar-btn:hover { background: var(--surface2); color: var(--text); }
+        body.dark .wf-sidebar-btn.active { background: #1a4a3a; color: var(--yellow); }
+        body.dark .wf-sidebar-label { color: var(--text-muted); border-bottom-color: var(--border); }
+        body.dark .wf-panel-title { color: var(--text); }
+
+        body.dark .escalation-path { background: var(--surface2); border-color: var(--border); }
+        body.dark .escalation-label { color: var(--text-muted); }
+
+        body.dark .feedback-widget { background: var(--surface2); border-color: var(--border); }
+        body.dark .feedback-label { color: var(--text-muted); }
+        body.dark .feedback-btn { background: var(--surface); border-color: var(--border); }
+
+        body.dark .changelog-entry { border-bottom-color: var(--border); }
+        body.dark .changelog-date { color: var(--text-muted); }
+        body.dark .changelog-text { color: var(--text); }
+
+        body.dark .ff-btn { background: var(--surface2); border-color: var(--border); color: var(--text); }
+        body.dark .ff-btn:hover { border-color: var(--yellow); color: var(--yellow); background: var(--surface); }
+        body.dark .ff-btn.ff-internal { border-color: #5d4037; color: #ffab91; }
+        body.dark .ff-hint { color: var(--text-muted); }
+        body.dark .ff-question { color: var(--text); }
+        body.dark .ff-result { background: var(--surface2); border-left-color: var(--yellow); }
+        body.dark .ff-result-form { color: var(--yellow); }
+        body.dark .ff-result-row { color: var(--text-muted); }
+        body.dark .ff-result-row strong { color: var(--text); }
+        body.dark .ff-back { color: var(--text-muted); }
+        body.dark .ff-workflow-btn { background: var(--surface2); border-color: var(--yellow); color: var(--yellow); }
+        body.dark .ff-reset { border-color: var(--border); color: var(--text-muted); }
+
+        body.dark .autocomplete-item { color: var(--text); }
+        body.dark .autocomplete-item:hover,
+        body.dark .autocomplete-item.active { background: var(--surface2); }
+        body.dark .autocomplete-group-label { color: var(--text-muted); border-top-color: var(--border); }
+        body.dark .autocomplete-item-meta { color: var(--text-muted); }
+
+        body.dark .audience-filter:not(.active) { background: var(--surface2) !important; color: var(--text-muted) !important; border-color: var(--border) !important; }
+        body.dark .audience-filter[data-audience="all"].active { background: #1a4a3a !important; border-color: #1a4a3a !important; }
+
+        body.dark .recent-chip { background: var(--surface2); border-color: var(--border); color: var(--text); }
+        body.dark .recently-viewed { border-color: var(--yellow); background: var(--surface2); }
+        body.dark .recently-viewed h4 { color: var(--text); }
+
+        body.dark .search-box { background: var(--surface2); color: var(--text); border-color: var(--border); }
+        body.dark .search-box::placeholder { color: var(--text-muted); }
+
+        body.dark .back-to-teams-btn { background: var(--surface2); border-color: var(--border); color: var(--text-muted); }
+        body.dark .back-to-teams-btn:hover { border-color: var(--yellow); color: var(--yellow); }
+
+        body.dark .workflow-toggle .wf-toggle-btn { background: var(--surface2); border-color: var(--border); color: var(--text-muted); }
+
+        body.dark .wf-legend { background: var(--surface2); border-color: var(--border); }
+        body.dark .wf-legend-item { color: var(--text-muted); }
+
+        body.dark [style*="background: #fff9c4"],
+        body.dark [style*="background:#fff9c4"] { background: #3a3000 !important; color: #ffe57f !important; }
+
+        body.dark .search-highlight { background: #665500; color: #ffe57f; }
+        body.dark mark.search-highlight { background: #665500; color: #ffe57f; }
         * {
             margin: 0;
             padding: 0;
@@ -697,9 +822,37 @@
         .copy-btn:hover { border-color: #003322; color: #003322; }
         .copy-btn.copied { background: #e8f5e9; border-color: #2e7d32; color: #2e7d32; }
 
+        .audience-filter {
+            padding: 7px 16px;
+            border-radius: 20px;
+            border: 2px solid #003322;
+            background: white;
+            color: #003322;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 13px;
+            transition: all 0.2s;
+        }
+
         .audience-filter.active {
             background: #003322 !important;
             color: white !important;
+            border-color: #003322 !important;
+        }
+
+        .audience-filter:not(.active) {
+            background: white !important;
+            color: #003322 !important;
+        }
+
+        .audience-filter[data-audience="Internal"] {
+            border-color: #5d4037;
+            color: #5d4037;
+        }
+
+        .audience-filter[data-audience="Internal"]:not(.active) {
+            background: white !important;
+            color: #5d4037 !important;
         }
 
         .audience-filter[data-audience="Internal"].active {
@@ -858,6 +1011,21 @@
         .link-card-header.internal {
             background: #5d4037;
         }
+
+        .form-finder-callout {
+            background: linear-gradient(135deg, #003322 0%, #004d40 100%);
+            border-radius: 8px;
+            padding: 24px 28px;
+            margin-bottom: 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .form-finder-callout h3 { color: var(--yellow); font-size: 1.25em; margin-bottom: 6px; }
+        .form-finder-callout p { color: rgba(255,255,255,0.85); font-size: 0.95em; }
 
         /* ── Form Finder ── */
         .form-finder {
@@ -1608,7 +1776,7 @@
             <h1>Zendesk Ticket Routing Guide</h1>
             <p>The Helper Bees Support Team Structure</p>
             <div class="header-meta">
-                <span class="last-updated">🕒 Last updated: March 31, 2026</span>
+                <span class="last-updated">🕒 Last updated: April 1, 2026</span>
                 <button class="print-btn" onclick="window.print()">🖨️ Print / Export PDF</button>
             </div>
         </div>
@@ -1618,17 +1786,11 @@
             <div class="search-inner">
                 <input type="text" class="search-box" id="searchBox" placeholder="Try 'grievance', 'refund', 'SCAN', 'Tier 3'..." autocomplete="off">
                 <div class="autocomplete-dropdown" id="autocompleteDropdown"></div>
-                <div class="search-hints">
-                    <span class="search-hint">Teams</span>
-                    <span class="search-hint">Issue types</span>
-                    <span class="search-hint">Clients</span>
-                    <span class="search-hint">SLAs</span>
-                </div>
             </div>
         </div>
 
         <div class="tabs">
-            <button class="tab active" onclick="openTab(event, 'overview')">Overview</button>
+            <button class="tab active" onclick="openTab(event, 'overview')">🏠 Overview</button>
             <button class="tab" onclick="openTab(event, 'teams')">Teams</button>
             <button class="tab" onclick="openTab(event, 'workflows')">Ticket Workflows</button>
             <button class="tab" onclick="openTab(event, 'sla')">SLA & Tiers</button>
@@ -1639,40 +1801,68 @@
             <div id="overview" class="tab-content active">
 
                 <!-- What Form Do I Use? -->
-                <div class="form-finder">
-                    <div class="form-finder-header" onclick="document.getElementById('formFinderBody').classList.toggle('open')">
-                        <span>🤔 What form do I use?</span>
-                        <span class="form-finder-chevron">▾</span>
+                <div class="form-finder-callout">
+                    <div class="form-finder-callout-text">
+                        <h3>🤔 What form do I use?</h3>
+                        <p>Answer two quick questions and get the exact form, team, and tier for your ticket.</p>
                     </div>
-                    <div class="form-finder-body" id="formFinderBody">
-                        <div id="ff-step1">
-                            <p class="ff-question">Step 1 — Which client is the member on?</p>
-                            <div class="ff-options">
-                                <button class="ff-btn" onclick="ffSelectClient('gov')">Gov Plan <span class="ff-hint">(Aetna, Alignment, BCBS SC, Elderplan, HAP, Isaac Health, Longevity, Network Health, Simpra, UHC, Verda, and more)</span></button>
-                                <button class="ff-btn" onclick="ffSelectClient('bcbs-az')">BCBS AZ</button>
-                                <button class="ff-btn" onclick="ffSelectClient('scan')">SCAN</button>
-                                <button class="ff-btn" onclick="ffSelectClient('curana')">Curana Health</button>
-                                <button class="ff-btn" onclick="ffSelectClient('humana-d2c')">Humana D2C</button>
-                                <button class="ff-btn ff-internal" onclick="ffSelectClient('humana-c3a')">🔒 Humana C3A <span class="ff-hint">(Internal)</span></button>
-                                <button class="ff-btn ff-internal" onclick="ffSelectClient('humana-phcs')">🔒 Humana PHCS <span class="ff-hint">(Internal)</span></button>
-                                <button class="ff-btn ff-internal" onclick="ffSelectClient('humana-medicaid')">🔒 Humana Medicaid <span class="ff-hint">(Internal)</span></button>
-                                <button class="ff-btn ff-internal" onclick="ffSelectClient('uhp-grievance')">🔒 UHP Grievance <span class="ff-hint">(Internal)</span></button>
-                            </div>
+                    <button class="links-callout-btn" onclick="toggleFormFinder(this)">Find My Form →</button>
+                </div>
+
+                <div id="formFinderDrawer" style="display:none; border:1px solid var(--border); border-radius:0 0 8px 8px; padding:20px; margin-top:-2px; background:var(--surface); animation: expandIn 0.3s var(--ease-out) both;">
+                    <div id="ff-step1">
+                        <p class="ff-question">Step 1 — Which client is the member on?</p>
+                        <div class="ff-options">
+                            <button class="ff-btn" onclick="ffSelectClient('gov')">Gov Plan <span class="ff-hint">(Aetna, Alignment, BCBS SC, Elderplan, HAP, Isaac Health, Longevity, Network Health, Simpra, UHC, Verda, and more)</span></button>
+                            <button class="ff-btn" onclick="ffSelectClient('bcbs-az')">BCBS AZ</button>
+                            <button class="ff-btn" onclick="ffSelectClient('scan')">SCAN</button>
+                            <button class="ff-btn" onclick="ffSelectClient('curana')">Curana Health</button>
+                            <button class="ff-btn" onclick="ffSelectClient('humana-d2c')">Humana D2C</button>
+                            <button class="ff-btn ff-internal" onclick="ffSelectClient('humana-c3a')">🔒 Humana C3A <span class="ff-hint">(Internal)</span></button>
+                            <button class="ff-btn ff-internal" onclick="ffSelectClient('humana-phcs')">🔒 Humana PHCS <span class="ff-hint">(Internal)</span></button>
+                            <button class="ff-btn ff-internal" onclick="ffSelectClient('humana-medicaid')">🔒 Humana Medicaid <span class="ff-hint">(Internal)</span></button>
+                            <button class="ff-btn ff-internal" onclick="ffSelectClient('uhp-grievance')">🔒 UHP Grievance <span class="ff-hint">(Internal)</span></button>
                         </div>
-                        <div id="ff-step2" style="display:none;">
-                            <button class="ff-back" onclick="ffBack()">← Back</button>
-                            <p class="ff-question">Step 2 — What's the issue?</p>
-                            <div class="ff-options" id="ff-issue-options"></div>
+                    </div>
+                    <!-- Gov Plan sub-step -->
+                    <div id="ff-step-gov" style="display:none;">
+                        <button class="ff-back" onclick="ffBack()">← Back</button>
+                        <p class="ff-question">Step 1b — Which Gov plan?</p>
+                        <div class="ff-options">
+                            <button class="ff-btn" onclick="ffSelectGovPlan('Abilis Health','https://abilis-thb.zendesk.com/hc/en-us/requests/new')">Abilis Health</button>
+                            <button class="ff-btn" onclick="ffSelectGovPlan('Aetna','https://aetna-thb.zendesk.com/hc/en-us/requests/new')">Aetna</button>
+                            <button class="ff-btn" onclick="ffSelectGovPlan('Alignment','https://alignment-thb.zendesk.com/hc/en-us/requests/new')">Alignment</button>
+                            <button class="ff-btn" onclick="ffSelectGovPlan('BCBS SC','https://bcbssc-thb.zendesk.com/hc/en-us/requests/new')">BCBS SC</button>
+                            <button class="ff-btn" onclick="ffSelectGovPlan('Champion Health','https://champion-thb.zendesk.com/hc/en-us/requests/new')">Champion Health</button>
+                            <button class="ff-btn" onclick="ffSelectGovPlan('Clever Care','https://clevercare-thb.zendesk.com/hc/en-us/requests/new')">Clever Care</button>
+                            <button class="ff-btn" onclick="ffSelectGovPlan('Elderplan','https://elderplan-thb.zendesk.com/hc/en-us/requests/new')">Elderplan</button>
+                            <button class="ff-btn" onclick="ffSelectGovPlan('Gold Kidney','https://goldkidney-thb.zendesk.com/hc/en-us/requests/new')">Gold Kidney</button>
+                            <button class="ff-btn" onclick="ffSelectGovPlan('HAP','https://hap-thb.zendesk.com/hc/en-us/requests/new')">HAP</button>
+                            <button class="ff-btn" onclick="ffSelectGovPlan('Isaac Health','https://isaachealth-thb.zendesk.com/hc/en-us/requests/new')">Isaac Health</button>
+                            <button class="ff-btn" onclick="ffSelectGovPlan('Longevity','https://longevity-thb.zendesk.com/hc/en-us/requests/new')">Longevity</button>
+                            <button class="ff-btn" onclick="ffSelectGovPlan('Lynx — Centene','https://thb-lynx.zendesk.com/hc/en-us/requests/new')">Lynx — Centene</button>
+                            <button class="ff-btn" onclick="ffSelectGovPlan('Lynx — Priority Health','https://thb-lynx.zendesk.com/hc/en-us/requests/new')">Lynx — Priority Health</button>
+                            <button class="ff-btn" onclick="ffSelectGovPlan('Network Health','https://networkhealth-thb.zendesk.com/hc/en-us/requests/new')">Network Health</button>
+                            <button class="ff-btn" onclick="ffSelectGovPlan('Simpra Advantage','https://thbsimpra-advantage.zendesk.com/hc/en-us/requests/new')">Simpra Advantage</button>
+                            <button class="ff-btn" onclick="ffSelectGovPlan('UHC — Optum','https://uhc-optum-thb.zendesk.com/hc/en-us/requests/new')">UHC — Optum</button>
+                            <button class="ff-btn" onclick="ffSelectGovPlan('UHC — PERS','https://uhc-thb.zendesk.com/hc/en-us/requests/new')">UHC — PERS</button>
+                            <button class="ff-btn" onclick="ffSelectGovPlan('UHP','https://uhp-thb.zendesk.com/hc/en-us/requests/new?ticket_form_id=46492282994587')">UHP</button>
+                            <button class="ff-btn" onclick="ffSelectGovPlan('Verda','http://verda-thb.zendesk.com')">Verda</button>
                         </div>
-                        <div id="ff-step3" style="display:none;">
-                            <button class="ff-back" onclick="ffBackToIssues()">← Back</button>
-                            <div class="ff-result" id="ff-result"></div>
-                        </div>
+                    </div>
+                    <div id="ff-step2" style="display:none;">
+                        <button class="ff-back" onclick="ffBackToGovOrStart()">← Back</button>
+                        <p class="ff-question" id="ff-step2-label">Step 2 — What's the issue?</p>
+                        <div class="ff-options" id="ff-issue-options"></div>
+                    </div>
+                    <div id="ff-step3" style="display:none;">
+                        <button class="ff-back" onclick="ffBackToIssues()">← Back</button>
+                        <div class="ff-result" id="ff-result"></div>
                     </div>
                 </div>
 
                 <!-- Zendesk Links Callout -->
-                <div class="links-callout">
+                <div class="links-callout" style="margin-top:16px;">
                     <div class="links-callout-text">
                         <h3>🔗 All Zendesk Ticket Links</h3>
                         <p>Quick access to every client submission form — searchable and filterable. Includes internal-only forms.</p>
@@ -2020,8 +2210,8 @@
                     <input type="text" id="linkSearch" onkeyup="filterLinks()" placeholder="🔍 Filter by client or form name..." style="flex:1; min-width:220px; padding:10px 16px; font-size:15px; border:2px solid #ddd; border-radius:25px; outline:none;">
                     <span style="font-size:12px; color:#aaa; white-space:nowrap;">Press <kbd style="background:#f0f0f0; border:1px solid #ccc; border-radius:4px; padding:1px 5px; font-size:11px;">/</kbd> to focus</span>
                     <div style="display:flex; gap:8px; flex-wrap:wrap;">
-                        <button onclick="filterByAudience('all')" class="audience-filter active" data-audience="all" style="padding:7px 16px; border-radius:20px; border:2px solid #003322; background:#003322; color:white; font-weight:600; cursor:pointer; font-size:13px;">All</button>
-                        <button onclick="filterByAudience('Internal')" class="audience-filter" data-audience="Internal" style="padding:7px 16px; border-radius:20px; border:2px solid #5d4037; background:white; color:#5d4037; font-weight:600; cursor:pointer; font-size:13px;">🔒 Internal Only</button>
+                        <button onclick="filterByAudience('all')" class="audience-filter active" data-audience="all">All</button>
+                        <button onclick="filterByAudience('Internal')" class="audience-filter" data-audience="Internal">🔒 Internal Only</button>
                     </div>
                 </div>
 
@@ -2766,7 +2956,7 @@
 
     <!-- Changelog Footer -->
     <div style="max-width:1200px; margin:12px auto 0; padding:0 20px 30px; text-align:right;">
-        <button onclick="dismissChangelogBadge(); document.getElementById('changelogDrawer').classList.toggle('open')" style="background:none; border:none; color:var(--text-muted); font-size:0.78em; cursor:pointer; padding:4px 8px; border-radius:4px; transition:color 0.2s; position:relative;" onmouseover="this.style.color='var(--green-dark)'" onmouseout="this.style.color='var(--text-muted)'">
+        <button onclick="dismissChangelogBadge(); toggleChangelog(this)" style="background:none; border:none; color:var(--text-muted); font-size:0.78em; cursor:pointer; padding:4px 8px; border-radius:4px; transition:color 0.2s; position:relative;" onmouseover="this.style.color='var(--green-dark)'" onmouseout="this.style.color='var(--text-muted)'">
             📋 Changelog
             <span id="changelogBadge" style="position:absolute; top:-6px; right:-8px; background:#e53935; color:white; font-size:0.72em; font-weight:700; padding:1px 6px; border-radius:10px; line-height:1.6; display:none;">New</span>
         </button>
@@ -2774,9 +2964,22 @@
         <div id="changelogDrawer" style="display:none; text-align:left; margin-top:10px; background:var(--surface); border:1px solid var(--border); border-radius:8px; padding:20px 24px; box-shadow:0 2px 8px var(--shadow);">
             <p style="font-size:0.78em; color:var(--text-muted); margin-bottom:16px;">A running log of updates to this guide.</p>
 
-            <div class="changelog-entry"><div class="changelog-date">Mar 31, 2026</div><div><span class="changelog-tag tag-new">New</span><div class="changelog-text">Workflows tab fully rebuilt with sidebar nav and 9 form routing tables.</div></div></div>
-            <div class="changelog-entry"><div class="changelog-date">Mar 31, 2026</div><div><span class="changelog-tag tag-new">New</span><div class="changelog-text">Typeahead search updated — all new forms and issue types now searchable.</div></div></div>
-            <div class="changelog-entry"><div class="changelog-date">Mar 31, 2026</div><div><span class="changelog-tag tag-new">New</span><div class="changelog-text">Teams hub, Zendesk Links page, dark mode, print/export, escalation paths, and feedback widgets added.</div></div></div>
+            <div class="changelog-entry"><div class="changelog-date">Apr 1, 2026</div><div><span class="changelog-tag tag-update">Update</span><div class="changelog-text">Search overhauled — Enter now runs a full site-wide scan, highlights all matches in yellow, and jumps to the first matching tab. More reliable across all pages.</div></div></div>
+            <div class="changelog-entry"><div class="changelog-date">Apr 1, 2026</div><div><span class="changelog-tag tag-update">Update</span><div class="changelog-text">"What form do I use?" restyled to match the Zendesk Links callout banner — now highly visible on the Overview page.</div></div></div>
+            <div class="changelog-entry"><div class="changelog-date">Apr 1, 2026</div><div><span class="changelog-tag tag-new">New</span><div class="changelog-text">Gov Plan sub-step added to "What form do I use?" — selecting Gov Plan now asks which specific client before showing issue types, and returns a direct form link per client.</div></div></div>
+            <div class="changelog-entry"><div class="changelog-date">Apr 1, 2026</div><div><span class="changelog-tag tag-update">Update</span><div class="changelog-text">Search hint buttons (Teams, Issue Types, Clients, SLAs) removed from search bar.</div></div></div>
+            <div class="changelog-entry"><div class="changelog-date">Apr 1, 2026</div><div><span class="changelog-tag tag-new">New</span><div class="changelog-text">🔗 Zendesk Ticket Links button added to top-right of every team detail page for quick access.</div></div></div>
+            <div class="changelog-entry"><div class="changelog-date">Apr 1, 2026</div><div><span class="changelog-tag tag-new">New</span><div class="changelog-text">🏠 Home icon added to Overview tab in navigation bar.</div></div></div>
+            <div class="changelog-entry"><div class="changelog-date">Apr 1, 2026</div><div><span class="changelog-tag tag-update">Update</span><div class="changelog-text">Internal Only filter on Zendesk Links page — All button visibility fixed and filtered cards now animate in with a stagger effect.</div></div></div>
+            <div class="changelog-entry"><div class="changelog-date">Apr 1, 2026</div><div><span class="changelog-tag tag-update">Update</span><div class="changelog-text">Dark mode significantly improved — comprehensive overrides added for all cards, tables, workflow panels, form finder, autocomplete, changelog, and search highlights.</div></div></div>
+            <div class="changelog-entry"><div class="changelog-date">Apr 1, 2026</div><div><span class="changelog-tag tag-update">Update</span><div class="changelog-text">Changelog and "What form do I use?" drawers fixed — both now open and close reliably.</div></div></div>
+            <div class="changelog-entry"><div class="changelog-date">Apr 1, 2026</div><div><span class="changelog-tag tag-update">Update</span><div class="changelog-text">Overview page decluttered — removed welcome text, yellow quick-link pills, and tier overview cards. Page now shows only the form finder, links callout, and who-handles-what table.</div></div></div>
+            <div class="changelog-entry"><div class="changelog-date">Apr 1, 2026</div><div><span class="changelog-tag tag-update">Update</span><div class="changelog-text">Changelog moved from tab to a small collapsible button at the bottom of the site with a pulsing "New" badge on updates.</div></div></div>
+            <div class="changelog-entry"><div class="changelog-date">Mar 31, 2026</div><div><span class="changelog-tag tag-new">New</span><div class="changelog-text">Workflows tab fully rebuilt with sidebar nav and 9 form routing tables (SCAN, BCBS AZ, Curana, Humana C3A/PHCS/D2C/Medicaid, UHP Grievance, and both Gov forms).</div></div></div>
+            <div class="changelog-entry"><div class="changelog-date">Mar 31, 2026</div><div><span class="changelog-tag tag-new">New</span><div class="changelog-text">Typeahead search — all 9 new forms, issue types, and internal workflows searchable with direct navigation to the correct routing table.</div></div></div>
+            <div class="changelog-entry"><div class="changelog-date">Mar 31, 2026</div><div><span class="changelog-tag tag-new">New</span><div class="changelog-text">Teams hub added — 6 team cards replace individual tabs. Clean 5-tab nav bar. Escalation paths show full Tier 1→2→3 ladder (Tier 4 for Product).</div></div></div>
+            <div class="changelog-entry"><div class="changelog-date">Mar 31, 2026</div><div><span class="changelog-tag tag-new">New</span><div class="changelog-text">Zendesk Links page — 31 client submission forms with copy-to-clipboard, Internal Only filter, recently viewed, and highlighted search.</div></div></div>
+            <div class="changelog-entry"><div class="changelog-date">Mar 31, 2026</div><div><span class="changelog-tag tag-new">New</span><div class="changelog-text">Site-wide: dark mode, print/export PDF, last updated timestamp, quick reference cheat sheet, escalation paths per team, feedback widgets, and smooth animations throughout.</div></div></div>
             <div class="changelog-entry"><div class="changelog-date">Mar 31, 2026</div><div><span class="changelog-tag tag-new">New</span><div class="changelog-text">Kassandra Rios added to Product team.</div></div></div>
             <div class="changelog-entry"><div class="changelog-date">Mar 31, 2026</div><div><span class="changelog-tag tag-update">Update</span><div class="changelog-text">Ambrielle Palmore replaces Kristen Evans as Customer Service Supervisor.</div></div></div>
             <div class="changelog-entry"><div class="changelog-date">Mar 31, 2026</div><div><span class="changelog-tag tag-update">Update</span><div class="changelog-text">"Product Support" renamed to "Product" across the site.</div></div></div>
@@ -2798,6 +3001,105 @@
 
     <script>
         // ── Form Finder ───────────────────────────────────────────
+        let ffCurrentClient = null;
+        let ffCurrentGovPlan = null;
+
+        function ffShowStep(show) {
+            ['ff-step1','ff-step-gov','ff-step2','ff-step3'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.style.display = id === show ? 'block' : 'none';
+            });
+        }
+
+        function ffSelectClient(clientKey) {
+            ffCurrentClient = clientKey;
+            if (clientKey === 'gov') {
+                // Show Gov sub-step instead of jumping to issues
+                ffShowStep('ff-step-gov');
+                return;
+            }
+            ffLoadIssues(clientKey);
+        }
+
+        function ffSelectGovPlan(planName, url) {
+            ffCurrentGovPlan = { name: planName, url: url };
+            document.getElementById('ff-step2-label').textContent = `Step 2 — What's the issue? (${planName})`;
+            ffLoadIssues('gov');
+        }
+
+        function ffLoadIssues(clientKey) {
+            const data = FF_DATA[clientKey];
+            const optionsEl = document.getElementById('ff-issue-options');
+            optionsEl.innerHTML = data.issues.map((issue, i) =>
+                `<button class="ff-btn${data.internal ? ' ff-internal' : ''}" onclick="ffSelectIssue(${i})">${issue.label}</button>`
+            ).join('');
+            ffShowStep('ff-step2');
+        }
+
+        function ffSelectIssue(index) {
+            const data = FF_DATA[ffCurrentClient];
+            const issue = data.issues[index];
+            const tierBadge = ['','badge-tier1','badge-tier2','badge-tier3'][issue.tier] || '';
+            const tierLabel = issue.tier === 4
+                ? '<span class="badge" style="background:#e0e0e0;color:#424242;">Tier 4</span>'
+                : `<span class="badge ${tierBadge}">Tier ${issue.tier}</span>`;
+
+            // For gov plans use the specific plan URL
+            let formUrl = issue.url || data.url;
+            let formName = data.form;
+            if (ffCurrentClient === 'gov' && ffCurrentGovPlan) {
+                formUrl = ffCurrentGovPlan.url;
+                formName = `Gov Member Support Form — ${ffCurrentGovPlan.name}`;
+            }
+
+            const teamAction = issue.teamId ? `onclick="openTabById('teams');openTeamDetail('${issue.teamId}')"` : '';
+
+            document.getElementById('ff-result').innerHTML = `
+                <div class="ff-result-form">✅ ${formName}</div>
+                <div class="ff-result-row">🎫 <span>Issue:</span> <strong>${issue.label}</strong></div>
+                <div class="ff-result-row">👥 <span>Team:</span> <strong style="cursor:${issue.teamId ? 'pointer' : 'default'};text-decoration:${issue.teamId ? 'underline' : 'none'}" ${teamAction}>${issue.team}</strong></div>
+                <div class="ff-result-row">📊 <span>Tier:</span> ${tierLabel}</div>
+                <div class="ff-result-actions">
+                    ${formUrl ? `<a href="${formUrl}" target="_blank" class="ff-open-btn">Open Form →</a>` : ''}
+                    <button class="ff-workflow-btn" onclick="openTabById('workflows')">View Full Workflow</button>
+                    <button class="ff-reset" onclick="ffReset()">Start Over</button>
+                </div>
+            `;
+            ffShowStep('ff-step3');
+        }
+
+        function ffBack() {
+            ffCurrentClient = null;
+            ffCurrentGovPlan = null;
+            ffShowStep('ff-step1');
+        }
+
+        function ffBackToGovOrStart() {
+            // If we came from gov sub-step go back there, otherwise go to start
+            if (ffCurrentClient === 'gov') {
+                ffShowStep('ff-step-gov');
+            } else {
+                ffShowStep('ff-step1');
+            }
+        }
+
+        function ffBackToIssues() {
+            ffShowStep('ff-step2');
+        }
+
+        function ffReset() {
+            ffCurrentClient = null;
+            ffCurrentGovPlan = null;
+            ffShowStep('ff-step1');
+        }
+
+        // ── Form Finder toggle ─────────────────────────────────────
+        function toggleFormFinder(btn) {
+            const drawer = document.getElementById('formFinderDrawer');
+            const isOpen = drawer.style.display === 'block';
+            drawer.style.display = isOpen ? 'none' : 'block';
+            btn.textContent = isOpen ? 'Find My Form →' : 'Close ✕';
+        }
         const FF_DATA = {
             'gov': {
                 form: 'Gov Member Support Form',
@@ -2930,66 +3232,6 @@
             }
         };
 
-        let ffCurrentClient = null;
-
-        function ffSelectClient(clientKey) {
-            ffCurrentClient = clientKey;
-            const data = FF_DATA[clientKey];
-            const optionsEl = document.getElementById('ff-issue-options');
-            optionsEl.innerHTML = data.issues.map((issue, i) =>
-                `<button class="ff-btn${data.internal ? ' ff-internal' : ''}" onclick="ffSelectIssue(${i})">${issue.label}</button>`
-            ).join('');
-            document.getElementById('ff-step1').style.display = 'none';
-            document.getElementById('ff-step2').style.display = 'block';
-            document.getElementById('ff-step3').style.display = 'none';
-        }
-
-        function ffSelectIssue(index) {
-            const data = FF_DATA[ffCurrentClient];
-            const issue = data.issues[index];
-            const tierBadge = ['','badge-tier1','badge-tier2','badge-tier3'][issue.tier] || '';
-            const tierLabel = issue.tier === 4 ? '<span class="badge" style="background:#e0e0e0;color:#424242;">Tier 4</span>' : `<span class="badge ${tierBadge}">Tier ${issue.tier}</span>`;
-            const formUrl = issue.url || data.url;
-            const teamAction = issue.teamId ? `onclick="openTabById('teams');openTeamDetail('${issue.teamId}')"` : '';
-
-            document.getElementById('ff-result').innerHTML = `
-                <div class="ff-result-form">✅ ${data.form}</div>
-                <div class="ff-result-row">🎫 <span>Issue:</span> <strong>${issue.label}</strong></div>
-                <div class="ff-result-row">👥 <span>Team:</span> <strong style="cursor:${issue.teamId ? 'pointer' : 'default'};text-decoration:${issue.teamId ? 'underline' : 'none'}" ${teamAction}>${issue.team}</strong></div>
-                <div class="ff-result-row">📊 <span>Tier:</span> ${tierLabel}</div>
-                <div class="ff-result-actions">
-                    ${formUrl ? `<a href="${formUrl}" target="_blank" class="ff-open-btn">Open Form →</a>` : '<span style="font-size:0.82em;color:var(--text-muted);">Multiple Gov forms available — use Zendesk Links to find yours.</span>'}
-                    <button class="ff-workflow-btn" onclick="openTabById('workflows')">View Full Workflow</button>
-                    <button class="ff-reset" onclick="ffReset()">Start Over</button>
-                </div>
-            `;
-            document.getElementById('ff-step2').style.display = 'none';
-            document.getElementById('ff-step3').style.display = 'block';
-        }
-
-        function ffBack() {
-            document.getElementById('ff-step1').style.display = 'block';
-            document.getElementById('ff-step2').style.display = 'none';
-            document.getElementById('ff-step3').style.display = 'none';
-        }
-
-        function ffBackToIssues() {
-            document.getElementById('ff-step2').style.display = 'block';
-            document.getElementById('ff-step3').style.display = 'none';
-        }
-
-        function ffReset() {
-            ffCurrentClient = null;
-            document.getElementById('ff-step1').style.display = 'block';
-            document.getElementById('ff-step2').style.display = 'none';
-            document.getElementById('ff-step3').style.display = 'none';
-        }
-
-        // Toggle open/close with chevron flip
-        document.querySelector('.form-finder-header').addEventListener('click', function() {
-            this.classList.toggle('is-open');
-        });
-
         // ── Animation helpers ──────────────────────────────────────
         // Stagger team hub cards
         function staggerTeamCards() {
@@ -3044,7 +3286,7 @@
 
         // ── Changelog badge ────────────────────────────────────────
         const CL_SEEN_KEY = 'thb_changelog_seen';
-        const CL_LATEST = 'Mar 31, 2026';
+        const CL_LATEST = 'Apr 1, 2026';
         (function() {
             if (sessionStorage.getItem(CL_SEEN_KEY) !== CL_LATEST) {
                 document.getElementById('changelogBadge').style.display = 'inline';
@@ -3053,6 +3295,11 @@
         function dismissChangelogBadge() {
             document.getElementById('changelogBadge').style.display = 'none';
             sessionStorage.setItem(CL_SEEN_KEY, CL_LATEST);
+        }
+
+        function toggleChangelog(btn) {
+            const drawer = document.getElementById('changelogDrawer');
+            drawer.style.display = drawer.style.display === 'block' ? 'none' : 'block';
         }
 
         // ── Workflow sidebar ───────────────────────────────────────
@@ -3066,14 +3313,29 @@
         // ── Zendesk Links shortcut on each team page ───────────────
         document.querySelectorAll('.team-detail-panel').forEach(panel => {
             const btn = document.createElement('a');
-            btn.innerHTML = '🔗 View Zendesk Ticket Links';
-            btn.style.cssText = 'display:inline-flex;align-items:center;gap:8px;margin-top:20px;margin-bottom:8px;padding:9px 20px;background:var(--yellow);color:var(--green-dark);font-weight:700;font-size:0.88em;border-radius:25px;text-decoration:none;cursor:pointer;transition:all 0.2s;border:none;';
+            btn.innerHTML = '🔗 Zendesk Ticket Links';
+            btn.style.cssText = 'display:inline-flex;align-items:center;gap:6px;padding:8px 18px;background:var(--yellow);color:var(--green-dark);font-weight:700;font-size:0.85em;border-radius:25px;text-decoration:none;cursor:pointer;transition:background 0.2s;border:none;white-space:nowrap;';
             btn.onclick = (e) => { e.preventDefault(); openTabById('zd-links'); };
             btn.onmouseover = () => btn.style.background = '#f0c200';
             btn.onmouseout = () => btn.style.background = 'var(--yellow)';
-            const insertAfter = panel.querySelector('.workflow-diagram') || panel.querySelector('.info-grid');
-            if (insertAfter) insertAfter.after(btn);
-            else panel.appendChild(btn);
+
+            // Wrap the section-title and button in a flex header row
+            const title = panel.querySelector('.section-title');
+            if (title) {
+                const row = document.createElement('div');
+                row.style.cssText = 'display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:20px;';
+                title.style.marginBottom = '0';
+                title.style.borderBottom = 'none';
+                title.style.flex = '1';
+                title.parentNode.insertBefore(row, title);
+                row.appendChild(title);
+                row.appendChild(btn);
+                // Re-add the yellow bottom border to the row instead
+                row.style.borderBottom = '2px solid var(--yellow)';
+                row.style.paddingBottom = '16px';
+            } else {
+                panel.insertBefore(btn, panel.firstChild);
+            }
         });
 
         // ── Teams Hub navigation ───────────────────────────────────
@@ -3466,8 +3728,7 @@
                     selectSuggestion(activeIndex);
                 } else if (currentMatches.length === 1) {
                     selectSuggestion(0);
-                } else if (currentMatches.length > 1) {
-                    // Run a broad search across all content
+                } else {
                     runBroadSearch(this.value.trim());
                     closeDropdown();
                 }
@@ -3478,26 +3739,30 @@
 
         searchBox.addEventListener('blur', () => setTimeout(closeDropdown, 150));
 
-        // Broad search — highlights matches across all tabs
+        // Broad search — highlights matches across all tabs and jumps to first
         function runBroadSearch(term) {
-            if (!term) return;
+            if (!term || term.length < 2) return;
             const lower = term.toLowerCase();
             let firstTab = null;
+            let totalMatches = 0;
 
-            document.querySelectorAll('.tab-content').forEach(content => {
-                const elements = content.querySelectorAll('p, li, td, h2, h3, h4, strong, .team-member');
+            document.querySelectorAll('.tab-content, .team-detail-panel').forEach(content => {
+                const elements = content.querySelectorAll('p, li, td, h2, h3, h4, strong, .team-member, .changelog-text, .wf-table td');
                 let found = false;
                 elements.forEach(el => {
-                    if (el.textContent.toLowerCase().includes(lower)) {
+                    if (el.children.length === 0 && el.textContent.toLowerCase().includes(lower)) {
                         el.style.background = '#fff9c4';
-                        setTimeout(() => el.style.background = '', 3000);
+                        el.style.borderRadius = '3px';
+                        setTimeout(() => { el.style.background = ''; el.style.borderRadius = ''; }, 3500);
                         found = true;
+                        totalMatches++;
                     }
                 });
-                if (found && !firstTab) firstTab = content.id;
+                if (found && !firstTab) firstTab = content.id || content.closest('.tab-content')?.id;
             });
 
             if (firstTab) openTabById(firstTab);
+            closeDropdown();
         }
 
         // ── Keyboard shortcut: "/" focuses link search ─────────────
@@ -3623,10 +3888,10 @@
         function filterByAudience(audience) {
             document.querySelectorAll('.audience-filter').forEach(btn => {
                 btn.classList.toggle('active', btn.dataset.audience === audience);
-                btn.style.background = btn.dataset.audience === audience ? '' : 'white';
             });
             document.getElementById('linkSearch').value = '';
             let visible = 0;
+            let delay = 0;
             document.querySelectorAll('.link-card').forEach(card => {
                 const header = card.querySelector('.link-card-header');
                 header.textContent = card.dataset.client;
@@ -3635,8 +3900,19 @@
                 if (audience === 'all') show = true;
                 else if (audience === 'Internal') show = !!card.querySelector('.internal-badge');
                 else show = card.dataset.audience.includes(audience);
-                card.classList.toggle('hidden', !show);
-                if (show) visible++;
+
+                if (show) {
+                    card.classList.remove('hidden');
+                    // Re-trigger animation with stagger
+                    card.style.animation = 'none';
+                    card.offsetHeight; // reflow
+                    card.style.animationDelay = `${delay * 40}ms`;
+                    card.style.animation = '';
+                    delay++;
+                    visible++;
+                } else {
+                    card.classList.add('hidden');
+                }
             });
             showEmptyState(false, '');
         }
