@@ -329,14 +329,14 @@
         .back-button {
             position: absolute;
             top: 20px;
-            right: 20px;
-            padding: 10px 20px;
+            left: 20px;
+            padding: 8px 18px;
             background: #ffd646;
             color: #003322;
             text-decoration: none;
             border-radius: 25px;
             font-weight: 600;
-            font-size: 14px;
+            font-size: 13px;
             transition: all 0.3s;
             display: inline-flex;
             align-items: center;
@@ -656,12 +656,21 @@
         .workflow-collapsible.open .workflow-collapsible-arrow { transform: rotate(180deg); }
 
         .workflow-collapsible-body {
-            display: none;
-            padding: 0 20px 20px;
-            border-top: 1px solid var(--border);
+            display: block;
+            max-height: 0;
+            overflow: hidden;
+            padding: 0 20px;
+            border-top: 0px solid var(--border);
+            transition: max-height 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+                        padding 0.3s ease,
+                        border-top-width 0.3s ease;
         }
 
-        .workflow-collapsible.open .workflow-collapsible-body { display: block; }
+        .workflow-collapsible.open .workflow-collapsible-body {
+            max-height: 4000px;
+            padding: 0 20px 24px;
+            border-top-width: 1px;
+        }
 
         body.dark .workflow-collapsible { background: var(--surface2); border-color: var(--border); }
         body.dark .workflow-collapsible-header:hover { background: #333; }
@@ -1651,7 +1660,7 @@
         /* ── Dark Mode Toggle ── */
         .dark-toggle {
             position: absolute;
-            top: 20px;
+            top: 58px;
             left: 20px;
             background: rgba(255,255,255,0.15);
             border: 2px solid rgba(255,255,255,0.3);
@@ -2631,7 +2640,221 @@
             justify-content: center;
         }
 
-        /* ── Animated header gradient ── */
+        /* ═══════════════════════════════════════════════════
+           ANIMATION UPGRADE — enhanced polish throughout
+        ═══════════════════════════════════════════════════ */
+
+        /* ── Collapsible header — spring hover ── */
+        .workflow-collapsible-header {
+            transition: background 0.15s, transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .workflow-collapsible-header:active { transform: scale(0.99); }
+
+        /* ── Collapsible open — content fades in ── */
+        .workflow-collapsible.open .workflow-collapsible-body > * {
+            animation: contentReveal 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
+        }
+        @keyframes contentReveal {
+            from { opacity: 0; transform: translateY(8px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ── ep-steps — staggered cascade ── */
+        .workflow-collapsible.open .ep-step:nth-child(1) { animation-delay: 0.05s; }
+        .workflow-collapsible.open .ep-step:nth-child(2) { animation-delay: 0.09s; }
+        .workflow-collapsible.open .ep-step:nth-child(3) { animation-delay: 0.13s; }
+        .workflow-collapsible.open .ep-step:nth-child(4) { animation-delay: 0.17s; }
+        .workflow-collapsible.open .ep-step:nth-child(5) { animation-delay: 0.21s; }
+        .workflow-collapsible.open .ep-step:nth-child(6) { animation-delay: 0.25s; }
+        .workflow-collapsible.open .ep-step:nth-child(7) { animation-delay: 0.29s; }
+        .workflow-collapsible.open .ep-step:nth-child(8) { animation-delay: 0.33s; }
+
+        /* ── Tab content — more dramatic entrance ── */
+        .tab-content.active {
+            animation: tabSlideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+        }
+        @keyframes tabSlideUp {
+            from { opacity: 0; transform: translateY(16px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ── Tab button — spring press ── */
+        .tab:active { transform: scale(0.96); }
+
+        /* ── Info cards on team pages — stagger in ── */
+        .team-detail-panel.visible .info-card {
+            animation: cardReveal 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+        }
+        .team-detail-panel.visible .info-card:nth-child(2) { animation-delay: 0.06s; }
+        .team-detail-panel.visible .info-card:nth-child(3) { animation-delay: 0.12s; }
+        @keyframes cardReveal {
+            from { opacity: 0; transform: translateY(12px) scale(0.97); }
+            to   { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        /* ── Search results — stagger via inline delay (set in JS) ── */
+        .sr-card {
+            animation: srIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
+        }
+        @keyframes srIn {
+            from { opacity: 0; transform: translateX(-10px); }
+            to   { opacity: 1; transform: translateX(0); }
+        }
+
+        /* ── SR section titles — slide in ── */
+        .sr-section-title {
+            animation: fadeSlide 0.3s ease both;
+        }
+        @keyframes fadeSlide {
+            from { opacity: 0; letter-spacing: -0.5px; }
+            to   { opacity: 1; letter-spacing: 1px; }
+        }
+
+        /* ── Team hub cards — enhance spring hover ── */
+        .team-hub-card {
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
+                        box-shadow 0.3s ease,
+                        border-color 0.2s;
+        }
+        .team-hub-card:hover {
+            transform: translateY(-6px) scale(1.02);
+            box-shadow: 0 14px 32px var(--shadow);
+        }
+        .team-hub-card:active { transform: scale(0.98); }
+
+        /* ── Banner — shimmer sweep + breathing glow ── */
+        .team-process-banner {
+            position: relative;
+            overflow: hidden;
+            animation: bannerIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+        }
+        @keyframes bannerIn {
+            from { opacity: 0; transform: translateY(-8px); box-shadow: none; }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        .team-process-banner::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 60%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent);
+            animation: bannerShimmer 4s ease-in-out 1s infinite;
+        }
+        @keyframes bannerShimmer {
+            0%   { left: -100%; }
+            40%  { left: 150%; }
+            100% { left: 150%; }
+        }
+
+        /* ── Popular search chips — stagger in when panel opens ── */
+        .search-popular.open .search-popular-chip {
+            animation: chipIn 0.25s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+        }
+        .search-popular.open .search-popular-chip:nth-child(1)  { animation-delay: 0.02s; }
+        .search-popular.open .search-popular-chip:nth-child(2)  { animation-delay: 0.04s; }
+        .search-popular.open .search-popular-chip:nth-child(3)  { animation-delay: 0.06s; }
+        .search-popular.open .search-popular-chip:nth-child(4)  { animation-delay: 0.08s; }
+        .search-popular.open .search-popular-chip:nth-child(5)  { animation-delay: 0.10s; }
+        .search-popular.open .search-popular-chip:nth-child(6)  { animation-delay: 0.12s; }
+        .search-popular.open .search-popular-chip:nth-child(7)  { animation-delay: 0.14s; }
+        .search-popular.open .search-popular-chip:nth-child(8)  { animation-delay: 0.16s; }
+        .search-popular.open .search-popular-chip:nth-child(9)  { animation-delay: 0.18s; }
+        .search-popular.open .search-popular-chip:nth-child(10) { animation-delay: 0.20s; }
+        .search-popular.open .search-popular-chip:nth-child(11) { animation-delay: 0.22s; }
+        .search-popular.open .search-popular-chip:nth-child(12) { animation-delay: 0.24s; }
+        @keyframes chipIn {
+            from { opacity: 0; transform: scale(0.85) translateY(4px); }
+            to   { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        /* ── FAQ items — smooth expand ── */
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s cubic-bezier(0.16, 1, 0.3, 1), padding 0.3s ease;
+            padding: 0 20px;
+        }
+        .faq-answer.open {
+            max-height: 1200px;
+            padding: 16px 20px;
+        }
+
+        /* ── CL group body — smooth accordion (same as faq) ── */
+        .cl-group-body {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .cl-group.open .cl-group-body { max-height: 3000px; }
+
+        /* ── Link cards — stagger already via JS animationDelay; enhance hover ── */
+        .link-card:hover {
+            transform: translateY(-4px) scale(1.015);
+            transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1),
+                        box-shadow 0.25s ease;
+        }
+
+        /* ── Autocomplete items — slide in ── */
+        .autocomplete-dropdown.open .autocomplete-item {
+            animation: acItemIn 0.2s ease both;
+        }
+        @keyframes acItemIn {
+            from { opacity: 0; transform: translateX(-6px); }
+            to   { opacity: 1; transform: translateX(0); }
+        }
+
+        /* ── Respect reduced motion ── */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        /* ── Scroll reveal — base state ── */
+        .reveal {
+            opacity: 0;
+            transform: translateY(22px);
+            transition: opacity 0.55s cubic-bezier(0.16, 1, 0.3, 1),
+                        transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+        .reveal-left {
+            opacity: 0;
+            transform: translateX(-20px);
+            transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+                        transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal-left.visible { opacity: 1; transform: translateX(0); }
+        .reveal-scale {
+            opacity: 0;
+            transform: scale(0.93);
+            transition: opacity 0.45s cubic-bezier(0.34, 1.56, 0.64, 1),
+                        transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .reveal-scale.visible { opacity: 1; transform: scale(1); }
+
+        /* ── Ripple ── */
+        .ripple-host { position: relative; overflow: hidden; }
+        .ripple-wave {
+            position: absolute;
+            border-radius: 50%;
+            transform: scale(0);
+            animation: rippleExpand 0.6s linear forwards;
+            pointer-events: none;
+            background: rgba(255,255,255,0.22);
+        }
+        body:not(.dark) .sr-card .ripple-wave,
+        body:not(.dark) .workflow-collapsible-header .ripple-wave,
+        body:not(.dark) .team-hub-card .ripple-wave { background: rgba(0,51,34,0.08); }
+        @keyframes rippleExpand {
+            to { transform: scale(4); opacity: 0; }
+        }
+
+        /* ── Header canvas sits behind content ── */
+        #headerParticles { z-index: -1; }
+
         .header {
             background: linear-gradient(135deg, #003322 0%, #004d40 40%, #003322 70%, #002218 100%);
             background-size: 300% 300%;
@@ -2702,10 +2925,10 @@
 <body>
     <div class="container">
         <div class="header">
-            <button class="dark-toggle" onclick="toggleDark()" id="darkToggleBtn">🌙 Dark Mode</button>
             <a href="https://thehelperbees.zendesk.com/hc/en-us/articles/46533900409627-Zendesk-Ticketing-Cheatsheet-2026" class="back-button">
                 ← Back to Help Center
             </a>
+            <button class="dark-toggle" onclick="toggleDark()" id="darkToggleBtn">🌙 Dark Mode</button>
             <img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyBpZD0iTGF5ZXJfMSIgZGF0YS1uYW1lPSJMYXllciAxIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA5MzUgMTQyIj4KICA8ZGVmcz4KICAgIDxzdHlsZT4KICAgICAgLmNscy0xIHsKICAgICAgICBmaWxsOiAjZmZmOwogICAgICB9CiAgICA8L3N0eWxlPgogIDwvZGVmcz4KICA8cGF0aCBjbGFzcz0iY2xzLTEiIGQ9Ik05My43OCw0OS45Yy01Ljc1LTMuMzctMTIuMzYtNS42MS0xOC45OC02LjQ4LDE0LjA2LTU1LjUtNTIuMDMtNTguMTgtNDMuMjgtNS43Mi0yNC45NC0zMC4xNS01MC41Miw3LjA3LTEwLjc3LDMwLjQ1LTI3LjIyLDQyLjM1LDE4LjUzLDg4LjI1LDYyLjYyLDY5LjU2LDM3LjY1LTEzLjgyLDQ3LTY3LjI0LDEwLjQxLTg3LjgxWk00OC41MywxMjcuNThjLTguMi0xMC40OC0xOS4xNS0yOC40My0xOS41Ny00OS45NiwyLjQ0LTQuNjUsNS43NC04Ljc2LDkuNzMtMTIuMTQtMS4zMSwzMC4yNCwxNi4yNyw1My44NywyNS44NSw2NC40MS01LjQ4LjMtMTAuODktLjQ3LTE2LjAxLTIuMzFaTTc4LjksMTI2LjcyYy0uMi4wOS0uMzguMTUtLjU5LjI0bC0uMTItLjEyYy0xLjI1LTEuMTItMzAuNTgtMjguMDQtMjcuNDItNjMuNjdsLjQ0LTUuMjRjMy4wNC0xLjE5LDYuMTMtMi4wNCw5LjIyLTIuNTV2LjNjLTIuNDQsMzIuNzIsMTguNjUsNTcuNTEsMjcuMzcsNjYuMjUtMi43NCwxLjg5LTUuNzEsMy41Mi04LjksNC43OVpNMTAxLjY2LDEwNS43Yy0xLjQsMi45LTMuMTMsNS42NS01LjE4LDguMTQtNi45OS03LjA1LTI2LjI5LTI5LjE3LTI0LjIxLTU3LjNsLjA5LTEuNDhjMy4yNy4zOCw2LjQ1LDEuMTUsOS41NSwyLjI4LDEuMzEsMjAuNjcsMTEuOTgsMzcuMTYsMjAuMzEsNDcuMDgtLjE4LjQyLS4zNS44Ni0uNTYsMS4yOFoiLz4KICA8cGF0aCBjbGFzcz0iY2xzLTEiIGQ9Ik0xMzguMjEsNDQuOWgxOC4wNnY4MC4yM2gxNi4wOVY0NC45aDE3Ljk0di0xNC45M2gtNTIuMDh2MTQuOTNaIi8+CiAgPHBhdGggY2xhc3M9ImNscy0xIiBkPSJNMjM2Ljc2LDY4LjA2aC0yNC4zNlYyOS45N2gtMTYuMjF2OTUuMTVoMTYuMjF2LTQzLjA2aDI0LjM2djQzLjA2aDE2LjMzVjI5Ljk3aC0xNi4zM3YzOC4wOFoiLz4KICA8cGF0aCBjbGFzcz0iY2xzLTEiIGQ9Ik0yNjQuMDksMTI1LjEyaDQ0LjE3di0xNC45NmgtMjguMjN2LTI4LjFoMjIuNjF2LTE0LjAxaC0yMi42MXYtMjMuMTZoMjguMjN2LTE0LjkzaC00NC4xN3Y5NS4xNVoiLz4KICA8cGF0aCBjbGFzcz0iY2xzLTEiIGQ9Ik0zNzkuNDQsNjguMDZoLTI0LjMzVjI5Ljk3aC0xNi4yMXY5NS4xNWgxNi4yMXYtNDMuMDZoMjQuMzN2NDMuMDZoMTYuMzZWMjkuOTdoLTE2LjM2djM4LjA4WiIvPgogIDxwYXRoIGNsYXNzPSJjbHMtMSIgZD0iTTQwNi43NywxMjUuMTJoNDQuMnYtMTQuOTZoLTI4LjI2di0yOC4xaDIyLjY0di0xNC4wMWgtMjIuNjR2LTIzLjE2aDI4LjI2di0xNC45M2gtNDQuMnY5NS4xNVoiLz4KICA8cGF0aCBjbGFzcz0iY2xzLTEiIGQ9Ik00NzQuNzcsMjkuOTdoLTE2LjA2djk1LjE1aDQzLjF2LTE0Ljk2aC0yNy4wNFYyOS45N1oiLz4KICA8cGF0aCBjbGFzcz0iY2xzLTEiIGQ9Ik01MjMuNTUsMjkuOTdoLTE1LjJ2OTUuMTVoMTUuOTR2LTM4LjExYzE3LjA3LS4wOSwzNC4yNy0zLjg1LDM0LjI3LTI5LjI2cy0xOC4wOC0yNy43OC0zNS4wMS0yNy43OFpNNTI5LjA1LDczLjQyaC00Ljczdi0yOC45YzkuNDYuMDYsMTguNDQsMS40NSwxOC40NCwxNC4zLDAsOS42OC00LjYxLDE0LjU3LTEzLjcxLDE0LjU3di4wM1oiLz4KICA8cGF0aCBjbGFzcz0iY2xzLTEiIGQ9Ik01NjUuMSwxMjUuMTJoNDQuMnYtMTQuOTZoLTI4LjI2di0yOC4xaDIyLjY0di0xNC4wMWgtMjIuNjR2LTIzLjE2aDI4LjI2di0xNC45M2gtNDQuMnY5NS4xNVoiLz4KICA8cGF0aCBjbGFzcz0iY2xzLTEiIGQ9Ik02NjUuNzgsMTA2LjIzYy0uOTgtMTEuMjUtMS45OS0yMi44OS0xMC4wNS0yNi4wNiw3LjY0LTMuNjEsMTEuNzUtMTMuODYsMTEuNzUtMjIuNDIsMC0yNS42NS0xOC40MS0yNy43OC0zNS42Ni0yNy43OGgtMTQuNzh2OTUuMTVoMTYuMDZ2LTM4LjExaDkuMDFjNy4wNSwwLDcuMiw4LjU5LDcuMzgsMTguNTQuMTIsNi42Ni4yNCwxMy41NiwyLjM1LDE5LjFsLjE4LjQ3aDE3LjQ5bC0uNTEtMS4wN2MtMi4wOC00LjQ0LTIuNjUtMTAuOTMtMy4yNC0xNy44M2guMDNaTTYzNy44NSw3My40MmgtNC43M3YtMjguOWM5LjQ2LjA2LDE4LjQ0LDEuNDUsMTguNDQsMTQuMywwLDEzLjg5LTExLjQyLDE0LjU3LTEzLjcxLDE0LjU3di4wM1oiLz4KICA8cGF0aCBjbGFzcz0iY2xzLTEiIGQ9Ik03MzguMzYsNzQuODFjNS4zNS0yLjgxLDExLjg3LTkuOTgsMTEuODctMTkuMzQsMC0yMi41MS0xOC4wMi0yNS41My0zNS42Ni0yNS41M2gtMTQuNzh2OTUuMTVoMTguMjZjMjIuNzIsMCwzNC43NC05LjY1LDM0Ljc0LTI3LjkzLDAtMTIuNzMtNy4xNC0xOS43NS0xNC40My0yMi4zOXYuMDNaTTcxNS42OSw0NC41MWg0LjczYzMuODEsMCwxMy43MSwyLjE2LDEzLjcxLDEyLjA1LDAsOS4zLTEwLjA1LDEyLjItMTMuNzEsMTIuMmgtNC43M3YtMjQuMjVaTTcxOS4yMywxMTAuNDRoLTMuNTR2LTI4LjIyaDcuMDJjMy43OCwwLDE0LjEsMy4xNCwxNC4xLDEzLjI0LDAsMTQuMjctMTQuNjYsMTQuOTktMTcuNTgsMTQuOTlaIi8+CiAgPHBhdGggY2xhc3M9ImNscy0xIiBkPSJNNzYwLjc1LDEyNS4xMmg0NC4ydi0xNC45NmgtMjguMjZ2LTI4LjFoMjIuNjN2LTE0LjAxaC0yMi42M3YtMjMuMTZoMjguMjZ2LTE0LjkzaC00NC4ydjk1LjE1WiIvPgogIDxwYXRoIGNsYXNzPSJjbHMtMSIgZD0iTTgxMi42OSwxMjUuMTJoNDQuMTd2LTE0Ljk2aC0yOC4yM3YtMjguMWgyMi42MXYtMTQuMDFoLTIyLjYxdi0yMy4xNmgyOC4yM3YtMTQuOTNoLTQ0LjE3djk1LjE1WiIvPgogIDxwYXRoIGNsYXNzPSJjbHMtMSIgZD0iTTg5My44OSw3MC41N2MtOS41Mi01Ljg2LTEzLjcxLTkuMy0xMy43MS0xNy43NywwLS4wOS41OS05LjY1LDkuOTYtOS42NSwyLjY1LDAsNC43OSwxLjAxLDYuMzYsMi45OSwyLjk3LDMuNywzLjI3LDkuODMsMi4yNiwxNC4yMWwtLjI3LDEuMTMsMTcuNzktMy44NXYtLjYyYy0uMy0xOC4xOC0xMC4wMi0yOC4xOS0yNy40LTI4LjE5cy0yNi4xNywxMi4zMi0yNi4xNywyMy45M2MwLDEyLjI5LDcuMjksMjIuNzQsMjIuMzEsMzEuOTUsOC40NSw1LjEyLDEzLjY4LDkuODksMTMuNjgsMTcuNzcsMCwuOTgtLjQ4LDMuOTctMi42OCw2LjEtMS43MywxLjY5LTQuMTYsMi40Ni03LjE0LDIuNDktMy4wOS0uMDYtNS4yNi0xLjk4LTYuNTQtMy41OC0zLjA5LTMuODgtNC4zNC05LjkyLTMuMTgtMTUuMzdsLjI3LTEuMjEtMTcuODIsNS4wM3YuNTljLjk1LDE4LjcyLDExLjE1LDI5Ljg4LDI3LjI3LDI5Ljg4LDEzLjI3LDAsMjcuMzYtOC4zOCwyNy4zNi0yMy45MywwLTEyLjM1LTcuMzUtMjIuOC0yMi40My0zMS45NWwuMDYuMDZaIi8+CiAgPHBhdGggY2xhc3M9ImNscy0xIiBkPSJNOTM0Ljk4LDM2LjcxYzAsNC4zMy0zLjU5LDcuOTItNy45Miw3Ljkycy03LjktMy42MS03LjktNy45MiwzLjU5LTcuOTIsNy45Mi03LjkyLDcuOTIsMy41OSw3LjkyLDcuOTJoLS4wMlpNOTMyLjk4LDM2LjcxYzAtMy4yOC0yLjYyLTUuOS01LjktNS45cy01LjkyLDIuNjItNS45Miw1LjksMi42Miw1LjksNS45LDUuOSw1LjktMi42Miw1LjktNS45aC4wMlpNOTI5Ljg5LDQwLjkyaC0xLjc0Yy0uNS0xLjMxLjE5LTMuNC0xLTMuNGgtLjU0djMuNGgtMS43OHYtOC42NWgxLjg1YzEuNzQsMCwzLjA5LjI2LDMuMDksMi41LDAsLjg1LS41NywxLjg1LTEuMzUsMi4wOSwxLjM4LjI0Ljk3LDIuOSwxLjQ3LDQuMDVoMFpNOTI4LjAxLDM0Ljg1YzAtMS4yOC0uNTctMS4zOC0xLjM4LTEuMzh2Mi44MWMuODEsMCwxLjM4LS4xOSwxLjM4LTEuNDNaIi8+Cjwvc3ZnPg==" alt="The Helper Bees" style="height: 50px; margin-bottom: 12px;">
             <h1>Zendesk Ticket Routing Guide</h1>
             <p style="opacity:0.8; margin-bottom: 24px;">The Helper Bees Support Team Structure</p>
@@ -2755,6 +2978,7 @@
             <div class="header-meta" style="margin-top:16px;">
                 <span class="last-updated">🕒 Last updated: April 1, 2026</span>
             </div>
+            <canvas id="headerParticles" style="position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;opacity:0.35;z-index:-1;"></canvas>
         </div>
 
         <div class="search-container" style="display:none;"></div>
@@ -6661,6 +6885,238 @@
             document.getElementById('emptyTerm').textContent = term;
             el.style.display = show ? 'block' : 'none';
         }
+
+        // ── ★ Floating particles in header ─────────────────────────
+        (function() {
+            const canvas = document.getElementById('headerParticles');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            let W, H, particles = [], raf;
+
+            function resize() {
+                W = canvas.width  = canvas.offsetWidth;
+                H = canvas.height = canvas.offsetHeight;
+            }
+
+            function Particle() {
+                this.x = Math.random() * W;
+                this.y = Math.random() * H;
+                this.r = Math.random() * 2 + 0.5;
+                this.vx = (Math.random() - 0.5) * 0.35;
+                this.vy = (Math.random() - 0.5) * 0.25;
+                this.alpha = Math.random() * 0.6 + 0.2;
+                this.pulse = Math.random() * Math.PI * 2;
+            }
+
+            function init() {
+                resize();
+                particles = Array.from({ length: 55 }, () => new Particle());
+            }
+
+            function draw() {
+                ctx.clearRect(0, 0, W, H);
+                particles.forEach(p => {
+                    p.pulse += 0.018;
+                    p.x += p.vx;
+                    p.y += p.vy;
+                    if (p.x < 0) p.x = W;
+                    if (p.x > W) p.x = 0;
+                    if (p.y < 0) p.y = H;
+                    if (p.y > H) p.y = 0;
+                    const a = p.alpha * (0.7 + 0.3 * Math.sin(p.pulse));
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+                    ctx.fillStyle = `rgba(255,214,70,${a})`;
+                    ctx.fill();
+                });
+                // Draw faint connecting lines between nearby particles
+                for (let i = 0; i < particles.length; i++) {
+                    for (let j = i + 1; j < particles.length; j++) {
+                        const dx = particles[i].x - particles[j].x;
+                        const dy = particles[i].y - particles[j].y;
+                        const dist = Math.sqrt(dx * dx + dy * dy);
+                        if (dist < 80) {
+                            ctx.beginPath();
+                            ctx.moveTo(particles[i].x, particles[i].y);
+                            ctx.lineTo(particles[j].x, particles[j].y);
+                            ctx.strokeStyle = `rgba(255,214,70,${0.12 * (1 - dist / 80)})`;
+                            ctx.lineWidth = 0.6;
+                            ctx.stroke();
+                        }
+                    }
+                }
+                raf = requestAnimationFrame(draw);
+            }
+
+            window.addEventListener('resize', () => { resize(); });
+            init();
+            draw();
+        })();
+
+        // ── ★ Scroll reveal — re-animates on every tab switch ────────
+        (function() {
+            const REVEAL_SELS = '.reveal, .reveal-left, .reveal-scale';
+
+            const revealObs = new IntersectionObserver((entries) => {
+                entries.forEach(e => {
+                    if (e.isIntersecting) {
+                        e.target.classList.add('visible');
+                        // Keep observing so it can re-trigger on next tab switch
+                    }
+                });
+            }, { threshold: 0.05, rootMargin: '0px 0px -30px 0px' });
+
+            function attachReveals() {
+                // Team hub cards
+                document.querySelectorAll('.team-hub-card:not(.reveal-bound)').forEach((el, i) => {
+                    el.classList.add('reveal', 'reveal-bound');
+                    el.style.transitionDelay = `${i * 0.06}s`;
+                    revealObs.observe(el);
+                });
+                // Info cards on team pages
+                document.querySelectorAll('.info-card:not(.reveal-bound)').forEach((el, i) => {
+                    el.classList.add('reveal', 'reveal-bound');
+                    el.style.transitionDelay = `${i * 0.05}s`;
+                    revealObs.observe(el);
+                });
+                // Workflow collapsibles
+                document.querySelectorAll('.workflow-collapsible:not(.reveal-bound)').forEach((el, i) => {
+                    el.classList.add('reveal', 'reveal-bound');
+                    el.style.transitionDelay = `${i * 0.04}s`;
+                    revealObs.observe(el);
+                });
+                // Routing table rows
+                document.querySelectorAll('.wf-table tr:not(.reveal-bound)').forEach((el, i) => {
+                    el.classList.add('reveal', 'reveal-bound');
+                    el.style.transitionDelay = `${Math.min(i * 0.03, 0.25)}s`;
+                    revealObs.observe(el);
+                });
+                // SLA tier cards
+                document.querySelectorAll('.tier-card:not(.reveal-bound)').forEach((el, i) => {
+                    el.classList.add('reveal-scale', 'reveal-bound');
+                    el.style.transitionDelay = `${i * 0.07}s`;
+                    revealObs.observe(el);
+                });
+                // FAQ items
+                document.querySelectorAll('.faq-item:not(.reveal-bound)').forEach((el, i) => {
+                    el.classList.add('reveal', 'reveal-bound');
+                    el.style.transitionDelay = `${i * 0.05}s`;
+                    revealObs.observe(el);
+                });
+                // SR cards in search results
+                document.querySelectorAll('.sr-card:not(.reveal-bound)').forEach((el, i) => {
+                    el.style.animationDelay = `${i * 0.04}s`;
+                    el.classList.add('reveal-bound');
+                });
+                // Overview policy alert banner
+                document.querySelectorAll('.policy-alert-banner:not(.reveal-bound)').forEach(el => {
+                    el.classList.add('reveal-left', 'reveal-bound');
+                    revealObs.observe(el);
+                });
+            }
+
+            // Reset all reveal elements in a tab, then re-observe so they animate again
+            function resetTab(tabId) {
+                const tab = document.getElementById(tabId);
+                if (!tab) return;
+                // Strip visible so they're hidden again
+                tab.querySelectorAll(REVEAL_SELS).forEach(el => {
+                    el.classList.remove('visible');
+                });
+                // Force a reflow so the transition sees the removed class
+                tab.offsetHeight; // eslint-disable-line no-unused-expressions
+                // Re-observe — IntersectionObserver will fire immediately since
+                // elements are in the viewport (tab just became active)
+                tab.querySelectorAll(REVEAL_SELS).forEach(el => {
+                    revealObs.unobserve(el);
+                    revealObs.observe(el);
+                });
+            }
+
+            // Run on page load
+            attachReveals();
+
+            // Re-trigger on every tab switch
+            const origOpenTab = window.openTab;
+            window.openTab = function(e, tabId) {
+                origOpenTab(e, tabId);
+                setTimeout(() => { attachReveals(); resetTab(tabId); }, 30);
+            };
+            const origOpenTabById = window.openTabById;
+            window.openTabById = function(tabId) {
+                origOpenTabById(tabId);
+                setTimeout(() => { attachReveals(); resetTab(tabId); }, 30);
+            };
+        })();
+
+        // ── ★ Ripple effect on interactive elements ─────────────────
+        (function() {
+            function addRipple(el) {
+                el.classList.add('ripple-host');
+                el.addEventListener('pointerdown', function(e) {
+                    const rect = el.getBoundingClientRect();
+                    const size = Math.max(rect.width, rect.height) * 2;
+                    const x = e.clientX - rect.left - size / 2;
+                    const y = e.clientY - rect.top  - size / 2;
+                    const wave = document.createElement('span');
+                    wave.className = 'ripple-wave';
+                    wave.style.cssText = `width:${size}px;height:${size}px;left:${x}px;top:${y}px;`;
+                    el.appendChild(wave);
+                    wave.addEventListener('animationend', () => wave.remove());
+                });
+            }
+
+            function attachRipples() {
+                document.querySelectorAll([
+                    '.workflow-collapsible-header',
+                    '.team-hub-card',
+                    '.sr-card',
+                    '.tab',
+                    '.search-popular-chip',
+                    '.search-hint',
+                    '.feedback-btn',
+                    '.wf-sidebar-btn',
+                    '.ep-step',
+                ].join(',')).forEach(el => {
+                    if (!el.dataset.ripple) {
+                        el.dataset.ripple = '1';
+                        addRipple(el);
+                    }
+                });
+            }
+
+            attachRipples();
+            document.addEventListener('click', () => setTimeout(attachRipples, 200));
+        })();
+
+        // ── ★ Animated counter for badge numbers ────────────────────
+        (function() {
+            function animateCounter(el) {
+                const target = parseInt(el.textContent);
+                if (isNaN(target)) return;
+                let start = 0;
+                const dur = 600;
+                const step = timestamp => {
+                    if (!start) start = timestamp;
+                    const progress = Math.min((timestamp - start) / dur, 1);
+                    const eased = 1 - Math.pow(1 - progress, 3);
+                    el.textContent = Math.round(eased * target) + ' workflows';
+                    if (progress < 1) requestAnimationFrame(step);
+                };
+                requestAnimationFrame(step);
+            }
+
+            const badge = document.querySelector('.team-process-banner-badge');
+            if (badge) {
+                const obs = new IntersectionObserver(entries => {
+                    if (entries[0].isIntersecting) {
+                        animateCounter(badge);
+                        obs.disconnect();
+                    }
+                }, { threshold: 0.5 });
+                obs.observe(badge);
+            }
+        })();
     </script>
 
 </html>
