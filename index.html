@@ -3037,32 +3037,32 @@
                         <tr>
                             <td class="qr-team" style="cursor:pointer;" onclick="openTab(event,'teams');openTeamDetail('compliance')">⚖️ Compliance</td>
                             <td>Member grievances, audits, risk management reports</td>
-                            <td><span class="badge badge-tier2">Tier 2</span></td>
+                            <td><span class="badge badge-tier2" onclick="openTabById('sla')" title="View SLA &amp; Tiers" style="cursor:pointer;">Tier 2</span></td>
                         </tr>
                         <tr>
                             <td class="qr-team" style="cursor:pointer;" onclick="openTab(event,'teams');openTeamDetail('customer-service')">🎧 Customer Service</td>
                             <td>Login help, referral creation, member comms, refunds/disputes, registration</td>
-                            <td><span class="badge badge-tier1">Tier 1</span> <span class="badge badge-tier2">Tier 2</span></td>
+                            <td><span class="badge badge-tier1" onclick="openTabById('sla')" title="View SLA &amp; Tiers" style="cursor:pointer;">Tier 1</span> <span class="badge badge-tier2" onclick="openTabById('sla')" title="View SLA &amp; Tiers" style="cursor:pointer;">Tier 2</span></td>
                         </tr>
                         <tr>
                             <td class="qr-team" style="cursor:pointer;" onclick="openTab(event,'teams');openTeamDetail('fulfillment')">📦 Fulfillment</td>
                             <td>Bill pay, reimbursements (rent/mortgage/utilities), OTC returns & exchanges</td>
-                            <td><span class="badge badge-tier2">Tier 2</span></td>
+                            <td><span class="badge badge-tier2" onclick="openTabById('sla')" title="View SLA &amp; Tiers" style="cursor:pointer;">Tier 2</span></td>
                         </tr>
                         <tr>
                             <td class="qr-team" style="cursor:pointer;" onclick="openTab(event,'teams');openTeamDetail('network-dev')">🌐 Network Development</td>
                             <td>Referrals with no providers, member requests to onboard specific providers</td>
-                            <td><span class="badge badge-tier1">Tier 1</span></td>
+                            <td><span class="badge badge-tier1" onclick="openTabById('sla')" title="View SLA &amp; Tiers" style="cursor:pointer;">Tier 1</span></td>
                         </tr>
                         <tr>
                             <td class="qr-team" style="cursor:pointer;" onclick="openTab(event,'teams');openTeamDetail('product')">🛠️ Product</td>
                             <td>System issues/outages, bugs, product investigations, McKesson products</td>
-                            <td><span class="badge badge-tier3">Tier 3</span></td>
+                            <td><span class="badge badge-tier3" onclick="openTabById('sla')" title="View SLA &amp; Tiers" style="cursor:pointer;">Tier 3</span></td>
                         </tr>
                         <tr>
                             <td class="qr-team" style="cursor:pointer;" onclick="openTab(event,'teams');openTeamDetail('rbc')">📍 RBC</td>
                             <td>Provider questions, member re-assignments, meal/transport escalations, declinations</td>
-                            <td><span class="badge badge-tier1">Tier 1</span> <span class="badge badge-tier2">Tier 2</span></td>
+                            <td><span class="badge badge-tier1" onclick="openTabById('sla')" title="View SLA &amp; Tiers" style="cursor:pointer;">Tier 1</span> <span class="badge badge-tier2" onclick="openTabById('sla')" title="View SLA &amp; Tiers" style="cursor:pointer;">Tier 2</span></td>
                         </tr>
                     </tbody>
                 </table>
@@ -3088,37 +3088,37 @@
                             <div class="team-hub-icon">⚖️</div>
                             <div class="team-hub-name">Compliance</div>
                             <div class="team-hub-desc">Grievances, audits, risk management</div>
-                            <div class="team-hub-tier"><span class="badge badge-tier2">Tier 2</span></div>
+                            <div class="team-hub-tier"><span class="badge badge-tier2" onclick="openTabById('sla')" title="View SLA &amp; Tiers" style="cursor:pointer;">Tier 2</span></div>
                         </div>
                         <div class="team-hub-card" onclick="openTeamDetail('customer-service')">
                             <div class="team-hub-icon">🎧</div>
                             <div class="team-hub-name">Customer Service</div>
                             <div class="team-hub-desc">Login help, referrals, refunds, member comms</div>
-                            <div class="team-hub-tier"><span class="badge badge-tier1">Tier 1</span> <span class="badge badge-tier2">Tier 2</span></div>
+                            <div class="team-hub-tier"><span class="badge badge-tier1" onclick="openTabById('sla')" title="View SLA &amp; Tiers" style="cursor:pointer;">Tier 1</span> <span class="badge badge-tier2" onclick="openTabById('sla')" title="View SLA &amp; Tiers" style="cursor:pointer;">Tier 2</span></div>
                         </div>
                         <div class="team-hub-card" onclick="openTeamDetail('fulfillment')">
                             <div class="team-hub-icon">📦</div>
                             <div class="team-hub-name">Fulfillment</div>
                             <div class="team-hub-desc">Bill pay, reimbursements, OTC returns</div>
-                            <div class="team-hub-tier"><span class="badge badge-tier2">Tier 2</span></div>
+                            <div class="team-hub-tier"><span class="badge badge-tier2" onclick="openTabById('sla')" title="View SLA &amp; Tiers" style="cursor:pointer;">Tier 2</span></div>
                         </div>
                         <div class="team-hub-card" onclick="openTeamDetail('network-dev')">
                             <div class="team-hub-icon">🌐</div>
                             <div class="team-hub-name">Network Development</div>
                             <div class="team-hub-desc">Provider referrals and network onboarding</div>
-                            <div class="team-hub-tier"><span class="badge badge-tier1">Tier 1</span></div>
+                            <div class="team-hub-tier"><span class="badge badge-tier1" onclick="openTabById('sla')" title="View SLA &amp; Tiers" style="cursor:pointer;">Tier 1</span></div>
                         </div>
                         <div class="team-hub-card" onclick="openTeamDetail('product')">
                             <div class="team-hub-icon">🛠️</div>
                             <div class="team-hub-name">Product</div>
                             <div class="team-hub-desc">System issues, bugs, product investigations</div>
-                            <div class="team-hub-tier"><span class="badge badge-tier3">Tier 3</span></div>
+                            <div class="team-hub-tier"><span class="badge badge-tier3" onclick="openTabById('sla')" title="View SLA &amp; Tiers" style="cursor:pointer;">Tier 3</span></div>
                         </div>
                         <div class="team-hub-card" onclick="openTeamDetail('rbc')">
                             <div class="team-hub-icon">📍</div>
                             <div class="team-hub-name">Regional Benefit Coordinators</div>
                             <div class="team-hub-desc">Provider questions, member re-assignments, escalations</div>
-                            <div class="team-hub-tier"><span class="badge badge-tier1">Tier 1</span> <span class="badge badge-tier2">Tier 2</span></div>
+                            <div class="team-hub-tier"><span class="badge badge-tier1" onclick="openTabById('sla')" title="View SLA &amp; Tiers" style="cursor:pointer;">Tier 1</span> <span class="badge badge-tier2" onclick="openTabById('sla')" title="View SLA &amp; Tiers" style="cursor:pointer;">Tier 2</span></div>
                         </div>
                     </div>
                 </div>
@@ -3390,7 +3390,7 @@
                         </div>
                         <div class="workflow-diagram">
                             <h3 style="color:#003322;margin-bottom:15px;">Product Support Routing</h3>
-                            <p><span class="badge badge-tier3">Tier 3</span> — No committed timelines due to the nature of investigations. Periodic updates provided, then resolution with findings.</p>
+                            <p><span class="badge badge-tier3" onclick="openTabById('sla')" title="View SLA &amp; Tiers" style="cursor:pointer;">Tier 3</span> — No committed timelines due to the nature of investigations. Periodic updates provided, then resolution with findings.</p>
                         </div>
 
                         <!-- THB User System Issues -->
@@ -4017,12 +4017,12 @@
                             <table class="wf-table">
                                 <thead><tr><th>Issue Type</th><th>Team</th><th>Tier</th></tr></thead>
                                 <tbody>
-                                    <tr class="wf-row-cs"><td>I need help logging in</td><td><button class="wf-team-btn wf-cs" onclick="openTabById('teams');openTeamDetail('customer-service')">Customer Service</button></td><td><span class="badge badge-tier1">Tier 1</span></td></tr>
-                                    <tr class="wf-row-cs"><td>I have a question about my order/service</td><td><button class="wf-team-btn wf-cs" onclick="openTabById('teams');openTeamDetail('customer-service')">Customer Service</button></td><td><span class="badge badge-tier1">Tier 1</span></td></tr>
-                                    <tr class="wf-row-cs"><td>Need a refund</td><td><button class="wf-team-btn wf-cs" onclick="openTabById('teams');openTeamDetail('customer-service')">Customer Service</button></td><td><span class="badge badge-tier2">Tier 2</span></td></tr>
-                                    <tr class="wf-row-acct"><td>Account creation/deletion</td><td><span class="wf-team-btn wf-acct">THB Accounts</span></td><td><span class="badge badge-tier2">Tier 2</span></td></tr>
-                                    <tr class="wf-row-rbc"><td>Provider: change request / report a provider issue</td><td><button class="wf-team-btn wf-rbc" onclick="openTabById('teams');openTeamDetail('rbc')">RBC</button></td><td><span class="badge badge-tier1">Tier 1</span></td></tr>
-                                    <tr class="wf-row-product"><td>Report system issue/outage</td><td><button class="wf-team-btn wf-product" onclick="openTabById('teams');openTeamDetail('product')">Product</button></td><td><span class="badge badge-tier3">Tier 3</span></td></tr>
+                                    <tr class="wf-row-cs"><td>I need help logging in</td><td><button class="wf-team-btn wf-cs" onclick="openTabById('teams');openTeamDetail('customer-service')">Customer Service</button></td><td><span class="badge badge-tier1" onclick="openTabById('sla')" title="View SLA &amp; Tiers" style="cursor:pointer;">Tier 1</span></td></tr>
+                                    <tr class="wf-row-cs"><td>I have a question about my order/service</td><td><button class="wf-team-btn wf-cs" onclick="openTabById('teams');openTeamDetail('customer-service')">Customer Service</button></td><td><span class="badge badge-tier1" onclick="openTabById('sla')" title="View SLA &amp; Tiers" style="cursor:pointer;">Tier 1</span></td></tr>
+                                    <tr class="wf-row-cs"><td>Need a refund</td><td><button class="wf-team-btn wf-cs" onclick="openTabById('teams');openTeamDetail('customer-service')">Customer Service</button></td><td><span class="badge badge-tier2" onclick="openTabById('sla')" title="View SLA &amp; Tiers" style="cursor:pointer;">Tier 2</span></td></tr>
+                                    <tr class="wf-row-acct"><td>Account creation/deletion</td><td><span class="wf-team-btn wf-acct">THB Accounts</span></td><td><span class="badge badge-tier2" onclick="openTabById('sla')" title="View SLA &amp; Tiers" style="cursor:pointer;">Tier 2</span></td></tr>
+                                    <tr class="wf-row-rbc"><td>Provider: change request / report a provider issue</td><td><button class="wf-team-btn wf-rbc" onclick="openTabById('teams');openTeamDetail('rbc')">RBC</button></td><td><span class="badge badge-tier1" onclick="openTabById('sla')" title="View SLA &amp; Tiers" style="cursor:pointer;">Tier 1</span></td></tr>
+                                    <tr class="wf-row-product"><td>Report system issue/outage</td><td><button class="wf-team-btn wf-product" onclick="openTabById('teams');openTeamDetail('product')">Product</button></td><td><span class="badge badge-tier3" onclick="openTabById('sla')" title="View SLA &amp; Tiers" style="cursor:pointer;">Tier 3</span></td></tr>
                                 </tbody>
                             </table>
                         </div>
@@ -4033,16 +4033,16 @@
                             <table class="wf-table">
                                 <thead><tr><th>Issue Type</th><th>Team</th><th>Tier</th></tr></thead>
                                 <tbody>
-                                    <tr class="wf-row-cs"><td>I need help logging in</td><td><button class="wf-team-btn wf-cs" onclick="openTabById('teams');openTeamDetail('customer-service')">Customer Service</button></td><td><span class="badge badge-tier1">Tier 1</span></td></tr>
-                                    <tr class="wf-row-cs"><td>I have a question about my order/service</td><td><button class="wf-team-btn wf-cs" onclick="openTabById('teams');openTeamDetail('customer-service')">Customer Service</button></td><td><span class="badge badge-tier1">Tier 1</span></td></tr>
-                                    <tr class="wf-row-cs"><td>Need a refund</td><td><button class="wf-team-btn wf-cs" onclick="openTabById('teams');openTeamDetail('customer-service')">Customer Service</button></td><td><span class="badge badge-tier2">Tier 2</span></td></tr>
-                                    <tr class="wf-row-cs"><td>Catalog request</td><td><button class="wf-team-btn wf-cs" onclick="openTabById('teams');openTeamDetail('customer-service')">Customer Service</button></td><td><span class="badge badge-tier1">Tier 1</span></td></tr>
-                                    <tr class="wf-row-acct"><td>Account creation/deletion</td><td><span class="wf-team-btn wf-acct">THB Accounts</span></td><td><span class="badge badge-tier2">Tier 2</span></td></tr>
-                                    <tr class="wf-row-rbc"><td>Provider: change request / report a provider issue</td><td><button class="wf-team-btn wf-rbc" onclick="openTabById('teams');openTeamDetail('rbc')">RBC</button></td><td><span class="badge badge-tier1">Tier 1</span></td></tr>
-                                    <tr class="wf-row-rbc"><td>Declination</td><td><button class="wf-team-btn wf-rbc" onclick="openTabById('teams');openTeamDetail('rbc')">RBC</button></td><td><span class="badge badge-tier2">Tier 2</span></td></tr>
-                                    <tr class="wf-row-product"><td>Funds are not in account</td><td><button class="wf-team-btn wf-product" onclick="openTabById('teams');openTeamDetail('product')">Product</button></td><td><span class="badge badge-tier3">Tier 3</span></td></tr>
-                                    <tr class="wf-row-product"><td>Consumer Portal cart/transaction issue</td><td><button class="wf-team-btn wf-product" onclick="openTabById('teams');openTeamDetail('product')">Product</button></td><td><span class="badge badge-tier3">Tier 3</span></td></tr>
-                                    <tr class="wf-row-product"><td>Report system issue/outage</td><td><button class="wf-team-btn wf-product" onclick="openTabById('teams');openTeamDetail('product')">Product</button></td><td><span class="badge badge-tier3">Tier 3</span></td></tr>
+                                    <tr class="wf-row-cs"><td>I need help logging in</td><td><button class="wf-team-btn wf-cs" onclick="openTabById('teams');openTeamDetail('customer-service')">Customer Service</button></td><td><span class="badge badge-tier1" onclick="openTabById('sla')" title="View SLA &amp; Tiers" style="cursor:pointer;">Tier 1</span></td></tr>
+                                    <tr class="wf-row-cs"><td>I have a question about my order/service</td><td><button class="wf-team-btn wf-cs" onclick="openTabById('teams');openTeamDetail('customer-service')">Customer Service</button></td><td><span class="badge badge-tier1" onclick="openTabById('sla')" title="View SLA &amp; Tiers" style="cursor:pointer;">Tier 1</span></td></tr>
+                                    <tr class="wf-row-cs"><td>Need a refund</td><td><button class="wf-team-btn wf-cs" onclick="openTabById('teams');openTeamDetail('customer-service')">Customer Service</button></td><td><span class="badge badge-tier2" onclick="openTabById('sla')" title="View SLA &amp; Tiers" style="cursor:pointer;">Tier 2</span></td></tr>
+                                    <tr class="wf-row-cs"><td>Catalog request</td><td><button class="wf-team-btn wf-cs" onclick="openTabById('teams');openTeamDetail('customer-service')">Customer Service</button></td><td><span class="badge badge-tier1" onclick="openTabById('sla')" title="View SLA &amp; Tiers" style="cursor:pointer;">Tier 1</span></td></tr>
+                                    <tr class="wf-row-acct"><td>Account creation/deletion</td><td><span class="wf-team-btn wf-acct">THB Accounts</span></td><td><span class="badge badge-tier2" onclick="openTabById('sla')" title="View SLA &amp; Tiers" style="cursor:pointer;">Tier 2</span></td></tr>
+                                    <tr class="wf-row-rbc"><td>Provider: change request / report a provider issue</td><td><button class="wf-team-btn wf-rbc" onclick="openTabById('teams');openTeamDetail('rbc')">RBC</button></td><td><span class="badge badge-tier1" onclick="openTabById('sla')" title="View SLA &amp; Tiers" style="cursor:pointer;">Tier 1</span></td></tr>
+                                    <tr class="wf-row-rbc"><td>Declination</td><td><button class="wf-team-btn wf-rbc" onclick="openTabById('teams');openTeamDetail('rbc')">RBC</button></td><td><span class="badge badge-tier2" onclick="openTabById('sla')" title="View SLA &amp; Tiers" style="cursor:pointer;">Tier 2</span></td></tr>
+                                    <tr class="wf-row-product"><td>Funds are not in account</td><td><button class="wf-team-btn wf-product" onclick="openTabById('teams');openTeamDetail('product')">Product</button></td><td><span class="badge badge-tier3" onclick="openTabById('sla')" title="View SLA &amp; Tiers" style="cursor:pointer;">Tier 3</span></td></tr>
+                                    <tr class="wf-row-product"><td>Consumer Portal cart/transaction issue</td><td><button class="wf-team-btn wf-product" onclick="openTabById('teams');openTeamDetail('product')">Product</button></td><td><span class="badge badge-tier3" onclick="openTabById('sla')" title="View SLA &amp; Tiers" style="cursor:pointer;">Tier 3</span></td></tr>
+                                    <tr class="wf-row-product"><td>Report system issue/outage</td><td><button class="wf-team-btn wf-product" onclick="openTabById('teams');openTeamDetail('product')">Product</button></td><td><span class="badge badge-tier3" onclick="openTabById('sla')" title="View SLA &amp; Tiers" style="cursor:pointer;">Tier 3</span></td></tr>
                                 </tbody>
                             </table>
                         </div>
@@ -4053,18 +4053,18 @@
                             <table class="wf-table">
                                 <thead><tr><th>Issue Type</th><th>Team</th><th>Tier</th></tr></thead>
                                 <tbody>
-                                    <tr class="wf-row-cs"><td>I need help logging in</td><td><button class="wf-team-btn wf-cs" onclick="openTabById('teams');openTeamDetail('customer-service')">Customer Service</button></td><td><span class="badge badge-tier1">Tier 1</span></td></tr>
-                                    <tr class="wf-row-cs"><td>I have a question about my order/service</td><td><button class="wf-team-btn wf-cs" onclick="openTabById('teams');openTeamDetail('customer-service')">Customer Service</button></td><td><span class="badge badge-tier1">Tier 1</span></td></tr>
-                                    <tr class="wf-row-rbc"><td>Need a refund</td><td><button class="wf-team-btn wf-rbc" onclick="openTabById('teams');openTeamDetail('rbc')">RBC</button></td><td><span class="badge badge-tier2">Tier 2</span></td></tr>
-                                    <tr class="wf-row-acct"><td>Account creation/deletion</td><td><span class="wf-team-btn wf-acct">THB Accounts</span></td><td><span class="badge badge-tier2">Tier 2</span></td></tr>
-                                    <tr class="wf-row-rbc"><td>Provider: change request / report a provider issue</td><td><button class="wf-team-btn wf-rbc" onclick="openTabById('teams');openTeamDetail('rbc')">RBC</button></td><td><span class="badge badge-tier1">Tier 1</span></td></tr>
-                                    <tr class="wf-row-rbc"><td>Member authorizations/referral questions</td><td><button class="wf-team-btn wf-rbc" onclick="openTabById('teams');openTeamDetail('rbc')">RBC</button></td><td><span class="badge badge-tier2">Tier 2</span></td></tr>
-                                    <tr class="wf-row-product"><td>Report system issue/outage</td><td><button class="wf-team-btn wf-product" onclick="openTabById('teams');openTeamDetail('product')">Product</button></td><td><span class="badge badge-tier3">Tier 3</span></td></tr>
-                                    <tr class="wf-row-rbc"><td>2 hour show up fee</td><td><button class="wf-team-btn wf-rbc" onclick="openTabById('teams');openTeamDetail('rbc')">RBC</button></td><td><span class="badge badge-tier2">Tier 2</span></td></tr>
-                                    <tr class="wf-row-rbc"><td>Cancel service</td><td><button class="wf-team-btn wf-rbc" onclick="openTabById('teams');openTeamDetail('rbc')">RBC</button></td><td><span class="badge badge-tier1">Tier 1</span></td></tr>
-                                    <tr class="wf-row-rbc"><td>Parking request</td><td><button class="wf-team-btn wf-rbc" onclick="openTabById('teams');openTeamDetail('rbc')">RBC</button></td><td><span class="badge badge-tier1">Tier 1</span></td></tr>
-                                    <tr class="wf-row-rbc"><td>Embrace Referral</td><td><button class="wf-team-btn wf-rbc" onclick="openTabById('teams');openTeamDetail('rbc')">RBC</button></td><td><span class="badge badge-tier2">Tier 2</span></td></tr>
-                                    <tr class="wf-row-cs"><td>Other</td><td><button class="wf-team-btn wf-cs" onclick="openTabById('teams');openTeamDetail('customer-service')">Customer Service</button></td><td><span class="badge badge-tier1">Tier 1</span></td></tr>
+                                    <tr class="wf-row-cs"><td>I need help logging in</td><td><button class="wf-team-btn wf-cs" onclick="openTabById('teams');openTeamDetail('customer-service')">Customer Service</button></td><td><span class="badge badge-tier1" onclick="openTabById('sla')" title="View SLA &amp; Tiers" style="cursor:pointer;">Tier 1</span></td></tr>
+                                    <tr class="wf-row-cs"><td>I have a question about my order/service</td><td><button class="wf-team-btn wf-cs" onclick="openTabById('teams');openTeamDetail('customer-service')">Customer Service</button></td><td><span class="badge badge-tier1" onclick="openTabById('sla')" title="View SLA &amp; Tiers" style="cursor:pointer;">Tier 1</span></td></tr>
+                                    <tr class="wf-row-rbc"><td>Need a refund</td><td><button class="wf-team-btn wf-rbc" onclick="openTabById('teams');openTeamDetail('rbc')">RBC</button></td><td><span class="badge badge-tier2" onclick="openTabById('sla')" title="View SLA &amp; Tiers" style="cursor:pointer;">Tier 2</span></td></tr>
+                                    <tr class="wf-row-acct"><td>Account creation/deletion</td><td><span class="wf-team-btn wf-acct">THB Accounts</span></td><td><span class="badge badge-tier2" onclick="openTabById('sla')" title="View SLA &amp; Tiers" style="cursor:pointer;">Tier 2</span></td></tr>
+                                    <tr class="wf-row-rbc"><td>Provider: change request / report a provider issue</td><td><button class="wf-team-btn wf-rbc" onclick="openTabById('teams');openTeamDetail('rbc')">RBC</button></td><td><span class="badge badge-tier1" onclick="openTabById('sla')" title="View SLA &amp; Tiers" style="cursor:pointer;">Tier 1</span></td></tr>
+                                    <tr class="wf-row-rbc"><td>Member authorizations/referral questions</td><td><button class="wf-team-btn wf-rbc" onclick="openTabById('teams');openTeamDetail('rbc')">RBC</button></td><td><span class="badge badge-tier2" onclick="openTabById('sla')" title="View SLA &amp; Tiers" style="cursor:pointer;">Tier 2</span></td></tr>
+                                    <tr class="wf-row-product"><td>Report system issue/outage</td><td><button class="wf-team-btn wf-product" onclick="openTabById('teams');openTeamDetail('product')">Product</button></td><td><span class="badge badge-tier3" onclick="openTabById('sla')" title="View SLA &amp; Tiers" style="cursor:pointer;">Tier 3</span></td></tr>
+                                    <tr class="wf-row-rbc"><td>2 hour show up fee</td><td><button class="wf-team-btn wf-rbc" onclick="openTabById('teams');openTeamDetail('rbc')">RBC</button></td><td><span class="badge badge-tier2" onclick="openTabById('sla')" title="View SLA &amp; Tiers" style="cursor:pointer;">Tier 2</span></td></tr>
+                                    <tr class="wf-row-rbc"><td>Cancel service</td><td><button class="wf-team-btn wf-rbc" onclick="openTabById('teams');openTeamDetail('rbc')">RBC</button></td><td><span class="badge badge-tier1" onclick="openTabById('sla')" title="View SLA &amp; Tiers" style="cursor:pointer;">Tier 1</span></td></tr>
+                                    <tr class="wf-row-rbc"><td>Parking request</td><td><button class="wf-team-btn wf-rbc" onclick="openTabById('teams');openTeamDetail('rbc')">RBC</button></td><td><span class="badge badge-tier1" onclick="openTabById('sla')" title="View SLA &amp; Tiers" style="cursor:pointer;">Tier 1</span></td></tr>
+                                    <tr class="wf-row-rbc"><td>Embrace Referral</td><td><button class="wf-team-btn wf-rbc" onclick="openTabById('teams');openTeamDetail('rbc')">RBC</button></td><td><span class="badge badge-tier2" onclick="openTabById('sla')" title="View SLA &amp; Tiers" style="cursor:pointer;">Tier 2</span></td></tr>
+                                    <tr class="wf-row-cs"><td>Other</td><td><button class="wf-team-btn wf-cs" onclick="openTabById('teams');openTeamDetail('customer-service')">Customer Service</button></td><td><span class="badge badge-tier1" onclick="openTabById('sla')" title="View SLA &amp; Tiers" style="cursor:pointer;">Tier 1</span></td></tr>
                                 </tbody>
                             </table>
                         </div>
@@ -4075,17 +4075,17 @@
                             <table class="wf-table">
                                 <thead><tr><th>Issue Type</th><th>Team</th><th>Tier</th></tr></thead>
                                 <tbody>
-                                    <tr class="wf-row-cs"><td>I need help logging in</td><td><button class="wf-team-btn wf-cs" onclick="openTabById('teams');openTeamDetail('customer-service')">Customer Service</button></td><td><span class="badge badge-tier1">Tier 1</span></td></tr>
-                                    <tr class="wf-row-cs"><td>I have a question about my order/service</td><td><button class="wf-team-btn wf-cs" onclick="openTabById('teams');openTeamDetail('customer-service')">Customer Service</button></td><td><span class="badge badge-tier1">Tier 1</span></td></tr>
-                                    <tr class="wf-row-cs"><td>Need a refund</td><td><button class="wf-team-btn wf-cs" onclick="openTabById('teams');openTeamDetail('customer-service')">Customer Service</button></td><td><span class="badge badge-tier2">Tier 2</span></td></tr>
-                                    <tr class="wf-row-cs"><td>Request a new card</td><td><button class="wf-team-btn wf-cs" onclick="openTabById('teams');openTeamDetail('customer-service')">Customer Service</button></td><td><span class="badge badge-tier1">Tier 1</span></td></tr>
-                                    <tr class="wf-row-cs"><td>Request a catalog</td><td><button class="wf-team-btn wf-cs" onclick="openTabById('teams');openTeamDetail('customer-service')">Customer Service</button></td><td><span class="badge badge-tier1">Tier 1</span></td></tr>
-                                    <tr class="wf-row-acct"><td>Account creation/deletion</td><td><span class="wf-team-btn wf-acct">THB Accounts</span></td><td><span class="badge badge-tier2">Tier 2</span></td></tr>
-                                    <tr class="wf-row-rbc"><td>Declination</td><td><button class="wf-team-btn wf-rbc" onclick="openTabById('teams');openTeamDetail('rbc')">RBC</button></td><td><span class="badge badge-tier2">Tier 2</span></td></tr>
-                                    <tr class="wf-row-rbc"><td>Provider: change request / report a provider issue</td><td><button class="wf-team-btn wf-rbc" onclick="openTabById('teams');openTeamDetail('rbc')">RBC</button></td><td><span class="badge badge-tier1">Tier 1</span></td></tr>
-                                    <tr class="wf-row-product"><td>Report system issue/outage</td><td><button class="wf-team-btn wf-product" onclick="openTabById('teams');openTeamDetail('product')">Product</button></td><td><span class="badge badge-tier3">Tier 3</span></td></tr>
-                                    <tr class="wf-row-product"><td>Funds are not in account</td><td><button class="wf-team-btn wf-product" onclick="openTabById('teams');openTeamDetail('product')">Product</button></td><td><span class="badge badge-tier3">Tier 3</span></td></tr>
-                                    <tr class="wf-row-product"><td>Consumer Portal cart/transaction issue</td><td><button class="wf-team-btn wf-product" onclick="openTabById('teams');openTeamDetail('product')">Product</button></td><td><span class="badge badge-tier3">Tier 3</span></td></tr>
+                                    <tr class="wf-row-cs"><td>I need help logging in</td><td><button class="wf-team-btn wf-cs" onclick="openTabById('teams');openTeamDetail('customer-service')">Customer Service</button></td><td><span class="badge badge-tier1" onclick="openTabById('sla')" title="View SLA &amp; Tiers" style="cursor:pointer;">Tier 1</span></td></tr>
+                                    <tr class="wf-row-cs"><td>I have a question about my order/service</td><td><button class="wf-team-btn wf-cs" onclick="openTabById('teams');openTeamDetail('customer-service')">Customer Service</button></td><td><span class="badge badge-tier1" onclick="openTabById('sla')" title="View SLA &amp; Tiers" style="cursor:pointer;">Tier 1</span></td></tr>
+                                    <tr class="wf-row-cs"><td>Need a refund</td><td><button class="wf-team-btn wf-cs" onclick="openTabById('teams');openTeamDetail('customer-service')">Customer Service</button></td><td><span class="badge badge-tier2" onclick="openTabById('sla')" title="View SLA &amp; Tiers" style="cursor:pointer;">Tier 2</span></td></tr>
+                                    <tr class="wf-row-cs"><td>Request a new card</td><td><button class="wf-team-btn wf-cs" onclick="openTabById('teams');openTeamDetail('customer-service')">Customer Service</button></td><td><span class="badge badge-tier1" onclick="openTabById('sla')" title="View SLA &amp; Tiers" style="cursor:pointer;">Tier 1</span></td></tr>
+                                    <tr class="wf-row-cs"><td>Request a catalog</td><td><button class="wf-team-btn wf-cs" onclick="openTabById('teams');openTeamDetail('customer-service')">Customer Service</button></td><td><span class="badge badge-tier1" onclick="openTabById('sla')" title="View SLA &amp; Tiers" style="cursor:pointer;">Tier 1</span></td></tr>
+                                    <tr class="wf-row-acct"><td>Account creation/deletion</td><td><span class="wf-team-btn wf-acct">THB Accounts</span></td><td><span class="badge badge-tier2" onclick="openTabById('sla')" title="View SLA &amp; Tiers" style="cursor:pointer;">Tier 2</span></td></tr>
+                                    <tr class="wf-row-rbc"><td>Declination</td><td><button class="wf-team-btn wf-rbc" onclick="openTabById('teams');openTeamDetail('rbc')">RBC</button></td><td><span class="badge badge-tier2" onclick="openTabById('sla')" title="View SLA &amp; Tiers" style="cursor:pointer;">Tier 2</span></td></tr>
+                                    <tr class="wf-row-rbc"><td>Provider: change request / report a provider issue</td><td><button class="wf-team-btn wf-rbc" onclick="openTabById('teams');openTeamDetail('rbc')">RBC</button></td><td><span class="badge badge-tier1" onclick="openTabById('sla')" title="View SLA &amp; Tiers" style="cursor:pointer;">Tier 1</span></td></tr>
+                                    <tr class="wf-row-product"><td>Report system issue/outage</td><td><button class="wf-team-btn wf-product" onclick="openTabById('teams');openTeamDetail('product')">Product</button></td><td><span class="badge badge-tier3" onclick="openTabById('sla')" title="View SLA &amp; Tiers" style="cursor:pointer;">Tier 3</span></td></tr>
+                                    <tr class="wf-row-product"><td>Funds are not in account</td><td><button class="wf-team-btn wf-product" onclick="openTabById('teams');openTeamDetail('product')">Product</button></td><td><span class="badge badge-tier3" onclick="openTabById('sla')" title="View SLA &amp; Tiers" style="cursor:pointer;">Tier 3</span></td></tr>
+                                    <tr class="wf-row-product"><td>Consumer Portal cart/transaction issue</td><td><button class="wf-team-btn wf-product" onclick="openTabById('teams');openTeamDetail('product')">Product</button></td><td><span class="badge badge-tier3" onclick="openTabById('sla')" title="View SLA &amp; Tiers" style="cursor:pointer;">Tier 3</span></td></tr>
                                 </tbody>
                             </table>
                         </div>
@@ -4096,17 +4096,17 @@
                             <table class="wf-table">
                                 <thead><tr><th>Issue Type</th><th>Team</th><th>Tier</th></tr></thead>
                                 <tbody>
-                                    <tr class="wf-row-cs"><td>I need help logging into Consumer Portal</td><td><button class="wf-team-btn wf-cs" onclick="openTabById('teams');openTeamDetail('customer-service')">Customer Service</button></td><td><span class="badge badge-tier1">Tier 1</span></td></tr>
-                                    <tr class="wf-row-cs"><td>I have a question about my order/service</td><td><button class="wf-team-btn wf-cs" onclick="openTabById('teams');openTeamDetail('customer-service')">Customer Service</button></td><td><span class="badge badge-tier1">Tier 1</span></td></tr>
-                                    <tr class="wf-row-cs"><td>Need a refund</td><td><button class="wf-team-btn wf-cs" onclick="openTabById('teams');openTeamDetail('customer-service')">Customer Service</button></td><td><span class="badge badge-tier2">Tier 2</span></td></tr>
-                                    <tr class="wf-row-cs"><td>Request a new card</td><td><button class="wf-team-btn wf-cs" onclick="openTabById('teams');openTeamDetail('customer-service')">Customer Service</button></td><td><span class="badge badge-tier1">Tier 1</span></td></tr>
-                                    <tr class="wf-row-cs"><td>Request a catalog</td><td><button class="wf-team-btn wf-cs" onclick="openTabById('teams');openTeamDetail('customer-service')">Customer Service</button></td><td><span class="badge badge-tier1">Tier 1</span></td></tr>
-                                    <tr class="wf-row-acct"><td>Account creation/deletion</td><td><span class="wf-team-btn wf-acct">THB Accounts</span></td><td><span class="badge badge-tier2">Tier 2</span></td></tr>
-                                    <tr class="wf-row-rbc"><td>Declination</td><td><button class="wf-team-btn wf-rbc" onclick="openTabById('teams');openTeamDetail('rbc')">RBC</button></td><td><span class="badge badge-tier2">Tier 2</span></td></tr>
-                                    <tr class="wf-row-rbc"><td>Provider: change request / report a provider issue</td><td><button class="wf-team-btn wf-rbc" onclick="openTabById('teams');openTeamDetail('rbc')">RBC</button></td><td><span class="badge badge-tier1">Tier 1</span></td></tr>
-                                    <tr class="wf-row-product"><td>Report system issue/outage</td><td><button class="wf-team-btn wf-product" onclick="openTabById('teams');openTeamDetail('product')">Product</button></td><td><span class="badge badge-tier3">Tier 3</span></td></tr>
-                                    <tr class="wf-row-product"><td>Funds are not in account</td><td><button class="wf-team-btn wf-product" onclick="openTabById('teams');openTeamDetail('product')">Product</button></td><td><span class="badge badge-tier3">Tier 3</span></td></tr>
-                                    <tr class="wf-row-product"><td>Consumer Portal cart/transaction issue</td><td><button class="wf-team-btn wf-product" onclick="openTabById('teams');openTeamDetail('product')">Product</button></td><td><span class="badge badge-tier3">Tier 3</span></td></tr>
+                                    <tr class="wf-row-cs"><td>I need help logging into Consumer Portal</td><td><button class="wf-team-btn wf-cs" onclick="openTabById('teams');openTeamDetail('customer-service')">Customer Service</button></td><td><span class="badge badge-tier1" onclick="openTabById('sla')" title="View SLA &amp; Tiers" style="cursor:pointer;">Tier 1</span></td></tr>
+                                    <tr class="wf-row-cs"><td>I have a question about my order/service</td><td><button class="wf-team-btn wf-cs" onclick="openTabById('teams');openTeamDetail('customer-service')">Customer Service</button></td><td><span class="badge badge-tier1" onclick="openTabById('sla')" title="View SLA &amp; Tiers" style="cursor:pointer;">Tier 1</span></td></tr>
+                                    <tr class="wf-row-cs"><td>Need a refund</td><td><button class="wf-team-btn wf-cs" onclick="openTabById('teams');openTeamDetail('customer-service')">Customer Service</button></td><td><span class="badge badge-tier2" onclick="openTabById('sla')" title="View SLA &amp; Tiers" style="cursor:pointer;">Tier 2</span></td></tr>
+                                    <tr class="wf-row-cs"><td>Request a new card</td><td><button class="wf-team-btn wf-cs" onclick="openTabById('teams');openTeamDetail('customer-service')">Customer Service</button></td><td><span class="badge badge-tier1" onclick="openTabById('sla')" title="View SLA &amp; Tiers" style="cursor:pointer;">Tier 1</span></td></tr>
+                                    <tr class="wf-row-cs"><td>Request a catalog</td><td><button class="wf-team-btn wf-cs" onclick="openTabById('teams');openTeamDetail('customer-service')">Customer Service</button></td><td><span class="badge badge-tier1" onclick="openTabById('sla')" title="View SLA &amp; Tiers" style="cursor:pointer;">Tier 1</span></td></tr>
+                                    <tr class="wf-row-acct"><td>Account creation/deletion</td><td><span class="wf-team-btn wf-acct">THB Accounts</span></td><td><span class="badge badge-tier2" onclick="openTabById('sla')" title="View SLA &amp; Tiers" style="cursor:pointer;">Tier 2</span></td></tr>
+                                    <tr class="wf-row-rbc"><td>Declination</td><td><button class="wf-team-btn wf-rbc" onclick="openTabById('teams');openTeamDetail('rbc')">RBC</button></td><td><span class="badge badge-tier2" onclick="openTabById('sla')" title="View SLA &amp; Tiers" style="cursor:pointer;">Tier 2</span></td></tr>
+                                    <tr class="wf-row-rbc"><td>Provider: change request / report a provider issue</td><td><button class="wf-team-btn wf-rbc" onclick="openTabById('teams');openTeamDetail('rbc')">RBC</button></td><td><span class="badge badge-tier1" onclick="openTabById('sla')" title="View SLA &amp; Tiers" style="cursor:pointer;">Tier 1</span></td></tr>
+                                    <tr class="wf-row-product"><td>Report system issue/outage</td><td><button class="wf-team-btn wf-product" onclick="openTabById('teams');openTeamDetail('product')">Product</button></td><td><span class="badge badge-tier3" onclick="openTabById('sla')" title="View SLA &amp; Tiers" style="cursor:pointer;">Tier 3</span></td></tr>
+                                    <tr class="wf-row-product"><td>Funds are not in account</td><td><button class="wf-team-btn wf-product" onclick="openTabById('teams');openTeamDetail('product')">Product</button></td><td><span class="badge badge-tier3" onclick="openTabById('sla')" title="View SLA &amp; Tiers" style="cursor:pointer;">Tier 3</span></td></tr>
+                                    <tr class="wf-row-product"><td>Consumer Portal cart/transaction issue</td><td><button class="wf-team-btn wf-product" onclick="openTabById('teams');openTeamDetail('product')">Product</button></td><td><span class="badge badge-tier3" onclick="openTabById('sla')" title="View SLA &amp; Tiers" style="cursor:pointer;">Tier 3</span></td></tr>
                                 </tbody>
                             </table>
                         </div>
@@ -4117,9 +4117,9 @@
                             <table class="wf-table">
                                 <thead><tr><th>Issue Type</th><th>Team</th><th>Tier</th></tr></thead>
                                 <tbody>
-                                    <tr class="wf-row-fulfillment"><td>Rent</td><td><button class="wf-team-btn wf-fulfillment" onclick="openTabById('teams');openTeamDetail('fulfillment')">Fulfillment</button></td><td><span class="badge badge-tier2">Tier 2</span></td></tr>
-                                    <tr class="wf-row-fulfillment"><td>Mortgage</td><td><button class="wf-team-btn wf-fulfillment" onclick="openTabById('teams');openTeamDetail('fulfillment')">Fulfillment</button></td><td><span class="badge badge-tier2">Tier 2</span></td></tr>
-                                    <tr class="wf-row-fulfillment"><td>Utilities</td><td><button class="wf-team-btn wf-fulfillment" onclick="openTabById('teams');openTeamDetail('fulfillment')">Fulfillment</button></td><td><span class="badge badge-tier2">Tier 2</span></td></tr>
+                                    <tr class="wf-row-fulfillment"><td>Rent</td><td><button class="wf-team-btn wf-fulfillment" onclick="openTabById('teams');openTeamDetail('fulfillment')">Fulfillment</button></td><td><span class="badge badge-tier2" onclick="openTabById('sla')" title="View SLA &amp; Tiers" style="cursor:pointer;">Tier 2</span></td></tr>
+                                    <tr class="wf-row-fulfillment"><td>Mortgage</td><td><button class="wf-team-btn wf-fulfillment" onclick="openTabById('teams');openTeamDetail('fulfillment')">Fulfillment</button></td><td><span class="badge badge-tier2" onclick="openTabById('sla')" title="View SLA &amp; Tiers" style="cursor:pointer;">Tier 2</span></td></tr>
+                                    <tr class="wf-row-fulfillment"><td>Utilities</td><td><button class="wf-team-btn wf-fulfillment" onclick="openTabById('teams');openTeamDetail('fulfillment')">Fulfillment</button></td><td><span class="badge badge-tier2" onclick="openTabById('sla')" title="View SLA &amp; Tiers" style="cursor:pointer;">Tier 2</span></td></tr>
                                 </tbody>
                             </table>
                         </div>
@@ -4130,12 +4130,12 @@
                             <table class="wf-table">
                                 <thead><tr><th>Issue Type</th><th>Team</th><th>Tier</th></tr></thead>
                                 <tbody>
-                                    <tr class="wf-row-cs"><td>Need to update my information</td><td><button class="wf-team-btn wf-cs" onclick="openTabById('teams');openTeamDetail('customer-service')">Customer Service</button></td><td><span class="badge badge-tier2">Tier 2</span></td></tr>
-                                    <tr class="wf-row-rbc"><td>Need to report an issue with provider</td><td><button class="wf-team-btn wf-rbc" onclick="openTabById('teams');openTeamDetail('rbc')">RBC</button></td><td><span class="badge badge-tier1">Tier 1</span></td></tr>
-                                    <tr class="wf-row-product"><td>Having an issue with the portal</td><td><button class="wf-team-btn wf-product" onclick="openTabById('teams');openTeamDetail('product')">Product</button></td><td><span class="badge badge-tier3">Tier 3</span></td></tr>
-                                    <tr class="wf-row-cs"><td>I have a question about my order/service</td><td><button class="wf-team-btn wf-cs" onclick="openTabById('teams');openTeamDetail('customer-service')">Customer Service</button></td><td><span class="badge badge-tier1">Tier 1</span></td></tr>
-                                    <tr class="wf-row-rbc"><td>Request a provider assignment</td><td><button class="wf-team-btn wf-rbc" onclick="openTabById('teams');openTeamDetail('rbc')">RBC</button></td><td><span class="badge badge-tier1">Tier 1</span></td></tr>
-                                    <tr class="wf-row-acct"><td>Account creation/deletion</td><td><span class="wf-team-btn wf-acct">THB Accounts</span></td><td><span class="badge badge-tier2">Tier 2</span></td></tr>
+                                    <tr class="wf-row-cs"><td>Need to update my information</td><td><button class="wf-team-btn wf-cs" onclick="openTabById('teams');openTeamDetail('customer-service')">Customer Service</button></td><td><span class="badge badge-tier2" onclick="openTabById('sla')" title="View SLA &amp; Tiers" style="cursor:pointer;">Tier 2</span></td></tr>
+                                    <tr class="wf-row-rbc"><td>Need to report an issue with provider</td><td><button class="wf-team-btn wf-rbc" onclick="openTabById('teams');openTeamDetail('rbc')">RBC</button></td><td><span class="badge badge-tier1" onclick="openTabById('sla')" title="View SLA &amp; Tiers" style="cursor:pointer;">Tier 1</span></td></tr>
+                                    <tr class="wf-row-product"><td>Having an issue with the portal</td><td><button class="wf-team-btn wf-product" onclick="openTabById('teams');openTeamDetail('product')">Product</button></td><td><span class="badge badge-tier3" onclick="openTabById('sla')" title="View SLA &amp; Tiers" style="cursor:pointer;">Tier 3</span></td></tr>
+                                    <tr class="wf-row-cs"><td>I have a question about my order/service</td><td><button class="wf-team-btn wf-cs" onclick="openTabById('teams');openTeamDetail('customer-service')">Customer Service</button></td><td><span class="badge badge-tier1" onclick="openTabById('sla')" title="View SLA &amp; Tiers" style="cursor:pointer;">Tier 1</span></td></tr>
+                                    <tr class="wf-row-rbc"><td>Request a provider assignment</td><td><button class="wf-team-btn wf-rbc" onclick="openTabById('teams');openTeamDetail('rbc')">RBC</button></td><td><span class="badge badge-tier1" onclick="openTabById('sla')" title="View SLA &amp; Tiers" style="cursor:pointer;">Tier 1</span></td></tr>
+                                    <tr class="wf-row-acct"><td>Account creation/deletion</td><td><span class="wf-team-btn wf-acct">THB Accounts</span></td><td><span class="badge badge-tier2" onclick="openTabById('sla')" title="View SLA &amp; Tiers" style="cursor:pointer;">Tier 2</span></td></tr>
                                 </tbody>
                             </table>
                         </div>
@@ -4146,15 +4146,15 @@
                             <table class="wf-table">
                                 <thead><tr><th>Issue Type</th><th>Team</th><th>Tier</th></tr></thead>
                                 <tbody>
-                                    <tr class="wf-row-cs"><td>Update member referral information</td><td><button class="wf-team-btn wf-cs" onclick="openTabById('teams');openTeamDetail('customer-service')">Customer Service</button></td><td><span class="badge badge-tier2">Tier 2</span></td></tr>
-                                    <tr class="wf-row-cs"><td>Referral address change</td><td><button class="wf-team-btn wf-cs" onclick="openTabById('teams');openTeamDetail('customer-service')">Customer Service</button></td><td><span class="badge badge-tier2">Tier 2</span></td></tr>
-                                    <tr class="wf-row-fulfillment"><td>Initiate item exchange workflow</td><td><button class="wf-team-btn wf-fulfillment" onclick="openTabById('teams');openTeamDetail('fulfillment')">Fulfillment</button></td><td><span class="badge badge-tier2">Tier 2</span></td></tr>
-                                    <tr class="wf-row-cs"><td>Report an issue with referral</td><td><button class="wf-team-btn wf-cs" onclick="openTabById('teams');openTeamDetail('customer-service')">Customer Service</button></td><td><span class="badge badge-tier2">Tier 2</span></td></tr>
-                                    <tr class="wf-row-fulfillment"><td>Notify of an EMERGENT referral</td><td><button class="wf-team-btn wf-fulfillment" onclick="openTabById('teams');openTeamDetail('fulfillment')">Fulfillment</button></td><td><span class="badge badge-tier2">Tier 2</span></td></tr>
-                                    <tr class="wf-row-fulfillment"><td>Report lost or missing check</td><td><button class="wf-team-btn wf-fulfillment" onclick="openTabById('teams');openTeamDetail('fulfillment')">Fulfillment</button></td><td><span class="badge badge-tier2">Tier 2</span></td></tr>
-                                    <tr class="wf-row-product"><td>Report system issue/outage</td><td><button class="wf-team-btn wf-product" onclick="openTabById('teams');openTeamDetail('product')">Product</button></td><td><span class="badge badge-tier3">Tier 3</span></td></tr>
-                                    <tr class="wf-row-fulfillment"><td>Program Leadership Only</td><td><button class="wf-team-btn wf-fulfillment" onclick="openTabById('teams');openTeamDetail('fulfillment')">Fulfillment</button></td><td><span class="badge badge-tier2">Tier 2</span></td></tr>
-                                    <tr class="wf-row-acct"><td>Account creation/deletion</td><td><span class="wf-team-btn wf-acct">THB Accounts</span></td><td><span class="badge badge-tier2">Tier 2</span></td></tr>
+                                    <tr class="wf-row-cs"><td>Update member referral information</td><td><button class="wf-team-btn wf-cs" onclick="openTabById('teams');openTeamDetail('customer-service')">Customer Service</button></td><td><span class="badge badge-tier2" onclick="openTabById('sla')" title="View SLA &amp; Tiers" style="cursor:pointer;">Tier 2</span></td></tr>
+                                    <tr class="wf-row-cs"><td>Referral address change</td><td><button class="wf-team-btn wf-cs" onclick="openTabById('teams');openTeamDetail('customer-service')">Customer Service</button></td><td><span class="badge badge-tier2" onclick="openTabById('sla')" title="View SLA &amp; Tiers" style="cursor:pointer;">Tier 2</span></td></tr>
+                                    <tr class="wf-row-fulfillment"><td>Initiate item exchange workflow</td><td><button class="wf-team-btn wf-fulfillment" onclick="openTabById('teams');openTeamDetail('fulfillment')">Fulfillment</button></td><td><span class="badge badge-tier2" onclick="openTabById('sla')" title="View SLA &amp; Tiers" style="cursor:pointer;">Tier 2</span></td></tr>
+                                    <tr class="wf-row-cs"><td>Report an issue with referral</td><td><button class="wf-team-btn wf-cs" onclick="openTabById('teams');openTeamDetail('customer-service')">Customer Service</button></td><td><span class="badge badge-tier2" onclick="openTabById('sla')" title="View SLA &amp; Tiers" style="cursor:pointer;">Tier 2</span></td></tr>
+                                    <tr class="wf-row-fulfillment"><td>Notify of an EMERGENT referral</td><td><button class="wf-team-btn wf-fulfillment" onclick="openTabById('teams');openTeamDetail('fulfillment')">Fulfillment</button></td><td><span class="badge badge-tier2" onclick="openTabById('sla')" title="View SLA &amp; Tiers" style="cursor:pointer;">Tier 2</span></td></tr>
+                                    <tr class="wf-row-fulfillment"><td>Report lost or missing check</td><td><button class="wf-team-btn wf-fulfillment" onclick="openTabById('teams');openTeamDetail('fulfillment')">Fulfillment</button></td><td><span class="badge badge-tier2" onclick="openTabById('sla')" title="View SLA &amp; Tiers" style="cursor:pointer;">Tier 2</span></td></tr>
+                                    <tr class="wf-row-product"><td>Report system issue/outage</td><td><button class="wf-team-btn wf-product" onclick="openTabById('teams');openTeamDetail('product')">Product</button></td><td><span class="badge badge-tier3" onclick="openTabById('sla')" title="View SLA &amp; Tiers" style="cursor:pointer;">Tier 3</span></td></tr>
+                                    <tr class="wf-row-fulfillment"><td>Program Leadership Only</td><td><button class="wf-team-btn wf-fulfillment" onclick="openTabById('teams');openTeamDetail('fulfillment')">Fulfillment</button></td><td><span class="badge badge-tier2" onclick="openTabById('sla')" title="View SLA &amp; Tiers" style="cursor:pointer;">Tier 2</span></td></tr>
+                                    <tr class="wf-row-acct"><td>Account creation/deletion</td><td><span class="wf-team-btn wf-acct">THB Accounts</span></td><td><span class="badge badge-tier2" onclick="openTabById('sla')" title="View SLA &amp; Tiers" style="cursor:pointer;">Tier 2</span></td></tr>
                                 </tbody>
                             </table>
                         </div>
@@ -4165,12 +4165,12 @@
                             <table class="wf-table">
                                 <thead><tr><th>Issue Type</th><th>Team</th><th>Tier</th></tr></thead>
                                 <tbody>
-                                    <tr class="wf-row-cs"><td>Member: question about service / update referral info</td><td><button class="wf-team-btn wf-cs" onclick="openTabById('teams');openTeamDetail('customer-service')">Customer Service</button></td><td><span class="badge badge-tier1">Tier 1</span></td></tr>
-                                    <tr class="wf-row-cs"><td>Referral address change</td><td><button class="wf-team-btn wf-cs" onclick="openTabById('teams');openTeamDetail('customer-service')">Customer Service</button></td><td><span class="badge badge-tier2">Tier 2</span></td></tr>
-                                    <tr class="wf-row-rbc"><td>Provider: change request / report a provider issue</td><td><button class="wf-team-btn wf-rbc" onclick="openTabById('teams');openTeamDetail('rbc')">RBC</button></td><td><span class="badge badge-tier1">Tier 1</span></td></tr>
-                                    <tr class="wf-row-product"><td>Report system issue/outage</td><td><button class="wf-team-btn wf-product" onclick="openTabById('teams');openTeamDetail('product')">Product</button></td><td><span class="badge badge-tier3">Tier 3</span></td></tr>
-                                    <tr class="wf-row-acct"><td>Account creation/deletion</td><td><span class="wf-team-btn wf-acct">THB Accounts</span></td><td><span class="badge badge-tier2">Tier 2</span></td></tr>
-                                    <tr class="wf-row-cs"><td>Other</td><td><button class="wf-team-btn wf-cs" onclick="openTabById('teams');openTeamDetail('customer-service')">Customer Service</button></td><td><span class="badge badge-tier1">Tier 1</span></td></tr>
+                                    <tr class="wf-row-cs"><td>Member: question about service / update referral info</td><td><button class="wf-team-btn wf-cs" onclick="openTabById('teams');openTeamDetail('customer-service')">Customer Service</button></td><td><span class="badge badge-tier1" onclick="openTabById('sla')" title="View SLA &amp; Tiers" style="cursor:pointer;">Tier 1</span></td></tr>
+                                    <tr class="wf-row-cs"><td>Referral address change</td><td><button class="wf-team-btn wf-cs" onclick="openTabById('teams');openTeamDetail('customer-service')">Customer Service</button></td><td><span class="badge badge-tier2" onclick="openTabById('sla')" title="View SLA &amp; Tiers" style="cursor:pointer;">Tier 2</span></td></tr>
+                                    <tr class="wf-row-rbc"><td>Provider: change request / report a provider issue</td><td><button class="wf-team-btn wf-rbc" onclick="openTabById('teams');openTeamDetail('rbc')">RBC</button></td><td><span class="badge badge-tier1" onclick="openTabById('sla')" title="View SLA &amp; Tiers" style="cursor:pointer;">Tier 1</span></td></tr>
+                                    <tr class="wf-row-product"><td>Report system issue/outage</td><td><button class="wf-team-btn wf-product" onclick="openTabById('teams');openTeamDetail('product')">Product</button></td><td><span class="badge badge-tier3" onclick="openTabById('sla')" title="View SLA &amp; Tiers" style="cursor:pointer;">Tier 3</span></td></tr>
+                                    <tr class="wf-row-acct"><td>Account creation/deletion</td><td><span class="wf-team-btn wf-acct">THB Accounts</span></td><td><span class="badge badge-tier2" onclick="openTabById('sla')" title="View SLA &amp; Tiers" style="cursor:pointer;">Tier 2</span></td></tr>
+                                    <tr class="wf-row-cs"><td>Other</td><td><button class="wf-team-btn wf-cs" onclick="openTabById('teams');openTeamDetail('customer-service')">Customer Service</button></td><td><span class="badge badge-tier1" onclick="openTabById('sla')" title="View SLA &amp; Tiers" style="cursor:pointer;">Tier 1</span></td></tr>
                                 </tbody>
                             </table>
                         </div>
@@ -4181,14 +4181,14 @@
                             <table class="wf-table">
                                 <thead><tr><th>Issue Type</th><th>Team</th><th>Tier</th></tr></thead>
                                 <tbody>
-                                    <tr class="wf-row-fulfillment"><td>Meals Issue</td><td><button class="wf-team-btn wf-fulfillment" onclick="openTabById('teams');openTeamDetail('fulfillment')">Fulfillment</button></td><td><span class="badge badge-tier2">Tier 2</span></td></tr>
-                                    <tr class="wf-row-fulfillment"><td>Initiate item exchange workflow</td><td><button class="wf-team-btn wf-fulfillment" onclick="openTabById('teams');openTeamDetail('fulfillment')">Fulfillment</button></td><td><span class="badge badge-tier2">Tier 2</span></td></tr>
-                                    <tr class="wf-row-cs"><td>Update member referral information</td><td><button class="wf-team-btn wf-cs" onclick="openTabById('teams');openTeamDetail('customer-service')">Customer Service</button></td><td><span class="badge badge-tier2">Tier 2</span></td></tr>
-                                    <tr class="wf-row-cs"><td>Referral address change</td><td><button class="wf-team-btn wf-cs" onclick="openTabById('teams');openTeamDetail('customer-service')">Customer Service</button></td><td><span class="badge badge-tier2">Tier 2</span></td></tr>
-                                    <tr class="wf-row-cs"><td>Report an issue with referral</td><td><button class="wf-team-btn wf-cs" onclick="openTabById('teams');openTeamDetail('customer-service')">Customer Service</button></td><td><span class="badge badge-tier2">Tier 2</span></td></tr>
-                                    <tr class="wf-row-fulfillment"><td>Program Leadership Only</td><td><button class="wf-team-btn wf-fulfillment" onclick="openTabById('teams');openTeamDetail('fulfillment')">Fulfillment</button></td><td><span class="badge badge-tier2">Tier 2</span></td></tr>
-                                    <tr class="wf-row-product"><td>Report system issue/outage</td><td><button class="wf-team-btn wf-product" onclick="openTabById('teams');openTeamDetail('product')">Product</button></td><td><span class="badge badge-tier3">Tier 3</span></td></tr>
-                                    <tr class="wf-row-acct"><td>Account creation/deletion</td><td><span class="wf-team-btn wf-acct">THB Accounts</span></td><td><span class="badge badge-tier2">Tier 2</span></td></tr>
+                                    <tr class="wf-row-fulfillment"><td>Meals Issue</td><td><button class="wf-team-btn wf-fulfillment" onclick="openTabById('teams');openTeamDetail('fulfillment')">Fulfillment</button></td><td><span class="badge badge-tier2" onclick="openTabById('sla')" title="View SLA &amp; Tiers" style="cursor:pointer;">Tier 2</span></td></tr>
+                                    <tr class="wf-row-fulfillment"><td>Initiate item exchange workflow</td><td><button class="wf-team-btn wf-fulfillment" onclick="openTabById('teams');openTeamDetail('fulfillment')">Fulfillment</button></td><td><span class="badge badge-tier2" onclick="openTabById('sla')" title="View SLA &amp; Tiers" style="cursor:pointer;">Tier 2</span></td></tr>
+                                    <tr class="wf-row-cs"><td>Update member referral information</td><td><button class="wf-team-btn wf-cs" onclick="openTabById('teams');openTeamDetail('customer-service')">Customer Service</button></td><td><span class="badge badge-tier2" onclick="openTabById('sla')" title="View SLA &amp; Tiers" style="cursor:pointer;">Tier 2</span></td></tr>
+                                    <tr class="wf-row-cs"><td>Referral address change</td><td><button class="wf-team-btn wf-cs" onclick="openTabById('teams');openTeamDetail('customer-service')">Customer Service</button></td><td><span class="badge badge-tier2" onclick="openTabById('sla')" title="View SLA &amp; Tiers" style="cursor:pointer;">Tier 2</span></td></tr>
+                                    <tr class="wf-row-cs"><td>Report an issue with referral</td><td><button class="wf-team-btn wf-cs" onclick="openTabById('teams');openTeamDetail('customer-service')">Customer Service</button></td><td><span class="badge badge-tier2" onclick="openTabById('sla')" title="View SLA &amp; Tiers" style="cursor:pointer;">Tier 2</span></td></tr>
+                                    <tr class="wf-row-fulfillment"><td>Program Leadership Only</td><td><button class="wf-team-btn wf-fulfillment" onclick="openTabById('teams');openTeamDetail('fulfillment')">Fulfillment</button></td><td><span class="badge badge-tier2" onclick="openTabById('sla')" title="View SLA &amp; Tiers" style="cursor:pointer;">Tier 2</span></td></tr>
+                                    <tr class="wf-row-product"><td>Report system issue/outage</td><td><button class="wf-team-btn wf-product" onclick="openTabById('teams');openTeamDetail('product')">Product</button></td><td><span class="badge badge-tier3" onclick="openTabById('sla')" title="View SLA &amp; Tiers" style="cursor:pointer;">Tier 3</span></td></tr>
+                                    <tr class="wf-row-acct"><td>Account creation/deletion</td><td><span class="wf-team-btn wf-acct">THB Accounts</span></td><td><span class="badge badge-tier2" onclick="openTabById('sla')" title="View SLA &amp; Tiers" style="cursor:pointer;">Tier 2</span></td></tr>
                                 </tbody>
                             </table>
                         </div>
@@ -4199,7 +4199,7 @@
                             <table class="wf-table">
                                 <thead><tr><th>Issue Type</th><th>Team</th><th>Tier</th></tr></thead>
                                 <tbody>
-                                    <tr class="wf-row-compliance"><td>None (all tickets route directly)</td><td><span class="wf-team-btn wf-compliance">Compliance</span></td><td><span class="badge" style="background:#e0e0e0;color:#424242;">Tier 4</span></td></tr>
+                                    <tr class="wf-row-compliance"><td>None (all tickets route directly)</td><td><span class="wf-team-btn wf-compliance">Compliance</span></td><td><span class="badge" style="background:#e0e0e0;color:#424242;cursor:pointer;" onclick="openTabById('sla')" title="View SLA &amp; Tiers">Tier 4</span></td></tr>
                                 </tbody>
                             </table>
                         </div>
@@ -5559,8 +5559,8 @@
             const issue = data.issues[index];
             const tierBadge = ['','badge-tier1','badge-tier2','badge-tier3'][issue.tier] || '';
             const tierLabel = issue.tier === 4
-                ? '<span class="badge" style="background:#e0e0e0;color:#424242;">Tier 4</span>'
-                : `<span class="badge ${tierBadge}">Tier ${issue.tier}</span>`;
+                ? `<span class="badge" style="background:#e0e0e0;color:#424242;cursor:pointer;" onclick="openTabById('sla')" title="View SLA &amp; Tiers">Tier 4</span>`
+                : `<span class="badge ${tierBadge}" onclick="openTabById('sla')" title="View SLA &amp; Tiers" style="cursor:pointer;">Tier ${issue.tier}</span>`;
 
             // For gov plans use the specific plan URL
             let formUrl = issue.url || data.url;
