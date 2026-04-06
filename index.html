@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Zendesk Ticket Routing Guide - The Helper Bees</title>
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyBpZD0iTGF5ZXJfMSIgZGF0YS1uYW1lPSJMYXllciAxIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMTYuOSAxNDIiPgogIDxkZWZzPgogICAgPHN0eWxlPgogICAgICAuY2xzLTEgewogICAgICAgIGZpbGw6ICNmZmY7CiAgICAgIH0KICAgIDwvc3R5bGU+CiAgPC9kZWZzPgogIDxwYXRoIGNsYXNzPSJjbHMtMSIgZD0iTTkzLjc4LDQ5LjljLTUuNzUtMy4zNy0xMi4zNi01LjYxLTE4Ljk4LTYuNDgsMTQuMDYtNTUuNS01Mi4wMy01OC4xOC00My4yOC01LjcyLTI0Ljk0LTMwLjE1LTUwLjUyLDcuMDctMTAuNzcsMzAuNDUtMjcuMjIsNDIuMzUsMTguNTMsODguMjUsNjIuNjIsNjkuNTYsMzcuNjUtMTMuODIsNDctNjcuMjQsMTAuNDEtODcuODFaTTQ4LjUzLDEyNy41OGMtOC4yLTEwLjQ4LTE5LjE1LTI4LjQzLTE5LjU3LTQ5Ljk2LDIuNDQtNC42NSw1Ljc0LTguNzYsOS43My0xMi4xNC0xLjMxLDMwLjI0LDE2LjI3LDUzLjg3LDI1Ljg1LDY0LjQxLTUuNDguMy0xMC44OS0uNDctMTYuMDEtMi4zMVpNNzguOSwxMjYuNzJjLS4yLjA5LS4zOC4xNS0uNTkuMjRsLS4xMi0uMTJjLTEuMjUtMS4xMi0zMC41OC0yOC4wNC0yNy40Mi02My42N2wuNDQtNS4yNGMzLjA0LTEuMTksNi4xMy0yLjA0LDkuMjItMi41NXYuM2MtMi40NCwzMi43MiwxOC42NSw1Ny41MSwyNy4zNyw2Ni4yNS0yLjc0LDEuODktNS43MSwzLjUyLTguOSw0Ljc5Wk0xMDEuNjYsMTA1LjdjLTEuNCwyLjktMy4xMyw1LjY1LTUuMTgsOC4xNC02Ljk5LTcuMDUtMjYuMjktMjkuMTctMjQuMjEtNTcuM2wuMDktMS40OGMzLjI3LjM4LDYuNDUsMS4xNSw5LjU1LDIuMjgsMS4zMSwyMC42NywxMS45OCwzNy4xNiwyMC4zMSw0Ny4wOC0uMTguNDItLjM1Ljg2LS41NiwxLjI4WiIvPgo8L3N2Zz4=">
-    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
     <style>
         :root {
             --bg: #f5f5f5;
@@ -41,18 +40,7 @@
         body.dark .link-card,
         body.dark .link-card-body,
         body.dark .recently-viewed,
-        body.dark .feedback-widget,
-        body.dark .escalation-path,
-        body.dark .wf-table tbody tr,
-        body.dark .changelog-entry,
-        body.dark .form-finder-callout + div,
-        body.dark #formFinderDrawer,
-        body.dark #changelogDrawer,
-        body.dark .autocomplete-dropdown {
-            background: var(--surface);
-            color: var(--text);
-        }
-
+        
         body.dark .info-card { border-left-color: var(--yellow); }
         body.dark .info-card h3,
         body.dark .info-card h4 { color: var(--text); }
@@ -106,10 +94,8 @@
         body.dark .escalation-path { background: var(--surface2); border-color: var(--border); }
         body.dark .escalation-label { color: var(--text-muted); }
 
-        body.dark .feedback-widget { background: var(--surface2); border-color: var(--border); }
-        body.dark .feedback-label { color: var(--text-muted); }
-        body.dark .feedback-btn { background: var(--surface); border-color: var(--border); }
-
+        body.dark         body.dark .feedback-label { color: var(--text-muted); }
+        body.dark 
         body.dark .changelog-entry { border-bottom-color: var(--border); }
         body.dark .changelog-date { color: var(--text-muted); }
         body.dark .changelog-text { color: var(--text); }
@@ -541,13 +527,7 @@
         }
 
         /* Feedback buttons — spring bounce */
-        .feedback-btn {
-            transition: transform 0.2s var(--ease-spring);
-        }
-        .feedback-btn:hover {
-            transform: scale(1.25) rotate(-5deg);
-        }
-
+                
         /* Badge pulse on new changelog */
         #changelogBadge {
             animation: badgePulse 2s ease-in-out infinite;
@@ -1746,32 +1726,8 @@
         .esc-arrow { color: var(--text-muted); font-size: 1.1em; }
         .escalation-label { font-size: 0.78em; color: var(--text-muted); margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.4px; }
 
-        /* ── Feedback Widget ── */
-        .feedback-widget {
-            margin-top: 32px;
-            padding: 16px 20px;
-            background: var(--surface2);
-            border-radius: 8px;
-            border: 1px solid var(--border);
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            flex-wrap: wrap;
-        }
-        .feedback-label { font-size: 0.88em; color: var(--text-muted); font-weight: 600; }
-        .feedback-btn {
-            padding: 6px 16px;
-            border-radius: 20px;
-            border: 2px solid var(--border);
-            background: var(--surface);
-            cursor: pointer;
-            font-size: 1em;
-            transition: all 0.2s;
-        }
-        .feedback-btn:hover { transform: scale(1.15); }
-        .feedback-btn.selected-up { background: #e8f5e9; border-color: #2e7d32; }
-        .feedback-btn.selected-down { background: #ffebee; border-color: #c62828; }
-        .feedback-thanks { font-size: 0.85em; color: var(--text-muted); display: none; }
+                        .feedback-label { font-size: 0.88em; color: var(--text-muted); font-weight: 600; }
+                                        .feedback-thanks { font-size: 0.85em; color: var(--text-muted); display: none; }
 
         /* ── Changelog ── */
         .changelog-entry {
@@ -2135,66 +2091,23 @@
 
         .quick-link:hover { transform: scale(1.07); }
 
-        /* ── Feedback modal ── */
-        .feedback-modal-overlay {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: rgba(0,0,0,0.45);
-            z-index: 1000;
-            align-items: center;
-            justify-content: center;
-            animation: fadeOverlay 0.2s ease;
-        }
-
-        .feedback-modal-overlay.open { display: flex; }
-
+                
+        
         @keyframes fadeOverlay {
             from { opacity: 0; }
             to   { opacity: 1; }
         }
 
-        .feedback-modal {
-            background: var(--surface);
-            border-radius: 12px;
-            padding: 32px;
-            max-width: 440px;
-            width: 90%;
-            box-shadow: 0 24px 60px rgba(0,0,0,0.3);
-            animation: modalSlideUp 0.3s cubic-bezier(0.22, 1, 0.36, 1);
-        }
-
+        
         @keyframes modalSlideUp {
             from { opacity: 0; transform: translateY(24px) scale(0.97); }
             to   { opacity: 1; transform: translateY(0) scale(1); }
         }
 
-        .feedback-modal h3 { color: var(--green-dark); margin-bottom: 8px; }
-        .feedback-modal p  { color: var(--text-muted); font-size: 0.9em; margin-bottom: 18px; }
-
-        .feedback-modal textarea {
-            width: 100%;
-            padding: 12px;
-            border: 2px solid var(--border);
-            border-radius: 8px;
-            font-size: 0.92em;
-            resize: vertical;
-            min-height: 90px;
-            background: var(--surface2);
-            color: var(--text);
-            outline: none;
-            transition: border-color 0.2s;
-        }
-
-        .feedback-modal textarea:focus { border-color: var(--yellow); }
-
-        .feedback-modal-actions {
-            display: flex;
-            gap: 10px;
-            margin-top: 16px;
-            justify-content: flex-end;
-        }
-
+                
+        
+        
+        
         .feedback-send-btn {
             padding: 9px 22px;
             background: var(--green-dark);
@@ -2226,7 +2139,7 @@
         @media print {
             .header { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
             .tabs, .search-container, .back-button, .dark-toggle, .print-btn,
-            .feedback-widget, .links-callout-btn, .quick-links { display: none !important; }
+            .links-callout-btn, .quick-links { display: none !important; }
             .tab-content { display: block !important; page-break-inside: avoid; }
             .tab-content + .tab-content { page-break-before: always; }
             body { background: white; }
@@ -5583,18 +5496,6 @@
     </div>
 
     <!-- Feedback Modal -->
-    <div class="feedback-modal-overlay" id="feedbackModalOverlay">
-        <div class="feedback-modal">
-            <h3 id="feedbackModalTitle">Share your feedback</h3>
-            <p id="feedbackModalSubtitle">Let us know what could be improved on this page.</p>
-            <textarea id="feedbackComment" placeholder="Optional: add a comment..."></textarea>
-            <div class="feedback-modal-actions">
-                <button class="feedback-cancel-btn" onclick="closeFeedbackModal()">Cancel</button>
-                <button class="feedback-send-btn" id="feedbackSendBtn" onclick="sendFeedback()">Send Feedback</button>
-            </div>
-        </div>
-    </div>
-
     <!-- Share button -->
     <button class="share-btn" id="shareBtn" onclick="shareCurrentPage()">🔗 Share this page</button>
     <div class="share-toast" id="shareToast">Link copied to clipboard!</div>
@@ -6296,13 +6197,8 @@
         // ── EmailJS init ───────────────────────────────────────────
         // SETUP REQUIRED: Replace these values after creating your EmailJS account
         // See instructions below the script tag
-        const EMAILJS_PUBLIC_KEY  = 'YOUR_PUBLIC_KEY';   // From EmailJS → Account → API Keys
-        const EMAILJS_SERVICE_ID  = 'YOUR_SERVICE_ID';   // From EmailJS → Email Services
-        const EMAILJS_TEMPLATE_ID = 'YOUR_TEMPLATE_ID';  // From EmailJS → Email Templates
-        emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
 
         // ── Feedback state ─────────────────────────────────────────
-        let _pendingFeedback = { type: '', tabId: '', tabName: '' };
 
         // ── Feedback widgets ───────────────────────────────────────
         const TEAM_TABS = ['team-detail-compliance','team-detail-customer-service','team-detail-fulfillment','team-detail-network-dev','team-detail-product','team-detail-rbc','workflows','sla','reference'];
@@ -6317,72 +6213,7 @@
             'sla': 'SLA & Tiers'
         };
 
-        TEAM_TABS.forEach(tabId => {
-            const tab = document.getElementById(tabId);
-            if (!tab) return;
-            const widget = document.createElement('div');
-            widget.className = 'feedback-widget';
-            widget.innerHTML = `
-                <span class="feedback-label">Was this page helpful?</span>
-                <button class="feedback-btn" onclick="giveFeedback(this,'up','${tabId}')">👍</button>
-                <button class="feedback-btn" onclick="giveFeedback(this,'down','${tabId}')">👎</button>
-                <span class="feedback-thanks" id="thanks-${tabId}" style="display:none;">✅ Feedback sent — thanks!</span>
-            `;
-            tab.appendChild(widget);
-        });
 
-        function giveFeedback(btn, type, tabId) {
-            const widget = btn.closest('.feedback-widget');
-            widget.querySelectorAll('.feedback-btn').forEach(b => b.classList.remove('selected-up','selected-down'));
-            btn.classList.add(type === 'up' ? 'selected-up' : 'selected-down');
-            _pendingFeedback = { type, tabId, tabName: TAB_DISPLAY_NAMES[tabId] || tabId };
-            const title = document.getElementById('feedbackModalTitle');
-            const sub   = document.getElementById('feedbackModalSubtitle');
-            title.textContent = type === 'up' ? '👍 Glad it was helpful!' : '👎 Sorry to hear that';
-            sub.textContent   = type === 'up'
-                ? 'Anything you\'d like to add? (optional)'
-                : 'What could be improved on the ' + _pendingFeedback.tabName + ' page?';
-            document.getElementById('feedbackComment').value = '';
-            document.getElementById('feedbackModalOverlay').classList.add('open');
-        }
-
-        function closeFeedbackModal() {
-            document.getElementById('feedbackModalOverlay').classList.remove('open');
-        }
-
-        function sendFeedback() {
-            const btn     = document.getElementById('feedbackSendBtn');
-            const comment = document.getElementById('feedbackComment').value.trim();
-            btn.disabled  = true;
-            btn.textContent = 'Sending...';
-
-            emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
-                to_email:  'Kenny.boccher@thehelperbees.com',
-                page:      _pendingFeedback.tabName,
-                rating:    _pendingFeedback.type === 'up' ? '👍 Helpful' : '👎 Needs work',
-                comment:   comment || '(no comment)',
-                timestamp: new Date().toLocaleString()
-            }).then(() => {
-                closeFeedbackModal();
-                const thanks = document.getElementById('thanks-' + _pendingFeedback.tabId);
-                if (thanks) thanks.style.display = 'inline';
-                btn.disabled = false;
-                btn.textContent = 'Send Feedback';
-            }).catch(err => {
-                console.error('EmailJS error:', err);
-                // Fallback: still show thanks even if email fails
-                closeFeedbackModal();
-                const thanks = document.getElementById('thanks-' + _pendingFeedback.tabId);
-                if (thanks) thanks.style.display = 'inline';
-                btn.disabled = false;
-                btn.textContent = 'Send Feedback';
-            });
-        }
-
-        // Close modal on overlay click
-        document.getElementById('feedbackModalOverlay').addEventListener('click', function(e) {
-            if (e.target === this) closeFeedbackModal();
-        });
 
         // ── Search hint pills ──────────────────────────────────────
         document.querySelectorAll('.search-hint').forEach(hint => {
