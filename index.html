@@ -6435,639 +6435,646 @@
         }
 
         // ── Search engine (v2 — fuzzy, multi-token, popular panel) ──
-        const searchBox    = document.getElementById('searchBox');
-        const dropdown     = document.getElementById('autocompleteDropdown');
-        const popularPanel = document.getElementById('searchPopular');
-        const clearBtn     = document.getElementById('searchClear');
-        let activeIndex    = -1;
-        let currentMatches = [];
-
-        // Fuzzy: subsequence match, min 85% chars in order
-        function fuzzyWord(token, word) {
-            if (word.includes(token)) return true;
-            if (token.length < 4) return false;
-            let ti = 0;
-            for (let i = 0; i < word.length && ti < token.length; i++) {
-                if (word[i] === token[ti]) ti++;
-            }
-            return ti / token.length >= 0.85;
-        }
-        function fuzzyText(token, text) {
-            return text.split(/[\s,\/\-]+/).some(w => fuzzyWord(token, w));
-        }
-
-        function scoreItem(item, tokens) {
-            // Normalize apostrophes so "cant" matches "can't", "wont" matches "won't"
-            const labelL = item.label.toLowerCase().replace(/[\u2019']/g, '');
-            const kws = (item.keywords || []).join(' ').toLowerCase().replace(/[\u2019']/g, '');
-            const fullText = labelL + ' ' + kws;
-            let score = 0, matched = 0;
-
-            tokens.forEach(tok => {
-                if (!tok || tok.length < 2) return;
-                const tokN = tok.replace(/[\u2019']/g, '');
-                let best = 0;
-                if (labelL.startsWith(tokN))                                        best = Math.max(best, 100);
-                else if (labelL.includes(tokN))                                     best = Math.max(best, 70);
-                if (kws.split(/[\s,\/\-]+/).some(k => k.startsWith(tokN)))      best = Math.max(best, 52);
-                else if (kws.includes(tokN))                                        best = Math.max(best, 35);
-                if (!best && fuzzyText(tokN, fullText))                             best = Math.max(best, 18);
-                if (best) matched++;
-                score += best;
-            });
-
-            // Multi-token match bonus
-            if (tokens.length > 1 && matched >= 2) score += matched * 15;
-
-            // Phrase-match bonus: full normalized query appears in keywords = intentional match
-            if (tokens.length >= 2) {
-                const phrase = tokens.map(t => t.replace(/[\u2019']/g, '')).join(' ');
-                if (kws.includes(phrase) || labelL.includes(phrase)) score += 80;
-                else if (kws.includes(tokens[0] + ' ' + tokens[1])) score += 40;
-            }
-
-            return score;
-        }
-
-        function highlightMatch(text, tokens) {
-            if (!tokens.length) return text;
-            const escaped = tokens.map(t => t.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|');
-            return text.replace(new RegExp(`(${escaped})`, 'gi'), '<mark>$1</mark>');
-        }
-
-        function renderDropdown(matches, tokens) {
-            currentMatches = matches;
-            activeIndex = -1;
-            popularPanel.classList.remove('open');
-
-            if (!matches.length) {
-                dropdown.innerHTML = `<div class="autocomplete-no-results">No results — try different words or browse the tabs above</div>`;
-                dropdown.classList.add('open');
-                return;
-            }
-
-            const groups = {};
-            matches.forEach(m => { if (!groups[m.meta]) groups[m.meta] = []; groups[m.meta].push(m); });
-
-            dropdown.innerHTML = Object.entries(groups).map(([group, items]) => `
-                <div class="autocomplete-group-label">${group}</div>
-                ${items.map(item => `
-                    <div class="autocomplete-item" data-index="${currentMatches.indexOf(item)}" onmousedown="selectSuggestion(${currentMatches.indexOf(item)})">
-                        <span class="autocomplete-item-icon">${item.icon}</span>
-                        <span>${highlightMatch(item.label, tokens)}</span>
-                        <span class="autocomplete-item-meta">${item.meta}</span>
-                    </div>`).join('')}
-            `).join('');
-            dropdown.classList.add('open');
-        }
-
-        function closeDropdown() {
-            dropdown.classList.remove('open');
-            popularPanel.classList.remove('open');
-            activeIndex = -1;
-        }
-
-        function selectSuggestion(index) {
-            const match = currentMatches[index];
-            if (!match) return;
-            searchBox.value = match.label;
-            clearBtn.classList.add('visible');
-            closeDropdown();
-            match.action();
-            searchBox.blur();
-        }
-
-        function clearSearch() {
-            searchBox.value = '';
-            clearBtn.classList.remove('visible');
-            closeDropdown();
-            const srTab = document.getElementById('searchResultsTab');
-            srTab.style.display = 'none';
-            if (document.getElementById('search-results').classList.contains('active')) {
-                openTabById('overview');
-            }
-            searchBox.focus();
-        }
-
-        function runPopular(el) {
-            // Strip leading emoji and whitespace
-            const text = el.textContent.replace(/^[\u{1F300}-\u{1FFFF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}\s]+/u, '').trim();
-            searchBox.value = text;
-            clearBtn.classList.add('visible');
-            searchBox.dispatchEvent(new Event('input'));
-            searchBox.focus();
-        }
-
-        function fireHint(el) {
-            searchBox.value = el.textContent;
-            clearBtn.classList.add('visible');
-            searchBox.dispatchEvent(new Event('input'));
-            searchBox.focus();
-        }
-
-        searchBox.addEventListener('focus', function() {
-            if (!this.value.trim()) {
-                popularPanel.classList.add('open');
-                dropdown.classList.remove('open');
-            }
-        });
-
-        const STOP_WORDS = new Set(['the','a','an','is','in','of','do','i','to','for','on','how','who','what','where','why','when','can','does','my','me','with','has','have','are','at','by','we','our','not','need','help','want','go','going','just','so','up','if','no','its','get','do','did','will','would','could','should','use','find','look','tell','show','give','make','work','going']);
-
-        searchBox.addEventListener('input', function() {
-            const raw = this.value;
-            const term = raw.trim().toLowerCase();
-            clearBtn.classList.toggle('visible', raw.length > 0);
-
-            if (!term) {
-                dropdown.classList.remove('open');
-                popularPanel.classList.add('open');
-                return;
-            }
-            popularPanel.classList.remove('open');
-
-            const tokens = term.replace(/['']/g, '').split(/\s+/).filter(t => t.length >= 2 && !STOP_WORDS.has(t));
-            const queryTokens = tokens.length ? tokens : [term];
-
-            const scored = [];
-            SEARCH_INDEX.forEach(item => {
-                const s = scoreItem(item, queryTokens);
-                if (s > 0) scored.push({ item, score: s });
-            });
-            scored.sort((a, b) => b.score - a.score);
-            renderDropdown(scored.slice(0, 18).map(s => s.item), queryTokens);
-        });
-
-        searchBox.addEventListener('keydown', function(e) {
-            const items = dropdown.querySelectorAll('.autocomplete-item');
-            if (e.key === 'ArrowDown') {
-                e.preventDefault();
-                activeIndex = Math.min(activeIndex + 1, items.length - 1);
-                items.forEach((el, i) => el.classList.toggle('active', i === activeIndex));
-                items[activeIndex]?.scrollIntoView({ block: 'nearest' });
-            } else if (e.key === 'ArrowUp') {
-                e.preventDefault();
-                activeIndex = Math.max(activeIndex - 1, 0);
-                items.forEach((el, i) => el.classList.toggle('active', i === activeIndex));
-                items[activeIndex]?.scrollIntoView({ block: 'nearest' });
-            } else if (e.key === 'Enter') {
-                e.preventDefault();
-                if (activeIndex >= 0 && items[activeIndex]) {
-                    selectSuggestion(parseInt(items[activeIndex].dataset.index));
-                } else {
-                    const term = this.value.trim();
-                    if (term) { closeDropdown(); openSearchResults(term); }
+        document.addEventListener('DOMContentLoaded', function() {
+            // ── Search engine (v2 — fuzzy, multi-token, popular panel) ──
+            const searchBox    = document.getElementById('searchBox');
+            const dropdown     = document.getElementById('autocompleteDropdown');
+            const popularPanel = document.getElementById('searchPopular');
+            const clearBtn     = document.getElementById('searchClear');
+            // Guard: if any critical element is missing, abort search init gracefully
+            if (!searchBox || !dropdown || !popularPanel || !clearBtn) return;
+            let activeIndex    = -1;
+            let currentMatches = [];
+    
+            // Fuzzy: subsequence match, min 85% chars in order
+            function fuzzyWord(token, word) {
+                if (word.includes(token)) return true;
+                if (token.length < 4) return false;
+                let ti = 0;
+                for (let i = 0; i < word.length && ti < token.length; i++) {
+                    if (word[i] === token[ti]) ti++;
                 }
-            } else if (e.key === 'Escape') {
+                return ti / token.length >= 0.85;
+            }
+            function fuzzyText(token, text) {
+                return text.split(/[\s,\/\-]+/).some(w => fuzzyWord(token, w));
+            }
+    
+            function scoreItem(item, tokens) {
+                // Normalize apostrophes so "cant" matches "can't", "wont" matches "won't"
+                const labelL = item.label.toLowerCase().replace(/[\u2019']/g, '');
+                const kws = (item.keywords || []).join(' ').toLowerCase().replace(/[\u2019']/g, '');
+                const fullText = labelL + ' ' + kws;
+                let score = 0, matched = 0;
+    
+                tokens.forEach(tok => {
+                    if (!tok || tok.length < 2) return;
+                    const tokN = tok.replace(/[\u2019']/g, '');
+                    let best = 0;
+                    if (labelL.startsWith(tokN))                                        best = Math.max(best, 100);
+                    else if (labelL.includes(tokN))                                     best = Math.max(best, 70);
+                    if (kws.split(/[\s,\/\-]+/).some(k => k.startsWith(tokN)))      best = Math.max(best, 52);
+                    else if (kws.includes(tokN))                                        best = Math.max(best, 35);
+                    if (!best && fuzzyText(tokN, fullText))                             best = Math.max(best, 18);
+                    if (best) matched++;
+                    score += best;
+                });
+    
+                // Multi-token match bonus
+                if (tokens.length > 1 && matched >= 2) score += matched * 15;
+    
+                // Phrase-match bonus: full normalized query appears in keywords = intentional match
+                if (tokens.length >= 2) {
+                    const phrase = tokens.map(t => t.replace(/[\u2019']/g, '')).join(' ');
+                    if (kws.includes(phrase) || labelL.includes(phrase)) score += 80;
+                    else if (kws.includes(tokens[0] + ' ' + tokens[1])) score += 40;
+                }
+    
+                return score;
+            }
+    
+            function highlightMatch(text, tokens) {
+                if (!tokens.length) return text;
+                const escaped = tokens.map(t => t.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|');
+                return text.replace(new RegExp(`(${escaped})`, 'gi'), '<mark>$1</mark>');
+            }
+    
+            function renderDropdown(matches, tokens) {
+                currentMatches = matches;
+                activeIndex = -1;
+                popularPanel.classList.remove('open');
+    
+                if (!matches.length) {
+                    dropdown.innerHTML = `<div class="autocomplete-no-results">No results — try different words or browse the tabs above</div>`;
+                    dropdown.classList.add('open');
+                    return;
+                }
+    
+                const groups = {};
+                matches.forEach(m => { if (!groups[m.meta]) groups[m.meta] = []; groups[m.meta].push(m); });
+    
+                dropdown.innerHTML = Object.entries(groups).map(([group, items]) => `
+                    <div class="autocomplete-group-label">${group}</div>
+                    ${items.map(item => `
+                        <div class="autocomplete-item" data-index="${currentMatches.indexOf(item)}" onmousedown="selectSuggestion(${currentMatches.indexOf(item)})">
+                            <span class="autocomplete-item-icon">${item.icon}</span>
+                            <span>${highlightMatch(item.label, tokens)}</span>
+                            <span class="autocomplete-item-meta">${item.meta}</span>
+                        </div>`).join('')}
+                `).join('');
+                dropdown.classList.add('open');
+            }
+    
+            function closeDropdown() {
+                dropdown.classList.remove('open');
+                popularPanel.classList.remove('open');
+                activeIndex = -1;
+            }
+    
+            function selectSuggestion(index) {
+                const match = currentMatches[index];
+                if (!match) return;
+                searchBox.value = match.label;
+                clearBtn.classList.add('visible');
                 closeDropdown();
-                this.blur();
+                match.action();
+                searchBox.blur();
             }
-        });
-
-        searchBox.addEventListener('blur', () => setTimeout(closeDropdown, 180));
-
-        document.addEventListener('click', (e) => {
-            if (!e.target.closest('.hero-search-inner') && !e.target.closest('.search-popular')) closeDropdown();
-        });
-
-        // ── ⌘K / Ctrl+K focuses search from anywhere ──────────────
-        document.addEventListener('keydown', function(e) {
-            if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
-                e.preventDefault();
+    
+            function clearSearch() {
+                searchBox.value = '';
+                clearBtn.classList.remove('visible');
+                closeDropdown();
+                const srTab = document.getElementById('searchResultsTab');
+                srTab.style.display = 'none';
+                if (document.getElementById('search-results').classList.contains('active')) {
+                    openTabById('overview');
+                }
                 searchBox.focus();
-                searchBox.select();
             }
-        });
-
-        // ── Live content index — built once, searched always ──────
-        let PAGE_INDEX = null;
-
-        function buildPageIndex() {
-            if (PAGE_INDEX) return;
-            PAGE_INDEX = [];
-
-            // Map of section IDs → human label + nav action
-            const SECTIONS = [
-                { sel: '#team-detail-compliance',    label: 'Compliance Team',              icon: '⚖️', action: () => { openTabById('teams'); openTeamDetail('compliance'); } },
-                { sel: '#team-detail-customer-service', label: 'Customer Service Team',     icon: '🎧', action: () => { openTabById('teams'); openTeamDetail('customer-service'); } },
-                { sel: '#team-detail-fulfillment',   label: 'Fulfillment Team',             icon: '📦', action: () => { openTabById('teams'); openTeamDetail('fulfillment'); } },
-                { sel: '#team-detail-network-dev',   label: 'Network Development',          icon: '🌐', action: () => { openTabById('teams'); openTeamDetail('network-dev'); } },
-                { sel: '#team-detail-product',       label: 'Product Team',                 icon: '🛠️', action: () => { openTabById('teams'); openTeamDetail('product'); } },
-                { sel: '#team-detail-rbc',           label: 'Regional Benefit Coordinators',icon: '📍', action: () => { openTabById('teams'); openTeamDetail('rbc'); } },
-                { sel: '#wf-collapsible-lynx',       label: 'Lynx Fund Adjustment Workflow',icon: '💳', action: () => { openTabById('workflows'); document.getElementById('wf-collapsible-lynx').classList.add('open'); } },
-                { sel: '#wf-collapsible-bcbs',       label: 'BCBS AZ Catalog Workflow',     icon: '📦', action: () => { openTabById('workflows'); document.getElementById('wf-collapsible-bcbs').classList.add('open'); } },
-                { sel: '#wf-collapsible-tickets',    label: 'Working ZD Tickets — Job Aid', icon: '💼', action: () => { openTabById('workflows'); document.getElementById('wf-collapsible-tickets').classList.add('open'); } },
-                { sel: '#wf-collapsible-statuses',   label: 'Ticket Status Reference',      icon: '📋', action: () => { openTabById('workflows'); document.getElementById('wf-collapsible-statuses').classList.add('open'); } },
-                { sel: '#wf-collapsible-payor-refund',   label: 'Payor Auth Refund — HomeAlign',     icon: '💸', action: () => { openTabById('workflows'); document.getElementById('wf-collapsible-payor-refund').classList.add('open'); } },
-                { sel: '#wf-collapsible-referral-status', label: 'Referral Status Update — Django',  icon: '🔄', action: () => { openTabById('workflows'); document.getElementById('wf-collapsible-referral-status').classList.add('open'); } },
-                { sel: '#wf-collapsible-member-refunds',  label: 'Member Refunds — Scenarios',       icon: '💰', action: () => { openTabById('workflows'); document.getElementById('wf-collapsible-member-refunds').classList.add('open'); } },
-                { sel: '#wf-collapsible-card-replacement', label: 'Flex Card Replacement',           icon: '💳', action: () => { openTabById('workflows'); document.getElementById('wf-collapsible-card-replacement').classList.add('open'); } },
-                { sel: '#wf-collapsible-cannot-register',  label: 'Consumer Portal — Cannot Register',icon: '🖥️', action: () => { openTabById('workflows'); document.getElementById('wf-collapsible-cannot-register').classList.add('open'); } },
-                { sel: '#wf-gov-member',             label: 'Gov Member Support Workflow',  icon: '🔀', action: () => { openTabById('workflows'); document.querySelectorAll('.wf-panel').forEach(p=>p.style.display='none'); document.getElementById('wf-gov-member').style.display='block'; } },
-                { sel: '#wf-digital',                label: 'Digital Wallet Workflow',      icon: '🔀', action: () => { openTabById('workflows'); document.querySelectorAll('.wf-panel').forEach(p=>p.style.display='none'); document.getElementById('wf-digital').style.display='block'; } },
-                { sel: '#wf-scan',                   label: 'SCAN Workflow',                icon: '🔀', action: () => { openTabById('workflows'); document.querySelectorAll('.wf-panel').forEach(p=>p.style.display='none'); document.getElementById('wf-scan').style.display='block'; } },
-                { sel: '#wf-bcbs-az',                label: 'BCBS AZ Workflow',             icon: '🔀', action: () => { openTabById('workflows'); document.querySelectorAll('.wf-panel').forEach(p=>p.style.display='none'); document.getElementById('wf-bcbs-az').style.display='block'; } },
-                { sel: '#wf-curana',                 label: 'Curana Workflow',              icon: '🔀', action: () => { openTabById('workflows'); document.querySelectorAll('.wf-panel').forEach(p=>p.style.display='none'); document.getElementById('wf-curana').style.display='block'; } },
-                { sel: '#wf-curana-reimb',           label: 'Curana Reimbursement Workflow',icon: '🔀', action: () => { openTabById('workflows'); document.querySelectorAll('.wf-panel').forEach(p=>p.style.display='none'); document.getElementById('wf-curana-reimb').style.display='block'; } },
-                { sel: '#wf-humana-d2c',             label: 'Humana D2C Workflow',          icon: '🔀', action: () => { openTabById('workflows'); document.querySelectorAll('.wf-panel').forEach(p=>p.style.display='none'); document.getElementById('wf-humana-d2c').style.display='block'; } },
-                { sel: '#wf-humana-c3a',             label: 'Humana C3A Workflow',          icon: '🔒', action: () => { openTabById('workflows'); document.querySelectorAll('.wf-panel').forEach(p=>p.style.display='none'); document.getElementById('wf-humana-c3a').style.display='block'; } },
-                { sel: '#wf-humana-phcs',            label: 'Humana PHCS Workflow',         icon: '🔒', action: () => { openTabById('workflows'); document.querySelectorAll('.wf-panel').forEach(p=>p.style.display='none'); document.getElementById('wf-humana-phcs').style.display='block'; } },
-                { sel: '#wf-humana-medicaid',        label: 'Humana Medicaid Workflow',     icon: '🔒', action: () => { openTabById('workflows'); document.querySelectorAll('.wf-panel').forEach(p=>p.style.display='none'); document.getElementById('wf-humana-medicaid').style.display='block'; } },
-                { sel: '#wf-uhp-grievance',          label: 'UHP Grievance Workflow',       icon: '🔒', action: () => { openTabById('workflows'); document.querySelectorAll('.wf-panel').forEach(p=>p.style.display='none'); document.getElementById('wf-uhp-grievance').style.display='block'; } },
-                { sel: '#sla .escalation-policy',    label: 'Tier 3 Escalation Policy',     icon: '🚨', action: () => openTabById('sla') },
-                { sel: '#sla .tier-cards-grid',      label: 'SLA & Tiers',                  icon: '📊', action: () => openTabById('sla') },
-                { sel: '#faqs .faq-list',            label: 'FAQs',                         icon: '❓', action: () => openTabById('faqs') },
-                { sel: '#reference',                 label: 'Reference — AM HP List',       icon: '📋', action: () => openTabById('reference') },
-                { sel: '#overview',                  label: 'Overview',                     icon: '🏠', action: () => openTabById('overview') },
-                { sel: '#zd-links',                  label: 'Zendesk Links',                icon: '🔗', action: () => openTabById('zd-links') },
-            ];
-
-            // Text-bearing selectors to extract from each section
-            const TEXT_SELS = 'p, li, td, th, h3, h4, strong, .team-member, .ep-step div, .sr-card-desc, label, code, small';
-
-            SECTIONS.forEach(sec => {
-                const container = document.querySelector(sec.sel);
-                if (!container) return;
-
-                // Get the nearest heading for context
-                let heading = sec.label;
-                const h = container.querySelector('h2, h3, h4');
-                if (h) heading = h.textContent.trim();
-
-                // Collect unique meaningful text blocks
-                const seen = new Set();
-                container.querySelectorAll(TEXT_SELS).forEach(el => {
-                    // Skip deeply nested duplicates
-                    if (el.closest('.sr-card')) return;
-                    const txt = el.textContent.trim().replace(/\s+/g, ' ');
-                    if (txt.length < 12 || txt.length > 600 || seen.has(txt)) return;
-                    seen.add(txt);
-                    PAGE_INDEX.push({
-                        text: txt,
-                        textL: txt.toLowerCase(),
-                        section: sec.label,
-                        heading,
-                        icon: sec.icon,
-                        action: sec.action,
+    
+            function runPopular(el) {
+                // Strip leading emoji and whitespace
+                const text = el.textContent.replace(/^[\u{1F300}-\u{1FFFF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}\s]+/u, '').trim();
+                searchBox.value = text;
+                clearBtn.classList.add('visible');
+                searchBox.dispatchEvent(new Event('input'));
+                searchBox.focus();
+            }
+    
+            function fireHint(el) {
+                searchBox.value = el.textContent;
+                clearBtn.classList.add('visible');
+                searchBox.dispatchEvent(new Event('input'));
+                searchBox.focus();
+            }
+    
+            searchBox.addEventListener('focus', function() {
+                if (!this.value.trim()) {
+                    popularPanel.classList.add('open');
+                    dropdown.classList.remove('open');
+                }
+            });
+    
+            const STOP_WORDS = new Set(['the','a','an','is','in','of','do','i','to','for','on','how','who','what','where','why','when','can','does','my','me','with','has','have','are','at','by','we','our','not','need','help','want','go','going','just','so','up','if','no','its','get','do','did','will','would','could','should','use','find','look','tell','show','give','make','work','going']);
+    
+            searchBox.addEventListener('input', function() {
+                const raw = this.value;
+                const term = raw.trim().toLowerCase();
+                clearBtn.classList.toggle('visible', raw.length > 0);
+    
+                if (!term) {
+                    dropdown.classList.remove('open');
+                    popularPanel.classList.add('open');
+                    return;
+                }
+                popularPanel.classList.remove('open');
+    
+                const tokens = term.replace(/['']/g, '').split(/\s+/).filter(t => t.length >= 2 && !STOP_WORDS.has(t));
+                const queryTokens = tokens.length ? tokens : [term];
+    
+                const scored = [];
+                SEARCH_INDEX.forEach(item => {
+                    const s = scoreItem(item, queryTokens);
+                    if (s > 0) scored.push({ item, score: s });
+                });
+                scored.sort((a, b) => b.score - a.score);
+                renderDropdown(scored.slice(0, 18).map(s => s.item), queryTokens);
+            });
+    
+            searchBox.addEventListener('keydown', function(e) {
+                const items = dropdown.querySelectorAll('.autocomplete-item');
+                if (e.key === 'ArrowDown') {
+                    e.preventDefault();
+                    activeIndex = Math.min(activeIndex + 1, items.length - 1);
+                    items.forEach((el, i) => el.classList.toggle('active', i === activeIndex));
+                    items[activeIndex]?.scrollIntoView({ block: 'nearest' });
+                } else if (e.key === 'ArrowUp') {
+                    e.preventDefault();
+                    activeIndex = Math.max(activeIndex - 1, 0);
+                    items.forEach((el, i) => el.classList.toggle('active', i === activeIndex));
+                    items[activeIndex]?.scrollIntoView({ block: 'nearest' });
+                } else if (e.key === 'Enter') {
+                    e.preventDefault();
+                    if (activeIndex >= 0 && items[activeIndex]) {
+                        selectSuggestion(parseInt(items[activeIndex].dataset.index));
+                    } else {
+                        const term = this.value.trim();
+                        if (term) { closeDropdown(); openSearchResults(term); }
+                    }
+                } else if (e.key === 'Escape') {
+                    closeDropdown();
+                    this.blur();
+                }
+            });
+    
+            searchBox.addEventListener('blur', () => setTimeout(closeDropdown, 180));
+    
+            document.addEventListener('click', (e) => {
+                if (!e.target.closest('.hero-search-inner') && !e.target.closest('.search-popular')) closeDropdown();
+            });
+    
+            // ── ⌘K / Ctrl+K focuses search from anywhere ──────────────
+            document.addEventListener('keydown', function(e) {
+                if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+                    e.preventDefault();
+                    searchBox.focus();
+                    searchBox.select();
+                }
+            });
+    
+            // ── Live content index — built once, searched always ──────
+            let PAGE_INDEX = null;
+    
+            function buildPageIndex() {
+                if (PAGE_INDEX) return;
+                PAGE_INDEX = [];
+    
+                // Map of section IDs → human label + nav action
+                const SECTIONS = [
+                    { sel: '#team-detail-compliance',    label: 'Compliance Team',              icon: '⚖️', action: () => { openTabById('teams'); openTeamDetail('compliance'); } },
+                    { sel: '#team-detail-customer-service', label: 'Customer Service Team',     icon: '🎧', action: () => { openTabById('teams'); openTeamDetail('customer-service'); } },
+                    { sel: '#team-detail-fulfillment',   label: 'Fulfillment Team',             icon: '📦', action: () => { openTabById('teams'); openTeamDetail('fulfillment'); } },
+                    { sel: '#team-detail-network-dev',   label: 'Network Development',          icon: '🌐', action: () => { openTabById('teams'); openTeamDetail('network-dev'); } },
+                    { sel: '#team-detail-product',       label: 'Product Team',                 icon: '🛠️', action: () => { openTabById('teams'); openTeamDetail('product'); } },
+                    { sel: '#team-detail-rbc',           label: 'Regional Benefit Coordinators',icon: '📍', action: () => { openTabById('teams'); openTeamDetail('rbc'); } },
+                    { sel: '#wf-collapsible-lynx',       label: 'Lynx Fund Adjustment Workflow',icon: '💳', action: () => { openTabById('workflows'); document.getElementById('wf-collapsible-lynx').classList.add('open'); } },
+                    { sel: '#wf-collapsible-bcbs',       label: 'BCBS AZ Catalog Workflow',     icon: '📦', action: () => { openTabById('workflows'); document.getElementById('wf-collapsible-bcbs').classList.add('open'); } },
+                    { sel: '#wf-collapsible-tickets',    label: 'Working ZD Tickets — Job Aid', icon: '💼', action: () => { openTabById('workflows'); document.getElementById('wf-collapsible-tickets').classList.add('open'); } },
+                    { sel: '#wf-collapsible-statuses',   label: 'Ticket Status Reference',      icon: '📋', action: () => { openTabById('workflows'); document.getElementById('wf-collapsible-statuses').classList.add('open'); } },
+                    { sel: '#wf-collapsible-payor-refund',   label: 'Payor Auth Refund — HomeAlign',     icon: '💸', action: () => { openTabById('workflows'); document.getElementById('wf-collapsible-payor-refund').classList.add('open'); } },
+                    { sel: '#wf-collapsible-referral-status', label: 'Referral Status Update — Django',  icon: '🔄', action: () => { openTabById('workflows'); document.getElementById('wf-collapsible-referral-status').classList.add('open'); } },
+                    { sel: '#wf-collapsible-member-refunds',  label: 'Member Refunds — Scenarios',       icon: '💰', action: () => { openTabById('workflows'); document.getElementById('wf-collapsible-member-refunds').classList.add('open'); } },
+                    { sel: '#wf-collapsible-card-replacement', label: 'Flex Card Replacement',           icon: '💳', action: () => { openTabById('workflows'); document.getElementById('wf-collapsible-card-replacement').classList.add('open'); } },
+                    { sel: '#wf-collapsible-cannot-register',  label: 'Consumer Portal — Cannot Register',icon: '🖥️', action: () => { openTabById('workflows'); document.getElementById('wf-collapsible-cannot-register').classList.add('open'); } },
+                    { sel: '#wf-gov-member',             label: 'Gov Member Support Workflow',  icon: '🔀', action: () => { openTabById('workflows'); document.querySelectorAll('.wf-panel').forEach(p=>p.style.display='none'); document.getElementById('wf-gov-member').style.display='block'; } },
+                    { sel: '#wf-digital',                label: 'Digital Wallet Workflow',      icon: '🔀', action: () => { openTabById('workflows'); document.querySelectorAll('.wf-panel').forEach(p=>p.style.display='none'); document.getElementById('wf-digital').style.display='block'; } },
+                    { sel: '#wf-scan',                   label: 'SCAN Workflow',                icon: '🔀', action: () => { openTabById('workflows'); document.querySelectorAll('.wf-panel').forEach(p=>p.style.display='none'); document.getElementById('wf-scan').style.display='block'; } },
+                    { sel: '#wf-bcbs-az',                label: 'BCBS AZ Workflow',             icon: '🔀', action: () => { openTabById('workflows'); document.querySelectorAll('.wf-panel').forEach(p=>p.style.display='none'); document.getElementById('wf-bcbs-az').style.display='block'; } },
+                    { sel: '#wf-curana',                 label: 'Curana Workflow',              icon: '🔀', action: () => { openTabById('workflows'); document.querySelectorAll('.wf-panel').forEach(p=>p.style.display='none'); document.getElementById('wf-curana').style.display='block'; } },
+                    { sel: '#wf-curana-reimb',           label: 'Curana Reimbursement Workflow',icon: '🔀', action: () => { openTabById('workflows'); document.querySelectorAll('.wf-panel').forEach(p=>p.style.display='none'); document.getElementById('wf-curana-reimb').style.display='block'; } },
+                    { sel: '#wf-humana-d2c',             label: 'Humana D2C Workflow',          icon: '🔀', action: () => { openTabById('workflows'); document.querySelectorAll('.wf-panel').forEach(p=>p.style.display='none'); document.getElementById('wf-humana-d2c').style.display='block'; } },
+                    { sel: '#wf-humana-c3a',             label: 'Humana C3A Workflow',          icon: '🔒', action: () => { openTabById('workflows'); document.querySelectorAll('.wf-panel').forEach(p=>p.style.display='none'); document.getElementById('wf-humana-c3a').style.display='block'; } },
+                    { sel: '#wf-humana-phcs',            label: 'Humana PHCS Workflow',         icon: '🔒', action: () => { openTabById('workflows'); document.querySelectorAll('.wf-panel').forEach(p=>p.style.display='none'); document.getElementById('wf-humana-phcs').style.display='block'; } },
+                    { sel: '#wf-humana-medicaid',        label: 'Humana Medicaid Workflow',     icon: '🔒', action: () => { openTabById('workflows'); document.querySelectorAll('.wf-panel').forEach(p=>p.style.display='none'); document.getElementById('wf-humana-medicaid').style.display='block'; } },
+                    { sel: '#wf-uhp-grievance',          label: 'UHP Grievance Workflow',       icon: '🔒', action: () => { openTabById('workflows'); document.querySelectorAll('.wf-panel').forEach(p=>p.style.display='none'); document.getElementById('wf-uhp-grievance').style.display='block'; } },
+                    { sel: '#sla .escalation-policy',    label: 'Tier 3 Escalation Policy',     icon: '🚨', action: () => openTabById('sla') },
+                    { sel: '#sla .tier-cards-grid',      label: 'SLA & Tiers',                  icon: '📊', action: () => openTabById('sla') },
+                    { sel: '#faqs .faq-list',            label: 'FAQs',                         icon: '❓', action: () => openTabById('faqs') },
+                    { sel: '#reference',                 label: 'Reference — AM HP List',       icon: '📋', action: () => openTabById('reference') },
+                    { sel: '#overview',                  label: 'Overview',                     icon: '🏠', action: () => openTabById('overview') },
+                    { sel: '#zd-links',                  label: 'Zendesk Links',                icon: '🔗', action: () => openTabById('zd-links') },
+                ];
+    
+                // Text-bearing selectors to extract from each section
+                const TEXT_SELS = 'p, li, td, th, h3, h4, strong, .team-member, .ep-step div, .sr-card-desc, label, code, small';
+    
+                SECTIONS.forEach(sec => {
+                    const container = document.querySelector(sec.sel);
+                    if (!container) return;
+    
+                    // Get the nearest heading for context
+                    let heading = sec.label;
+                    const h = container.querySelector('h2, h3, h4');
+                    if (h) heading = h.textContent.trim();
+    
+                    // Collect unique meaningful text blocks
+                    const seen = new Set();
+                    container.querySelectorAll(TEXT_SELS).forEach(el => {
+                        // Skip deeply nested duplicates
+                        if (el.closest('.sr-card')) return;
+                        const txt = el.textContent.trim().replace(/\s+/g, ' ');
+                        if (txt.length < 12 || txt.length > 600 || seen.has(txt)) return;
+                        seen.add(txt);
+                        PAGE_INDEX.push({
+                            text: txt,
+                            textL: txt.toLowerCase(),
+                            section: sec.label,
+                            heading,
+                            icon: sec.icon,
+                            action: sec.action,
+                        });
                     });
                 });
-            });
-        }
-
-        // Score a page index entry against search tokens
-        function scorePageEntry(entry, tokens) {
-            let score = 0;
-            tokens.forEach(tok => {
-                if (!tok || tok.length < 2) return;
-                // Word-boundary matching for short tokens prevents false hits
-                // e.g. "scan" must not score "scanning an item" as high as "SCAN health plan"
-                let isWordMatch = false, isSubMatch = false;
-                const escaped = tok.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-                if (tok.length <= 8) {
-                    try {
-                        isWordMatch = new RegExp('\\b' + escaped + '\\b', 'i').test(entry.textL);
-                    } catch(e) { isWordMatch = entry.textL.includes(tok); }
-                    isSubMatch = !isWordMatch && entry.textL.includes(tok);
-                } else {
-                    isWordMatch = entry.textL.includes(tok);
-                }
-                if (isWordMatch) {
-                    const freq = (entry.textL.match(new RegExp(escaped, 'gi')) || []).length;
-                    score += 20 + freq * 5;
-                    if (entry.textL.startsWith(tok)) score += 10;
-                } else if (isSubMatch) {
-                    // Partial match (e.g. "scanning" matched by "scan") — minimal score
-                    score += 3;
-                } else if (fuzzyText(tok, entry.textL)) {
-                    score += 8;
-                }
-            });
-            // Bonus if multiple tokens match on word boundaries
-            const matchedCount = tokens.filter(t => {
-                try {
-                    const e2 = t.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-                    return new RegExp('\\b' + e2 + '\\b', 'i').test(entry.textL);
-                } catch(e) { return entry.textL.includes(t); }
-            }).length;
-            if (tokens.length > 1 && matchedCount > 1) score += matchedCount * 12;
-            return score;
-        }
-
-        // ── Full Search Results Page ───────────────────────────────
-        function openSearchResults(term) {
-            if (!term || term.length < 1) return;
-
-            // Build the content index on first use
-            buildPageIndex();
-
-            const STOP = new Set(['the','a','an','is','in','of','do','i','to','for','on','how','who','what','where','why','when','can','does','my','me','with','has','have','are','at','by','we','our','not','need','help','want','go','going','just','so','up','if','no','its','get','did','will','would','could','should','use','find','look','tell','show','make','work']);
-            // Normalize contractions before tokenizing (cant→cant, won't→wont, etc.)
-            const lower = term.toLowerCase().replace(/['']/g, '');
-            const tokens = lower.split(/\s+/).filter(t => t.length >= 2 && !STOP.has(t));
-            const queryTokens = tokens.length ? tokens : [lower];
-
-            function hl(text) {
-                if (!queryTokens.length) return text;
-                const escaped = queryTokens.map(t => t.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|');
-                try { return text.replace(new RegExp(`(${escaped})`, 'gi'), '<mark>$1</mark>'); }
-                catch(e) { return text; }
             }
-
-            function excerpt(txt) {
-                let best = txt;
-                queryTokens.forEach(t => {
-                    const idx = txt.toLowerCase().indexOf(t);
-                    if (idx !== -1) {
-                        const s = Math.max(0, idx - 55), e2 = Math.min(txt.length, idx + 130);
-                        best = (s > 0 ? '…' : '') + txt.slice(s, e2).trim() + (e2 < txt.length ? '…' : '');
+    
+            // Score a page index entry against search tokens
+            function scorePageEntry(entry, tokens) {
+                let score = 0;
+                tokens.forEach(tok => {
+                    if (!tok || tok.length < 2) return;
+                    // Word-boundary matching for short tokens prevents false hits
+                    // e.g. "scan" must not score "scanning an item" as high as "SCAN health plan"
+                    let isWordMatch = false, isSubMatch = false;
+                    const escaped = tok.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+                    if (tok.length <= 8) {
+                        try {
+                            isWordMatch = new RegExp('\\b' + escaped + '\\b', 'i').test(entry.textL);
+                        } catch(e) { isWordMatch = entry.textL.includes(tok); }
+                        isSubMatch = !isWordMatch && entry.textL.includes(tok);
+                    } else {
+                        isWordMatch = entry.textL.includes(tok);
+                    }
+                    if (isWordMatch) {
+                        const freq = (entry.textL.match(new RegExp(escaped, 'gi')) || []).length;
+                        score += 20 + freq * 5;
+                        if (entry.textL.startsWith(tok)) score += 10;
+                    } else if (isSubMatch) {
+                        // Partial match (e.g. "scanning" matched by "scan") — minimal score
+                        score += 3;
+                    } else if (fuzzyText(tok, entry.textL)) {
+                        score += 8;
                     }
                 });
-                return best.slice(0, 220);
+                // Bonus if multiple tokens match on word boundaries
+                const matchedCount = tokens.filter(t => {
+                    try {
+                        const e2 = t.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+                        return new RegExp('\\b' + e2 + '\\b', 'i').test(entry.textL);
+                    } catch(e) { return entry.textL.includes(t); }
+                }).length;
+                if (tokens.length > 1 && matchedCount > 1) score += matchedCount * 12;
+                return score;
             }
-
-            // ── Score SEARCH_INDEX items ──────────────────────────
-            const indexScored = [];
-            SEARCH_INDEX.forEach(item => {
-                const s = scoreItem(item, queryTokens);
-                if (s > 0) indexScored.push({ item, score: s });
-            });
-            indexScored.sort((a, b) => b.score - a.score);
-            const indexMatches = indexScored.slice(0, 30).map(s => s.item);
-
-            // ── Score PAGE_INDEX entries (live DOM scan) ──────────
-            // Known health plan / client entity names.
-            // When one of these is the search term, results are scoped to on-topic sections only.
-            const KNOWN_CLIENTS = new Set([
-                'scan','humana','aetna','curana','bcbs','centene','lynx','uhp','uhc',
-                'verda','hap','elderplan','simpra','alignment','champion','longevity',
-                'isaac','abilis','perennial','procare','lifeworks','pruitt','nhc',
-                'gold kidney','network health','clever care','bcbs az','bcbs sc'
-            ]);
-            const entityTokens = queryTokens.filter(t => KNOWN_CLIENTS.has(t));
-            const isEntityQuery = entityTokens.length > 0;
-
-            const pageScored = [];
-            PAGE_INDEX.forEach(entry => {
-                const s = scorePageEntry(entry, queryTokens);
-                if (s > 0) pageScored.push({ entry, score: s });
-            });
-
-            // Entity-aware re-scoring: boost on-topic sections 4×, suppress off-topic noise 95%
-            if (isEntityQuery) {
-                pageScored.forEach(ps => {
-                    const sec = ps.entry.section.toLowerCase();
-                    const onTopic = entityTokens.some(et => sec.includes(et));
-                    ps.score = onTopic ? ps.score * 4 : ps.score * 0.05;
+    
+            // ── Full Search Results Page ───────────────────────────────
+            function openSearchResults(term) {
+                if (!term || term.length < 1) return;
+    
+                // Build the content index on first use
+                buildPageIndex();
+    
+                const STOP = new Set(['the','a','an','is','in','of','do','i','to','for','on','how','who','what','where','why','when','can','does','my','me','with','has','have','are','at','by','we','our','not','need','help','want','go','going','just','so','up','if','no','its','get','did','will','would','could','should','use','find','look','tell','show','make','work']);
+                // Normalize contractions before tokenizing (cant→cant, won't→wont, etc.)
+                const lower = term.toLowerCase().replace(/['']/g, '');
+                const tokens = lower.split(/\s+/).filter(t => t.length >= 2 && !STOP.has(t));
+                const queryTokens = tokens.length ? tokens : [lower];
+    
+                function hl(text) {
+                    if (!queryTokens.length) return text;
+                    const escaped = queryTokens.map(t => t.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|');
+                    try { return text.replace(new RegExp(`(${escaped})`, 'gi'), '<mark>$1</mark>'); }
+                    catch(e) { return text; }
+                }
+    
+                function excerpt(txt) {
+                    let best = txt;
+                    queryTokens.forEach(t => {
+                        const idx = txt.toLowerCase().indexOf(t);
+                        if (idx !== -1) {
+                            const s = Math.max(0, idx - 55), e2 = Math.min(txt.length, idx + 130);
+                            best = (s > 0 ? '…' : '') + txt.slice(s, e2).trim() + (e2 < txt.length ? '…' : '');
+                        }
+                    });
+                    return best.slice(0, 220);
+                }
+    
+                // ── Score SEARCH_INDEX items ──────────────────────────
+                const indexScored = [];
+                SEARCH_INDEX.forEach(item => {
+                    const s = scoreItem(item, queryTokens);
+                    if (s > 0) indexScored.push({ item, score: s });
                 });
-            }
-            pageScored.sort((a, b) => b.score - a.score);
-
-            // Minimum score gate — tighter for entity queries to cut stray mentions
-            const PAGE_MIN_SCORE = isEntityQuery ? 20 : 10;
-            const filteredPageScored = pageScored.filter(ps => ps.score >= PAGE_MIN_SCORE);
-
-            // Group page results by section, deduplicate snippets
-            const pageSections = {};
-            filteredPageScored.forEach(({ entry, score }) => {
-                if (!pageSections[entry.section]) pageSections[entry.section] = { icon: entry.icon, action: entry.action, snippets: [], score: 0 };
-                if (pageSections[entry.section].snippets.length < 3) {
-                    pageSections[entry.section].snippets.push(excerpt(entry.text));
-                }
-                pageSections[entry.section].score = Math.max(pageSections[entry.section].score, score);
-            });
-            const pageSectionList = Object.entries(pageSections)
-                .sort((a, b) => b[1].score - a[1].score)
-                .slice(0, 8);
-
-            const totalResults = indexMatches.length + pageSectionList.length;
-
-            // ── Build HTML ─────────────────────────────────────────
-            let html = '';
-
-            if (totalResults === 0) {
-                html = `<div class="sr-no-results">
-                    <div class="sr-no-results-icon">🤷</div>
-                    <h3>Nothing found for "<em>${term}</em>"</h3>
-                    <p>This term doesn't appear anywhere in the guide. Try a shorter or different keyword — or browse the tabs above.</p>
-                    <div style="margin-top:20px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
-                        ${['refund','escalate','Humana','catalog','Lynx','tier 3','provider','grievance'].map(s =>
-                            `<span class="search-popular-chip" onclick="document.getElementById('searchBox').value='${s}';openSearchResults('${s}')">${s}</span>`
-                        ).join('')}
-                    </div>
-                </div>`;
-            } else {
-                // Live content matches (from DOM scan)
-                if (pageSectionList.length > 0) {
-                    html += `<div class="sr-section">
-                        <div class="sr-section-title">📄 Found in guide content <span style="font-size:0.85em;font-weight:400;margin-left:4px;">(${pageSectionList.length} section${pageSectionList.length !== 1 ? 's' : ''})</span></div>
-                        <div class="sr-cards">`;
-
-                    pageSectionList.forEach(([sectionName, data]) => {
-                        const actionStr = data.action.toString();
-                        html += `<div class="sr-card" onclick="(${actionStr})()">
-                            <div class="sr-card-icon">${data.icon}</div>
-                            <div class="sr-card-body">
-                                <div class="sr-card-title">${sectionName}</div>
-                                <div class="sr-card-snippets">
-                                    ${data.snippets.map(s => `<div class="sr-snippet">${hl(s)}</div>`).join('')}
-                                </div>
-                            </div>
-                            <button class="sr-card-goto" onclick="event.stopPropagation();(${actionStr})()">Go →</button>
-                        </div>`;
+                indexScored.sort((a, b) => b.score - a.score);
+                const indexMatches = indexScored.slice(0, 30).map(s => s.item);
+    
+                // ── Score PAGE_INDEX entries (live DOM scan) ──────────
+                // Known health plan / client entity names.
+                // When one of these is the search term, results are scoped to on-topic sections only.
+                const KNOWN_CLIENTS = new Set([
+                    'scan','humana','aetna','curana','bcbs','centene','lynx','uhp','uhc',
+                    'verda','hap','elderplan','simpra','alignment','champion','longevity',
+                    'isaac','abilis','perennial','procare','lifeworks','pruitt','nhc',
+                    'gold kidney','network health','clever care','bcbs az','bcbs sc'
+                ]);
+                const entityTokens = queryTokens.filter(t => KNOWN_CLIENTS.has(t));
+                const isEntityQuery = entityTokens.length > 0;
+    
+                const pageScored = [];
+                PAGE_INDEX.forEach(entry => {
+                    const s = scorePageEntry(entry, queryTokens);
+                    if (s > 0) pageScored.push({ entry, score: s });
+                });
+    
+                // Entity-aware re-scoring: boost on-topic sections 4×, suppress off-topic noise 95%
+                if (isEntityQuery) {
+                    pageScored.forEach(ps => {
+                        const sec = ps.entry.section.toLowerCase();
+                        const onTopic = entityTokens.some(et => sec.includes(et));
+                        ps.score = onTopic ? ps.score * 4 : ps.score * 0.05;
                     });
-
-                    html += `</div></div>`;
                 }
-
-                // Structured index matches
-                if (indexMatches.length > 0) {
-                    const ORDER = ['Team','Workflow','SLA','Customer Service','Fulfillment','Product','Compliance','RBC','Network Development','Reference','Links','Client'];
-                    const groups = {};
-                    indexMatches.forEach(item => {
-                        if (!groups[item.meta]) groups[item.meta] = [];
-                        if (groups[item.meta].length < 5) groups[item.meta].push(item);
-                    });
-
-                    Object.keys(groups).sort((a,b) => {
-                        const ai = ORDER.indexOf(a), bi = ORDER.indexOf(b);
-                        return (ai < 0 ? 99 : ai) - (bi < 0 ? 99 : bi);
-                    }).forEach(groupName => {
+                pageScored.sort((a, b) => b.score - a.score);
+    
+                // Minimum score gate — tighter for entity queries to cut stray mentions
+                const PAGE_MIN_SCORE = isEntityQuery ? 20 : 10;
+                const filteredPageScored = pageScored.filter(ps => ps.score >= PAGE_MIN_SCORE);
+    
+                // Group page results by section, deduplicate snippets
+                const pageSections = {};
+                filteredPageScored.forEach(({ entry, score }) => {
+                    if (!pageSections[entry.section]) pageSections[entry.section] = { icon: entry.icon, action: entry.action, snippets: [], score: 0 };
+                    if (pageSections[entry.section].snippets.length < 3) {
+                        pageSections[entry.section].snippets.push(excerpt(entry.text));
+                    }
+                    pageSections[entry.section].score = Math.max(pageSections[entry.section].score, score);
+                });
+                const pageSectionList = Object.entries(pageSections)
+                    .sort((a, b) => b[1].score - a[1].score)
+                    .slice(0, 8);
+    
+                const totalResults = indexMatches.length + pageSectionList.length;
+    
+                // ── Build HTML ─────────────────────────────────────────
+                let html = '';
+    
+                if (totalResults === 0) {
+                    html = `<div class="sr-no-results">
+                        <div class="sr-no-results-icon">🤷</div>
+                        <h3>Nothing found for "<em>${term}</em>"</h3>
+                        <p>This term doesn't appear anywhere in the guide. Try a shorter or different keyword — or browse the tabs above.</p>
+                        <div style="margin-top:20px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
+                            ${['refund','escalate','Humana','catalog','Lynx','tier 3','provider','grievance'].map(s =>
+                                `<span class="search-popular-chip" onclick="document.getElementById('searchBox').value='${s}';openSearchResults('${s}')">${s}</span>`
+                            ).join('')}
+                        </div>
+                    </div>`;
+                } else {
+                    // Live content matches (from DOM scan)
+                    if (pageSectionList.length > 0) {
                         html += `<div class="sr-section">
-                            <div class="sr-section-title">${groupName} <span style="font-size:0.85em;font-weight:400;margin-left:4px;">(${groups[groupName].length})</span></div>
+                            <div class="sr-section-title">📄 Found in guide content <span style="font-size:0.85em;font-weight:400;margin-left:4px;">(${pageSectionList.length} section${pageSectionList.length !== 1 ? 's' : ''})</span></div>
                             <div class="sr-cards">`;
-
-                        groups[groupName].forEach(item => {
-                            const actionStr = item.action.toString();
+    
+                        pageSectionList.forEach(([sectionName, data]) => {
+                            const actionStr = data.action.toString();
                             html += `<div class="sr-card" onclick="(${actionStr})()">
-                                <div class="sr-card-icon">${item.icon}</div>
+                                <div class="sr-card-icon">${data.icon}</div>
                                 <div class="sr-card-body">
-                                    <div class="sr-card-title">${hl(item.label)}</div>
-                                    <div class="sr-card-meta">${item.meta}</div>
-                                    ${item.desc ? `<div class="sr-card-desc">${hl(item.desc)}</div>` : ''}
+                                    <div class="sr-card-title">${sectionName}</div>
+                                    <div class="sr-card-snippets">
+                                        ${data.snippets.map(s => `<div class="sr-snippet">${hl(s)}</div>`).join('')}
+                                    </div>
                                 </div>
                                 <button class="sr-card-goto" onclick="event.stopPropagation();(${actionStr})()">Go →</button>
                             </div>`;
                         });
-
+    
                         html += `</div></div>`;
-                    });
-                }
-            }
-
-            document.getElementById('srContent').innerHTML = html;
-            document.getElementById('srSubtitle').textContent =
-                totalResults > 0
-                    ? `${totalResults} result${totalResults !== 1 ? 's' : ''} for "${term}" — click any card to navigate`
-                    : `Nothing found for "${term}"`;
-
-            const srTab = document.getElementById('searchResultsTab');
-            srTab.style.display = '';
-            srTab.textContent = `🔍 "${term.length > 18 ? term.slice(0, 18) + '…' : term}"`;
-
-            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-            document.getElementById('search-results').classList.add('active');
-            srTab.classList.add('active');
-
-            searchBox.value = term;
-            clearBtn.classList.add('visible');
-        }
-
-        function runBroadSearch(term) { openSearchResults(term); }
-
-        // ── Keyboard shortcut: "/" focuses link search ─────────────
-        document.addEventListener('keydown', function(e) {
-            if (e.key === '/' && document.activeElement.tagName !== 'INPUT') {
-                e.preventDefault();
-                const linksTab = document.getElementById('zd-links');
-                if (!linksTab.classList.contains('active')) {
-                    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-                    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-                    linksTab.classList.add('active');
-                }
-                document.getElementById('linkSearch').focus();
-                document.getElementById('linkSearch').select();
-            }
-        });
-
-        // ── Copy helper ────────────────────────────────────────────
-        function flashCopied(btn) {
-            btn.textContent = '✅ Copied!';
-            btn.classList.add('copied');
-            setTimeout(() => { btn.textContent = '📋 Copy'; btn.classList.remove('copied'); }, 2000);
-        }
-
-        // ── Copy button injection ──────────────────────────────────
-        document.querySelectorAll('.link-card').forEach((card, i) => {
-            const body = card.querySelector('.link-card-body');
-            const openBtn = body.querySelector('.link-btn');
-            const href = openBtn.getAttribute('href');
-
-            const actionsDiv = document.createElement('div');
-            actionsDiv.className = 'link-card-actions';
-
-            const copyBtn = document.createElement('button');
-            copyBtn.className = 'copy-btn';
-            copyBtn.textContent = '📋 Copy';
-            copyBtn.addEventListener('click', () => {
-                try {
-                    if (navigator.clipboard && window.isSecureContext) {
-                        navigator.clipboard.writeText(href).then(() => flashCopied(copyBtn));
-                    } else {
-                        const ta = document.createElement('textarea');
-                        ta.value = href;
-                        ta.style.position = 'fixed';
-                        ta.style.opacity = '0';
-                        document.body.appendChild(ta);
-                        ta.focus();
-                        ta.select();
-                        document.execCommand('copy');
-                        document.body.removeChild(ta);
-                        flashCopied(copyBtn);
                     }
-                } catch(err) {
-                    copyBtn.textContent = '⚠️ Failed';
-                    setTimeout(() => copyBtn.textContent = '📋 Copy', 2000);
+    
+                    // Structured index matches
+                    if (indexMatches.length > 0) {
+                        const ORDER = ['Team','Workflow','SLA','Customer Service','Fulfillment','Product','Compliance','RBC','Network Development','Reference','Links','Client'];
+                        const groups = {};
+                        indexMatches.forEach(item => {
+                            if (!groups[item.meta]) groups[item.meta] = [];
+                            if (groups[item.meta].length < 5) groups[item.meta].push(item);
+                        });
+    
+                        Object.keys(groups).sort((a,b) => {
+                            const ai = ORDER.indexOf(a), bi = ORDER.indexOf(b);
+                            return (ai < 0 ? 99 : ai) - (bi < 0 ? 99 : bi);
+                        }).forEach(groupName => {
+                            html += `<div class="sr-section">
+                                <div class="sr-section-title">${groupName} <span style="font-size:0.85em;font-weight:400;margin-left:4px;">(${groups[groupName].length})</span></div>
+                                <div class="sr-cards">`;
+    
+                            groups[groupName].forEach(item => {
+                                const actionStr = item.action.toString();
+                                html += `<div class="sr-card" onclick="(${actionStr})()">
+                                    <div class="sr-card-icon">${item.icon}</div>
+                                    <div class="sr-card-body">
+                                        <div class="sr-card-title">${hl(item.label)}</div>
+                                        <div class="sr-card-meta">${item.meta}</div>
+                                        ${item.desc ? `<div class="sr-card-desc">${hl(item.desc)}</div>` : ''}
+                                    </div>
+                                    <button class="sr-card-goto" onclick="event.stopPropagation();(${actionStr})()">Go →</button>
+                                </div>`;
+                            });
+    
+                            html += `</div></div>`;
+                        });
+                    }
+                }
+    
+                document.getElementById('srContent').innerHTML = html;
+                document.getElementById('srSubtitle').textContent =
+                    totalResults > 0
+                        ? `${totalResults} result${totalResults !== 1 ? 's' : ''} for "${term}" — click any card to navigate`
+                        : `Nothing found for "${term}"`;
+    
+                const srTab = document.getElementById('searchResultsTab');
+                srTab.style.display = '';
+                srTab.textContent = `🔍 "${term.length > 18 ? term.slice(0, 18) + '…' : term}"`;
+    
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                document.getElementById('search-results').classList.add('active');
+                srTab.classList.add('active');
+    
+                searchBox.value = term;
+                clearBtn.classList.add('visible');
+            }
+    
+            function runBroadSearch(term) { openSearchResults(term); }
+    
+            // ── Keyboard shortcut: "/" focuses link search ─────────────
+            document.addEventListener('keydown', function(e) {
+                if (e.key === '/' && document.activeElement.tagName !== 'INPUT') {
+                    e.preventDefault();
+                    const linksTab = document.getElementById('zd-links');
+                    if (!linksTab.classList.contains('active')) {
+                        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                        linksTab.classList.add('active');
+                    }
+                    document.getElementById('linkSearch').focus();
+                    document.getElementById('linkSearch').select();
                 }
             });
-
-            openBtn.remove();
-            actionsDiv.appendChild(openBtn);
-            actionsDiv.appendChild(copyBtn);
-            body.appendChild(actionsDiv);
-            card.style.animationDelay = `${i * 30}ms`;
-        });
-
-        // Now that .link-card-actions exist, inject star buttons
-        injectStarButtons();
-
-        // ── Filter: search with highlight ─────────────────────────
-        function filterLinks() {
-            const raw = document.getElementById('linkSearch').value;
-            const term = raw.toLowerCase().trim();
-            let visible = 0;
-            document.querySelectorAll('.link-card').forEach(card => {
-                const client = card.dataset.client;
-                const formEl = card.querySelector('.link-form-name');
-                const formName = formEl.textContent;
-                const clientMatch = client.toLowerCase().includes(term);
-                const formMatch = formName.toLowerCase().includes(term);
-                const show = !term || clientMatch || formMatch;
-                card.classList.toggle('hidden', !show);
-                if (show) visible++;
-                const header = card.querySelector('.link-card-header');
-                header.innerHTML = term && clientMatch ? highlight(client, raw) : client;
-                if (card.querySelector('.internal-badge')) header.classList.add('internal');
-                formEl.innerHTML = term && formMatch ? highlight(formName, raw) : formName;
+    
+            // ── Copy helper ────────────────────────────────────────────
+            function flashCopied(btn) {
+                btn.textContent = '✅ Copied!';
+                btn.classList.add('copied');
+                setTimeout(() => { btn.textContent = '📋 Copy'; btn.classList.remove('copied'); }, 2000);
+            }
+    
+            // ── Copy button injection ──────────────────────────────────
+            document.querySelectorAll('.link-card').forEach((card, i) => {
+                const body = card.querySelector('.link-card-body');
+                const openBtn = body.querySelector('.link-btn');
+                const href = openBtn.getAttribute('href');
+    
+                const actionsDiv = document.createElement('div');
+                actionsDiv.className = 'link-card-actions';
+    
+                const copyBtn = document.createElement('button');
+                copyBtn.className = 'copy-btn';
+                copyBtn.textContent = '📋 Copy';
+                copyBtn.addEventListener('click', () => {
+                    try {
+                        if (navigator.clipboard && window.isSecureContext) {
+                            navigator.clipboard.writeText(href).then(() => flashCopied(copyBtn));
+                        } else {
+                            const ta = document.createElement('textarea');
+                            ta.value = href;
+                            ta.style.position = 'fixed';
+                            ta.style.opacity = '0';
+                            document.body.appendChild(ta);
+                            ta.focus();
+                            ta.select();
+                            document.execCommand('copy');
+                            document.body.removeChild(ta);
+                            flashCopied(copyBtn);
+                        }
+                    } catch(err) {
+                        copyBtn.textContent = '⚠️ Failed';
+                        setTimeout(() => copyBtn.textContent = '📋 Copy', 2000);
+                    }
+                });
+    
+                openBtn.remove();
+                actionsDiv.appendChild(openBtn);
+                actionsDiv.appendChild(copyBtn);
+                body.appendChild(actionsDiv);
+                card.style.animationDelay = `${i * 30}ms`;
             });
-            showEmptyState(visible === 0 && term.length > 0, term);
-        }
-
-        function highlight(text, term) {
-            if (!term) return text;
-            const regex = new RegExp(`(${term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
-            return text.replace(regex, '<mark class="search-highlight">$1</mark>');
-        }
-
-        // ── Filter: audience ───────────────────────────────────────
-        function filterByAudience(audience) {
-            document.querySelectorAll('.audience-filter').forEach(btn => {
-                btn.classList.toggle('active', btn.dataset.audience === audience);
-            });
-            document.getElementById('linkSearch').value = '';
-            let visible = 0;
-            let delay = 0;
-            document.querySelectorAll('.link-card').forEach(card => {
-                const header = card.querySelector('.link-card-header');
-                header.textContent = card.dataset.client;
-                if (card.querySelector('.internal-badge')) header.classList.add('internal');
-                let show;
-                if (audience === 'all') show = true;
-                else if (audience === 'Internal') show = !!card.querySelector('.internal-badge');
-                else show = card.dataset.audience.includes(audience);
-
-                if (show) {
-                    card.classList.remove('hidden');
-                    // Re-trigger animation with stagger
-                    card.style.animation = 'none';
-                    card.offsetHeight; // reflow
-                    card.style.animationDelay = `${delay * 40}ms`;
-                    card.style.animation = '';
-                    delay++;
-                    visible++;
-                } else {
-                    card.classList.add('hidden');
-                }
-            });
-            showEmptyState(false, '');
-        }
-
-        // ── Empty state ────────────────────────────────────────────
-        function showEmptyState(show, term) {
-            const el = document.getElementById('emptyState');
-            document.getElementById('emptyTerm').textContent = term;
-            el.style.display = show ? 'block' : 'none';
-        }
+    
+            // Now that .link-card-actions exist, inject star buttons
+            injectStarButtons();
+    
+            // ── Filter: search with highlight ─────────────────────────
+            function filterLinks() {
+                const raw = document.getElementById('linkSearch').value;
+                const term = raw.toLowerCase().trim();
+                let visible = 0;
+                document.querySelectorAll('.link-card').forEach(card => {
+                    const client = card.dataset.client;
+                    const formEl = card.querySelector('.link-form-name');
+                    const formName = formEl.textContent;
+                    const clientMatch = client.toLowerCase().includes(term);
+                    const formMatch = formName.toLowerCase().includes(term);
+                    const show = !term || clientMatch || formMatch;
+                    card.classList.toggle('hidden', !show);
+                    if (show) visible++;
+                    const header = card.querySelector('.link-card-header');
+                    header.innerHTML = term && clientMatch ? highlight(client, raw) : client;
+                    if (card.querySelector('.internal-badge')) header.classList.add('internal');
+                    formEl.innerHTML = term && formMatch ? highlight(formName, raw) : formName;
+                });
+                showEmptyState(visible === 0 && term.length > 0, term);
+            }
+    
+            function highlight(text, term) {
+                if (!term) return text;
+                const regex = new RegExp(`(${term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
+                return text.replace(regex, '<mark class="search-highlight">$1</mark>');
+            }
+    
+            // ── Filter: audience ───────────────────────────────────────
+            function filterByAudience(audience) {
+                document.querySelectorAll('.audience-filter').forEach(btn => {
+                    btn.classList.toggle('active', btn.dataset.audience === audience);
+                });
+                document.getElementById('linkSearch').value = '';
+                let visible = 0;
+                let delay = 0;
+                document.querySelectorAll('.link-card').forEach(card => {
+                    const header = card.querySelector('.link-card-header');
+                    header.textContent = card.dataset.client;
+                    if (card.querySelector('.internal-badge')) header.classList.add('internal');
+                    let show;
+                    if (audience === 'all') show = true;
+                    else if (audience === 'Internal') show = !!card.querySelector('.internal-badge');
+                    else show = card.dataset.audience.includes(audience);
+    
+                    if (show) {
+                        card.classList.remove('hidden');
+                        // Re-trigger animation with stagger
+                        card.style.animation = 'none';
+                        card.offsetHeight; // reflow
+                        card.style.animationDelay = `${delay * 40}ms`;
+                        card.style.animation = '';
+                        delay++;
+                        visible++;
+                    } else {
+                        card.classList.add('hidden');
+                    }
+                });
+                showEmptyState(false, '');
+            }
+    
+            // ── Empty state ────────────────────────────────────────────
+            function showEmptyState(show, term) {
+                const el = document.getElementById('emptyState');
+                document.getElementById('emptyTerm').textContent = term;
+                el.style.display = show ? 'block' : 'none';
+            }
+    
+    
+        }); // end DOMContentLoaded — search engine
 
         // ── ★ Floating particles in header ─────────────────────────
         (function() {
